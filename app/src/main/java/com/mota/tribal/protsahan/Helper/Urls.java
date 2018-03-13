@@ -9,4 +9,6 @@ public class Urls {
     public static final String VIDEO_UPLOAD = "";
     public static final String IMG_UPLOAD = "";
     public static final String DOC_UPLOAD = "";
+    public static final String SAVE_PROFILE = "";
+    public static final String GET_PROFILE = "";
 }

@@ -1,8 +1,16 @@
 package com.mota.tribal.protsahan.Profile.View;
 
-/**
- * Created by Abhi on 10-Mar-18.
- */
+import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 
 public interface ProfileView {
+
+
+    void showMessage(String message);
+
+
+    void showProgressBar(boolean b);
+
+    void onProfilePosted();
+
+    void onProfileGet(Profile profile);
 }
