@@ -65,7 +65,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         address.setEnabled(false);
         aadhar.setEnabled(false);
         phoneNo.setEnabled(false);
-
+        Male.setEnabled(false);
+        Female.setEnabled(false);
+        genderOther.setEnabled(false);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -154,16 +156,19 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         gender = profile.getGender();
         if (gender.equals("Male")) {
             Male.setChecked(true);
+            Male.setEnabled(true);
             Female.setChecked(false);
             genderOther.setChecked(false);
             gender = "Male";
         } else if (gender.equals("Female")) {
             Female.setChecked(true);
+            Female.setEnabled(true);
             Male.setChecked(false);
             genderOther.setChecked(false);
             gender = "Female";
         } else {
             genderOther.setChecked(true);
+            genderOther.setEnabled(true);
             Male.setChecked(false);
             Female.setChecked(false);
             gender = "Other";
