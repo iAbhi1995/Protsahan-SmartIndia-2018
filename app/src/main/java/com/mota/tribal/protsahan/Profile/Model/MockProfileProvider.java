@@ -10,14 +10,17 @@ import com.mota.tribal.protsahan.Profile.VidImgDocCallback;
 
 import java.util.ArrayList;
 
+import okhttp3.MultipartBody;
+
 /**
  * Created by Abhi on 14-Mar-18.
  */
 
 public class MockProfileProvider implements ProfileProvider {
 
+
     @Override
-    public void getProfile(String id, final ProfileCallback callback) {
+    public void getProfile(String id, String username, final ProfileCallback callback) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -37,7 +40,7 @@ public class MockProfileProvider implements ProfileProvider {
     }
 
     @Override
-    public void getVideos(String id, final VidImgDocCallback callback) {
+    public void getVideos(String id, String username, final VidImgDocCallback callback) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -47,7 +50,7 @@ public class MockProfileProvider implements ProfileProvider {
     }
 
     @Override
-    public void getImages(String id, final VidImgDocCallback callback) {
+    public void getImages(String id, String username, final VidImgDocCallback callback) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -57,7 +60,7 @@ public class MockProfileProvider implements ProfileProvider {
     }
 
     @Override
-    public void getDocs(String id, final VidImgDocCallback callback) {
+    public void getDocs(String id, String username, final VidImgDocCallback callback) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -66,10 +69,20 @@ public class MockProfileProvider implements ProfileProvider {
         }, 500);
     }
 
+    @Override
+    public void postProfilePic(String token, String username, MultipartBody.Part file, final ProfileCallback callback) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                callback.onSuccess(getMockPicUploadData());
+            }
+        }, 500);
+    }
+
     public ProfileData getMockData1() {
         Profile profile = new Profile("01", "Danti", "Working", "Mahora",
                 "Bastar", "123456789123", "8299231633", "Female",
-                "http://www.echhattisgarh.co.in/images/bastar-tribal.jpg");
+                "http://www.echhattisgarh.co.in/images/bastar-tribal.jpg", "Akbar");
         ProfileData mockData1 = new ProfileData(true, "Success", profile);
         return mockData1;
     }
@@ -117,5 +130,10 @@ public class MockProfileProvider implements ProfileProvider {
         docList.add("http://www.fisica.net/relatividade/stephen_hawking_a_brief_history_of_time.pdf");
         VidImgDocData mockDocData = new VidImgDocData(true, docList);
         return mockDocData;
+    }
+
+    public ProfileData getMockPicUploadData() {
+        ProfileData mockPicUploadData = new ProfileData(true, "true", null);
+        return mockPicUploadData;
     }
 }
