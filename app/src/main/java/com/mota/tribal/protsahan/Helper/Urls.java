@@ -11,4 +11,7 @@ public class Urls {
     public static final String DOC_UPLOAD = "";
     public static final String SAVE_PROFILE = "";
     public static final String GET_PROFILE = "";
+    public static final String GET_VIDEO = "";
+    public static final String GET_IMAGE = "";
+    public static final String GET_DOCUMENTS = "";
 }

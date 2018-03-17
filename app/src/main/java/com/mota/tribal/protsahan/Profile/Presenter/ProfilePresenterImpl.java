@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 import com.mota.tribal.protsahan.Profile.Model.Data.ProfileData;
+import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
 import com.mota.tribal.protsahan.Profile.Model.ProfileProvider;
 import com.mota.tribal.protsahan.Profile.ProfileCallback;
+import com.mota.tribal.protsahan.Profile.VidImgDocCallback;
 import com.mota.tribal.protsahan.Profile.View.ProfileView;
 import com.mota.tribal.protsahan.R;
 
@@ -63,6 +65,59 @@ public class ProfilePresenterImpl implements ProfilePresenter {
             public void onFailure() {
                 view.showProgressBar(false);
                 view.showMessage(context.getString(R.string.ConnectionError));
+            }
+        });
+    }
+
+    @Override
+    public void getVideos(String id) {
+        view.showProgressBar(true);
+        provider.getVideos(id, new VidImgDocCallback() {
+            @Override
+            public void onSuccess(VidImgDocData body) {
+                view.showProgressBar(false);
+                view.showVideos(body.getUrls());
+
+            }
+
+            @Override
+            public void onFailure() {
+                view.showProgressBar(false);
+
+            }
+        });
+    }
+
+    @Override
+    public void getImages(String id) {
+        view.showProgressBar(true);
+        provider.getImages(id, new VidImgDocCallback() {
+            @Override
+            public void onSuccess(VidImgDocData body) {
+                view.showProgressBar(false);
+                view.showImages(body.getUrls());
+            }
+
+            @Override
+            public void onFailure() {
+                view.showProgressBar(false);
+            }
+        });
+    }
+
+    @Override
+    public void getDocs(String id) {
+        view.showProgressBar(true);
+        provider.getDocs(id, new VidImgDocCallback() {
+            @Override
+            public void onSuccess(VidImgDocData body) {
+                view.showProgressBar(false);
+                view.showDocs(body.getUrls());
+            }
+
+            @Override
+            public void onFailure() {
+                view.showProgressBar(false);
             }
         });
     }

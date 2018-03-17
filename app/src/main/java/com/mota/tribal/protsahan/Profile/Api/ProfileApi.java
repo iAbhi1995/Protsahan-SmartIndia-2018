@@ -3,6 +3,7 @@ package com.mota.tribal.protsahan.Profile.Api;
 import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 import com.mota.tribal.protsahan.Profile.Model.Data.ProfileData;
+import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -20,5 +21,14 @@ public interface ProfileApi {
 
     @GET(Urls.GET_PROFILE)
     Call<ProfileData> getProfile(@Field("id") String id);
+
+    @GET(Urls.GET_VIDEO)
+    Call<VidImgDocData> getVideos(@Field("id") String id);
+
+    @GET(Urls.GET_IMAGE)
+    Call<VidImgDocData> getImages(@Field("id") String id);
+
+    @GET(Urls.GET_DOCUMENTS)
+    Call<VidImgDocData> getDocuments(@Field("id") String id);
 
 }

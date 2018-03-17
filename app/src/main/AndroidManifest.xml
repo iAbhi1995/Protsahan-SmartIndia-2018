@@ -19,9 +19,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Upload.UploadActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Profile.View.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -31,6 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Profile.View.VideoViewActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

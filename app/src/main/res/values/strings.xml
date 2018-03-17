@@ -10,4 +10,7 @@
     <string name="ConnectionError">Connection Error! Please check your connection and try again</string>
     <string name="PermissionDenied">These permissions are required to perform the function</string>
     <string name="edit">Edit</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

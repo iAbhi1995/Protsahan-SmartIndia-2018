@@ -10,4 +10,10 @@ public interface ProfilePresenter {
     void getProfile(String id);
 
     void postProfile(Profile profile);
+
+    void getVideos(String id);
+
+    void getImages(String id);
+
+    void getDocs(String id);
 }

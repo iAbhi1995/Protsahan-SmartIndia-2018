@@ -1,5 +1,6 @@
 package com.mota.tribal.protsahan.Profile.View;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,11 +20,16 @@ import com.mota.tribal.protsahan.Profile.Model.MockProfileProvider;
 import com.mota.tribal.protsahan.Profile.Presenter.ProfilePresenter;
 import com.mota.tribal.protsahan.Profile.Presenter.ProfilePresenterImpl;
 import com.mota.tribal.protsahan.R;
+import com.mzelzoghbi.zgallery.ZGallery;
+import com.mzelzoghbi.zgallery.ZGrid;
+import com.mzelzoghbi.zgallery.entities.ZColor;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends AppCompatActivity implements ProfileView {
+public class ProfileActivity extends AppCompatActivity implements ProfileView, VideoViewFragment.OnFragmentInteractionListener, DocViewFragment.OnFragmentInteractionListener {
 
     private EditText name, tribe, description, address, aadhar, phoneNo;
     private Button myVideos, myImages, myDocs, save;
@@ -72,11 +79,15 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         //TODO:Need to get Id from shared preference and store it in the variable "id"
 
 
         presenter = new ProfilePresenterImpl(this, new MockProfileProvider(), this);
         presenter.getProfile("101");
+
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //        presenter = new ProfilePresenterImpl(this, new RetrofitProfileProvider(), this);
 
     }
@@ -108,6 +119,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         aadhar.setEnabled(true);
         phoneNo.setEnabled(true);
 
+        Male.setEnabled(true);
+        Female.setEnabled(true);
+        genderOther.setEnabled(true);
+
         myDocs.setVisibility(View.GONE);
         myImages.setVisibility(View.GONE);
         myVideos.setVisibility(View.GONE);
@@ -130,19 +145,28 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
 
     @Override
     public void onProfilePosted() {
+        showMessage("Changes Saved!");
+
         name.setEnabled(false);
         tribe.setEnabled(false);
         description.setEnabled(false);
         address.setEnabled(false);
         aadhar.setEnabled(false);
         phoneNo.setEnabled(false);
+
+        name.setFocusable(false);
+        tribe.setFocusable(false);
+        description.setFocusable(false);
+        address.setFocusable(false);
+        aadhar.setFocusable(false);
+        phoneNo.setFocusable(false);
+
         save.setVisibility(View.GONE);
 
         myDocs.setVisibility(View.VISIBLE);
         myImages.setVisibility(View.VISIBLE);
         myVideos.setVisibility(View.VISIBLE);
 
-        showMessage("Changes Saved!");
     }
 
     @Override
@@ -174,6 +198,48 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
             gender = "Other";
         }
         Picasso.with(this).load(profile.getImg()).placeholder(R.drawable.mario_black).into(profilePic);
+    }
+
+    @Override
+    public void showVideos(ArrayList<String> urls) {
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("urls", urls);
+        bundle.putString("type_of_item", "video_thumbnails");
+        VideoViewFragment fragment = new VideoViewFragment();
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.my_profile_relLayout, fragment,
+                        fragment.getClass().getSimpleName()).
+                addToBackStack(null).commit();
+    }
+
+    @Override
+    public void showImages(ArrayList<String> urls) {
+        ZGallery.with(this, urls)// toolbar title color
+                .setGalleryBackgroundColor(ZColor.BLACK)
+                .setTitle("Images")
+                .show();
+
+        ZGrid.with(this, urls)
+                .setTitle("Images") // toolbar title
+                .setToolbarTitleColor(ZColor.WHITE) // toolbar title color
+                .setSpanCount(2) // colums count
+                .setGridImgPlaceHolder(R.color.colorPrimary) // color placeholder for the grid image until it loads
+                .show();
+    }
+
+    @Override
+    public void showDocs(ArrayList<String> urls) {
+        Bundle bundle = new Bundle();
+        Log.d("abhi", urls.get(0) + " " + urls.size());
+        bundle.putStringArrayList("urls", urls);
+        bundle.putString("type_of_item", "docs");
+        VideoViewFragment fragment = new VideoViewFragment();
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.my_profile_relLayout, fragment,
+                        fragment.getClass().getSimpleName()).
+                addToBackStack(null).commit();
     }
 
 
@@ -213,5 +279,22 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
                     gender = "Other";
                 break;
         }
+    }
+
+    public void showMyVideos(View view) {
+        presenter.getVideos(id);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    public void showMyImages(View view) {
+        presenter.getImages(id);
+    }
+
+    public void showMyDocs(View view) {
+        presenter.getDocs(id);
     }
 }
