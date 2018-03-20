@@ -11,6 +11,8 @@ import com.mota.tribal.protsahan.Profile.VidImgDocCallback;
 import com.mota.tribal.protsahan.Profile.View.ProfileView;
 import com.mota.tribal.protsahan.R;
 
+import okhttp3.MultipartBody;
+
 /**
  * Created by Abhi on 10-Mar-18.
  */
@@ -28,9 +30,9 @@ public class ProfilePresenterImpl implements ProfilePresenter {
     }
 
     @Override
-    public void getProfile(String id) {
+    public void getProfile(String id, String username) {
         view.showProgressBar(true);
-        provider.getProfile(id, new ProfileCallback() {
+        provider.getProfile(id, username, new ProfileCallback() {
             @Override
             public void onSuccess(ProfileData body) {
                 view.showProgressBar(false);
@@ -70,14 +72,13 @@ public class ProfilePresenterImpl implements ProfilePresenter {
     }
 
     @Override
-    public void getVideos(String id) {
+    public void getVideos(String token, String username) {
         view.showProgressBar(true);
-        provider.getVideos(id, new VidImgDocCallback() {
+        provider.getVideos(token, username, new VidImgDocCallback() {
             @Override
             public void onSuccess(VidImgDocData body) {
                 view.showProgressBar(false);
                 view.showVideos(body.getUrls());
-
             }
 
             @Override
@@ -89,9 +90,9 @@ public class ProfilePresenterImpl implements ProfilePresenter {
     }
 
     @Override
-    public void getImages(String id) {
+    public void getImages(String token, String username) {
         view.showProgressBar(true);
-        provider.getImages(id, new VidImgDocCallback() {
+        provider.getImages(token, username, new VidImgDocCallback() {
             @Override
             public void onSuccess(VidImgDocData body) {
                 view.showProgressBar(false);
@@ -106,9 +107,9 @@ public class ProfilePresenterImpl implements ProfilePresenter {
     }
 
     @Override
-    public void getDocs(String id) {
+    public void getDocs(String token, String username) {
         view.showProgressBar(true);
-        provider.getDocs(id, new VidImgDocCallback() {
+        provider.getDocs(token, username, new VidImgDocCallback() {
             @Override
             public void onSuccess(VidImgDocData body) {
                 view.showProgressBar(false);
@@ -118,6 +119,27 @@ public class ProfilePresenterImpl implements ProfilePresenter {
             @Override
             public void onFailure() {
                 view.showProgressBar(false);
+            }
+        });
+    }
+
+    @Override
+    public void postProfilePic(String token, String username, MultipartBody.Part file) {
+        view.showProgressBar(true);
+        provider.postProfilePic(token, username, file, new ProfileCallback() {
+            @Override
+            public void onSuccess(ProfileData body) {
+                view.showProgressBar(false);
+                if (body.isSuccess())
+                    view.showMessage("Profile Pic Saved!");
+                else
+                    view.showMessage(body.getMessage());
+            }
+
+            @Override
+            public void onFailure() {
+                view.showProgressBar(false);
+                view.showMessage(context.getString(R.string.ConnectionError));
             }
         });
     }

@@ -1,7 +1,12 @@
 package com.mota.tribal.protsahan.Profile.View;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,12 +30,20 @@ import com.mzelzoghbi.zgallery.ZGrid;
 import com.mzelzoghbi.zgallery.entities.ZColor;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class ProfileActivity extends AppCompatActivity implements ProfileView, VideoViewFragment.OnFragmentInteractionListener, DocViewFragment.OnFragmentInteractionListener {
+public class ProfileActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, ProfileView, VideoViewFragment.OnFragmentInteractionListener, DocViewFragment.OnFragmentInteractionListener {
 
+    private static final int REQUEST_GALLERY_CODE = 1;
+    private static final int READ_REQUEST_CODE = 2;
     private EditText name, tribe, description, address, aadhar, phoneNo;
     private Button myVideos, myImages, myDocs, save;
     private RadioButton Male, Female, genderOther;
@@ -38,8 +51,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
     private ProfilePresenter presenter;
     private CircleImageView profilePic;
     private String gender;
-    private String id;
+    private String token;
     private ProgressBar pBar;
+    private Uri uri;
+    private MultipartBody.Part fileToUpload;
+    private RequestBody filename;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,18 +96,62 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("abhi", "In the on Click");
+                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
+                openGalleryIntent.setType("image/*");
+                startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
+            }
+        });
 
-        //TODO:Need to get Id from shared preference and store it in the variable "id"
+
+        //TODO:Need to get Id,Username from shared preference and store it in the variable "id"
+        token = getIntent().getExtras().getString("token");
+        username = getIntent().getExtras().getString("username");
 
 
         presenter = new ProfilePresenterImpl(this, new MockProfileProvider(), this);
-        presenter.getProfile("101");
+        presenter.getProfile(token, username);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        //        presenter = new ProfilePresenterImpl(this, new RetrofitProfileProvider(), this);
-
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_GALLERY_CODE && resultCode == Activity.RESULT_OK) {
+            uri = data.getData();
+            if (EasyPermissions.hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                String filePath = getRealPathFromURIPath(uri, ProfileActivity.this);
+                File file = new File(filePath);
+                Picasso.with(this).load(file).into(profilePic);
+                Log.d("abhi", "Filename " + file.getName());
+                //RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+                fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), mFile);
+                filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+                presenter.postProfilePic(token, username, fileToUpload);
+            } else {
+                EasyPermissions.requestPermissions(this, getString(R.string.read_file), READ_REQUEST_CODE, Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private String getRealPathFromURIPath(Uri contentURI, Activity activity) {
+        Cursor cursor = activity.getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            return contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            return cursor.getString(idx);
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -254,12 +315,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
         else if (gender == null)
             showMessage("Please select gender");
         else {
-            Profile profile = new Profile(id, name.getText().toString(), description.getText().toString(),
+            Profile profile = new Profile(token, name.getText().toString(), description.getText().toString(),
                     tribe.getText().toString(), address.getText().toString(), aadhar.getText().toString(),
-                    phoneNo.getText().toString(), gender, "");
+                    phoneNo.getText().toString(), gender, "", username);
             presenter.postProfile(profile);
         }
-
     }
 
     public void GenderSelect(View view) {
@@ -282,7 +342,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
     }
 
     public void showMyVideos(View view) {
-        presenter.getVideos(id);
+        presenter.getVideos(token, username);
     }
 
     @Override
@@ -291,10 +351,28 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView, V
     }
 
     public void showMyImages(View view) {
-        presenter.getImages(id);
+        presenter.getImages(token, username);
     }
 
     public void showMyDocs(View view) {
-        presenter.getDocs(id);
+        presenter.getDocs(token, username);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        if (uri != null) {
+            String filePath = getRealPathFromURIPath(uri, ProfileActivity.this);
+            Log.d("abhi", filePath);
+            File file = new File(filePath);
+            Picasso.with(this).load(file).into(profilePic);
+            RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+            fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), mFile);
+            presenter.postProfilePic(token, username, fileToUpload);
+        }
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Log.d("abhi", "Permission has been denied");
     }
 }

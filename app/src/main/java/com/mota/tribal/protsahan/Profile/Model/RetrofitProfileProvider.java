@@ -10,6 +10,7 @@ import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
 import com.mota.tribal.protsahan.Profile.ProfileCallback;
 import com.mota.tribal.protsahan.Profile.VidImgDocCallback;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -49,9 +50,9 @@ public class RetrofitProfileProvider implements ProfileProvider {
 
 
     @Override
-    public void getProfile(String id, final ProfileCallback callback) {
+    public void getProfile(String token, String username, final ProfileCallback callback) {
         api = retrofit.create(ProfileApi.class);
-        Call<ProfileData> call = api.getProfile(id);
+        Call<ProfileData> call = api.getProfile(token, username);
         call.enqueue(new Callback<ProfileData>() {
             @Override
             public void onResponse(Call<ProfileData> call, Response<ProfileData> response) {
@@ -87,9 +88,9 @@ public class RetrofitProfileProvider implements ProfileProvider {
     }
 
     @Override
-    public void getVideos(String id, final VidImgDocCallback callback) {
+    public void getVideos(String token, String username, final VidImgDocCallback callback) {
         api = retrofit.create(ProfileApi.class);
-        Call<VidImgDocData> call = api.getVideos(id);
+        Call<VidImgDocData> call = api.getVideos(token, username);
         call.enqueue(new Callback<VidImgDocData>() {
             @Override
             public void onResponse(Call<VidImgDocData> call, Response<VidImgDocData> response) {
@@ -105,9 +106,9 @@ public class RetrofitProfileProvider implements ProfileProvider {
     }
 
     @Override
-    public void getImages(String id, final VidImgDocCallback callback) {
+    public void getImages(String token, String username, final VidImgDocCallback callback) {
         api = retrofit.create(ProfileApi.class);
-        Call<VidImgDocData> call = api.getImages(id);
+        Call<VidImgDocData> call = api.getImages(token, username);
         call.enqueue(new Callback<VidImgDocData>() {
             @Override
             public void onResponse(Call<VidImgDocData> call, Response<VidImgDocData> response) {
@@ -123,9 +124,9 @@ public class RetrofitProfileProvider implements ProfileProvider {
     }
 
     @Override
-    public void getDocs(String id, final VidImgDocCallback callback) {
+    public void getDocs(String token, String username, final VidImgDocCallback callback) {
         api = retrofit.create(ProfileApi.class);
-        Call<VidImgDocData> call = api.getDocuments(id);
+        Call<VidImgDocData> call = api.getDocuments(token, username);
         call.enqueue(new Callback<VidImgDocData>() {
             @Override
             public void onResponse(Call<VidImgDocData> call, Response<VidImgDocData> response) {
@@ -134,6 +135,24 @@ public class RetrofitProfileProvider implements ProfileProvider {
 
             @Override
             public void onFailure(Call<VidImgDocData> call, Throwable t) {
+                t.printStackTrace();
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void postProfilePic(String token, String username, MultipartBody.Part file, final ProfileCallback callback) {
+        api = retrofit.create(ProfileApi.class);
+        Call<ProfileData> call = api.postProfilePic(token, username, file);
+        call.enqueue(new Callback<ProfileData>() {
+            @Override
+            public void onResponse(Call<ProfileData> call, Response<ProfileData> response) {
+                callback.onSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ProfileData> call, Throwable t) {
                 t.printStackTrace();
                 callback.onFailure();
             }

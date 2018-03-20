@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -70,6 +71,7 @@ public class VideoViewFragment extends Fragment {
         String type = getArguments().getString("type_of_item");
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(arraylist, getContext(), type);
         recyclerView.setAdapter(adapter);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         return view;
     }
 
@@ -96,6 +98,7 @@ public class VideoViewFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         mListener = null;
     }
 
