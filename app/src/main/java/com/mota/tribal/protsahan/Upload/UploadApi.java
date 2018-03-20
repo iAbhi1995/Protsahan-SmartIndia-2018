@@ -12,14 +12,17 @@ public interface UploadApi {
 
     @Multipart
     @POST(Urls.VIDEO_UPLOAD)
-    Call<Data> uploadVideoToServer(@Part("id") String access_token, @Part MultipartBody.Part video);
+    Call<Data> uploadVideoToServer(@Part("token") String access_token, @Part("username") String username,
+                                   @Part("title") String videoName, @Part MultipartBody.Part video);
 
     @Multipart
     @POST(Urls.IMG_UPLOAD)
-    Call<Data> uploadImageToServer(@Part("id") String access_token, @Part MultipartBody.Part image);
+    Call<Data> uploadImageToServer(@Part("token") String access_token, @Part("username") String username,
+                                   @Part("title") String imageName, @Part MultipartBody.Part image);
 
     @Multipart
     @POST(Urls.DOC_UPLOAD)
-    Call<Data> uploadDocToServer(@Part("id") String access_token, @Part MultipartBody.Part doc);
+    Call<Data> uploadDocToServer(@Part("token") String access_token, @Part("username") String username,
+                                 @Part("title") String docName, @Part MultipartBody.Part doc);
 
 }

@@ -1,0 +1,8 @@
+package com.mota.tribal.protsahan.ViewAllProfiles.Model.Data;
+
+/**
+ * Created by Abhi on 20-Mar-18.
+ */
+
+public class ViewProfilesData {
+}

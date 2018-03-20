@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.Profile.Api.ProfileApi;
+import com.mota.tribal.protsahan.Profile.DeleteCallback;
+import com.mota.tribal.protsahan.Profile.Model.Data.DeleteData;
 import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 import com.mota.tribal.protsahan.Profile.Model.Data.ProfileData;
 import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
@@ -19,9 +21,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by Abhi on 10-Mar-18.
- */
 
 public class RetrofitProfileProvider implements ProfileProvider {
 
@@ -154,6 +153,40 @@ public class RetrofitProfileProvider implements ProfileProvider {
             @Override
             public void onFailure(Call<ProfileData> call, Throwable t) {
                 t.printStackTrace();
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void deleteImage(String token, String username, String url, String imageTitle, final DeleteCallback callback) {
+        api = retrofit.create(ProfileApi.class);
+        Call<DeleteData> call = api.deleteVideo(token, username, url, imageTitle);
+        call.enqueue(new Callback<DeleteData>() {
+            @Override
+            public void onResponse(Call<DeleteData> call, Response<DeleteData> response) {
+                callback.onSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DeleteData> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void deleteVideo(String token, String username, String url, String videoTitle, final DeleteCallback callback) {
+        api = retrofit.create(ProfileApi.class);
+        Call<DeleteData> call = api.deleteImage(token, username, url, videoTitle);
+        call.enqueue(new Callback<DeleteData>() {
+            @Override
+            public void onResponse(Call<DeleteData> call, Response<DeleteData> response) {
+                callback.onSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DeleteData> call, Throwable t) {
                 callback.onFailure();
             }
         });

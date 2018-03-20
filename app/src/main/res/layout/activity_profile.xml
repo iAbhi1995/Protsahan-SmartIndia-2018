@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_profile_relLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     android:fitsSystemWindows="true"
     tools:context="com.mota.tribal.protsahan.Profile.View.ProfileActivity">
 
@@ -17,14 +17,12 @@
         android:layout_alignParentTop="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/profileAccent"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-
 
     </android.support.design.widget.AppBarLayout>
 
@@ -38,49 +36,122 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_pic"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_below="@+id/appBarLayout2"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="21dp"
-                android:src="@drawable/mario_black"
-                app:civ_border_color="@color/colorPrimary" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/txtinptlyt"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/profile_photo"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:gravity="center_horizontal"
-                android:paddingEnd="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
+                <view
+                    android:id="@+id/view"
+                    class="android.support.design.widget.TabItem"
+                    layout_width="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="55dp"
+                    android:background="@color/profileAccent"
+                    android:gravity="center_horizontal" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:ems="10"
-                    android:gravity="center_horizontal"
-                    android:hint="Name"
-                    android:inputType="textPersonName"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:layout_below="@+id/appBarLayout2"
+                    android:layout_gravity="center_horizontal">
 
 
-            </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/imageView2"
+                        android:layout_alignStart="@+id/imageView2"
+                        android:layout_below="@+id/imageView2"
+                        android:text="@string/my_images"
+                        android:textColor="@color/colorWhite" />
 
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/txtinptlyt"
+                        android:layout_alignLeft="@+id/imageView3"
+                        android:layout_alignStart="@+id/imageView3"
+                        android:text="@string/my_videos"
+                        android:textColor="@color/colorWhite" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_pic"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/profile_back"
+                        android:src="@drawable/mario_black"
+                        app:civ_border_color="@color/colorPrimary" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignTop="@+id/imageView3"
+                        android:layout_marginEnd="37dp"
+                        android:layout_marginRight="37dp"
+                        android:layout_toLeftOf="@+id/profile_pic"
+                        android:layout_toStartOf="@+id/profile_pic"
+                        android:onClick="showMyImages"
+                        android:src="@drawable/ic_image" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/txtinptlyt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/profile_pic"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_horizontal"
+                        android:paddingEnd="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="30dp"
+                        android:textColorHint="@color/colorWhite">
+
+                        <EditText
+                            android:id="@+id/name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:drawableLeft="@drawable/ic_text"
+                            android:drawableStart="@drawable/ic_text"
+                            android:ems="10"
+                            android:gravity="center_horizontal"
+                            android:hint="@string/name"
+                            android:inputType="textPersonName"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
+                            android:textCursorDrawable="@color/colorWhite"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_above="@+id/txtinptlyt"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="13dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginRight="32dp"
+                        android:onClick="showMyVideos"
+                        android:src="@drawable/ic_video" />
+
+                </RelativeLayout>
+
+            </FrameLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/txtinptlyt1"
@@ -93,21 +164,23 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/description"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="false"
+                    android:drawableLeft="@drawable/ic_description"
+                    android:drawableStart="@drawable/ic_description"
                     android:ems="10"
                     android:gravity="center_horizontal"
-                    android:hint="Description"
+                    android:hint="@string/description"
                     android:inputType="textPersonName"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack"
                     android:textSize="18sp" />
 
 
@@ -125,7 +198,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/tribe"
@@ -136,13 +209,16 @@
                     android:layout_below="@+id/my_profile_pic"
                     android:layout_weight="1"
                     android:clickable="false"
+                    android:drawableLeft="@drawable/ic_group"
+                    android:drawableStart="@drawable/ic_group"
                     android:ems="10"
-                    android:hint="Tribe"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/tribe"
                     android:inputType="text"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -158,7 +234,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/address"
@@ -167,13 +243,49 @@
                     android:layout_alignLeft="@+id/phone_no"
                     android:layout_alignStart="@+id/phone_no"
                     android:clickable="false"
+                    android:drawableLeft="@drawable/ic_location"
+                    android:drawableStart="@drawable/ic_location"
                     android:ems="10"
-                    android:hint="Address"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/address"
                     android:inputType="textPostalAddress"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack" />
+
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/txtinptlyt6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_photo"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:paddingEnd="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="30dp"
+                android:textColorHint="@color/colorBlack">
+
+                <EditText
+                    android:id="@+id/state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:drawableLeft="@drawable/ic_map"
+                    android:drawableStart="@drawable/ic_map"
+                    android:ems="10"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/state"
+                    android:inputType="text"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack"
+                    android:textSize="18sp" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -190,7 +302,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/aadhar"
@@ -199,13 +311,16 @@
                     android:layout_alignLeft="@+id/phone_no"
                     android:layout_alignStart="@+id/phone_no"
                     android:clickable="false"
+                    android:drawableLeft="@drawable/ic_identity"
+                    android:drawableStart="@drawable/ic_identity"
                     android:ems="10"
-                    android:hint="Aadhar"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/aadhar"
                     android:inputType="number"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -221,7 +336,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/phone_no"
@@ -230,13 +345,16 @@
                     android:layout_alignLeft="@+id/phone_no"
                     android:layout_alignStart="@+id/phone_no"
                     android:clickable="false"
+                    android:drawableLeft="@drawable/ic_phone"
+                    android:drawableStart="@drawable/ic_phone"
                     android:ems="10"
-                    android:hint="Phone Number"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/phone_number"
                     android:inputType="number"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -257,8 +375,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:onClick="GenderSelect"
-                    android:text="Male"
-                    android:textAlignment="center" />
+                    android:text="@string/male"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack" />
 
                 <RadioButton
                     android:id="@+id/radioButton3"
@@ -266,8 +385,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:onClick="GenderSelect"
-                    android:text="Female"
-                    android:textAlignment="center" />
+                    android:text="@string/female"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack" />
 
                 <RadioButton
                     android:id="@+id/radioButton"
@@ -275,8 +395,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:onClick="GenderSelect"
-                    android:text="Other"
-                    android:textAlignment="center" />
+                    android:text="@string/other"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack" />
 
             </RadioGroup>
 
@@ -286,50 +407,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:background="@color/profileAccent"
                 android:onClick="save"
-                android:text="Save"
-                android:visibility="gone" />
+                android:padding="5dp"
+                android:text="@string/save"
+                android:textColor="@color/colorWhite" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <!-- <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:gravity="center"
+                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/my_videos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="7dp"
-                    android:background="@color/colorPrimary"
-                    android:onClick="showMyVideos"
-                    android:padding="5dp"
-                    android:text="My Videos" />
+                 <Button
+                     android:id="@+id/my_docs"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_margin="7dp"
+                     android:background="@color/colorPrimary"
+                     android:onClick="showMyDocs"
+                     android:padding="5dp"
+                     android:text="My Documents" />
 
+             </LinearLayout>
 
-                <Button
-                    android:id="@+id/my_images"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="7dp"
-                    android:background="@color/colorPrimary"
-                    android:onClick="showMyImages"
-                    android:padding="5dp"
-                    android:text="My Images" />
-
-                <Button
-                    android:id="@+id/my_docs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="7dp"
-                    android:background="@color/colorPrimary"
-                    android:onClick="showMyDocs"
-                    android:padding="5dp"
-                    android:text="My Documents" />
-
-            </LinearLayout>
-
-
+ -->
         </LinearLayout>
     </ScrollView>
 

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mota.tribal.protsahan">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -19,6 +20,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Upload.UploadActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Profile.View.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,12 +31,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Profile.View.ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:name=".Profile.View.VideoViewActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Login.View.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Profile.View.ImageGalleryActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewAllProfiles.View.ViewProfilesActivity"></activity>
     </application>
 
 </manifest>

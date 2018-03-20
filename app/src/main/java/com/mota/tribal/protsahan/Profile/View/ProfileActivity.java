@@ -17,17 +17,18 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
+import com.mota.tribal.protsahan.Login.SQLiteHandler;
 import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
-import com.mota.tribal.protsahan.Profile.Model.MockProfileProvider;
+import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
+import com.mota.tribal.protsahan.Profile.Model.RetrofitProfileProvider;
 import com.mota.tribal.protsahan.Profile.Presenter.ProfilePresenter;
 import com.mota.tribal.protsahan.Profile.Presenter.ProfilePresenterImpl;
 import com.mota.tribal.protsahan.R;
-import com.mzelzoghbi.zgallery.ZGallery;
-import com.mzelzoghbi.zgallery.ZGrid;
-import com.mzelzoghbi.zgallery.entities.ZColor;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -44,8 +45,10 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
 
     private static final int REQUEST_GALLERY_CODE = 1;
     private static final int READ_REQUEST_CODE = 2;
-    private EditText name, tribe, description, address, aadhar, phoneNo;
-    private Button myVideos, myImages, myDocs, save;
+    Button myDocs, save;
+    private EditText name, tribe, description, address, aadhar, phoneNo, state;
+    private ImageView myVideos, myImages;
+    private TextView myVidText, myImgText;
     private RadioButton Male, Female, genderOther;
 
     private ProfilePresenter presenter;
@@ -57,11 +60,18 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
     private MultipartBody.Part fileToUpload;
     private RequestBody filename;
     private String username;
+    private String tribalName, profilePicUrl;
+    private SQLiteHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        db = new SQLiteHandler(this);
+        username = db.getUser().getUsername();
+        token = db.getUser().getToken();
+
 
         name = findViewById(R.id.name);
         tribe = findViewById(R.id.tribe);
@@ -69,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         address = findViewById(R.id.address);
         aadhar = findViewById(R.id.aadhar);
         phoneNo = findViewById(R.id.phone_no);
+        state = findViewById(R.id.state);
 
         profilePic = findViewById(R.id.profile_pic);
 
@@ -76,9 +87,11 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         Female = findViewById(R.id.radioButton3);
         genderOther = findViewById(R.id.radioButton);
 
-        myVideos = findViewById(R.id.my_videos);
-        myImages = findViewById(R.id.my_images);
-        myDocs = findViewById(R.id.my_docs);
+        myVideos = findViewById(R.id.imageView3);
+        myImages = findViewById(R.id.imageView2);
+        myVidText = findViewById(R.id.textView1);
+        myImgText = findViewById(R.id.textView);
+//        myDocs = findViewById(R.id.my_docs);
         save = findViewById(R.id.save);
 
         pBar = findViewById(R.id.progress_bar);
@@ -108,12 +121,12 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
 
 
         //TODO:Need to get Id,Username from shared preference and store it in the variable "id"
-        token = getIntent().getExtras().getString("token");
-        username = getIntent().getExtras().getString("username");
+//        token = getIntent().getExtras().getString("token");
+        //      username = getIntent().getExtras().getString("username");
 
-
-        presenter = new ProfilePresenterImpl(this, new MockProfileProvider(), this);
-        presenter.getProfile(token, username);
+//        presenter = new ProfilePresenterImpl(this, new MockProfileProvider(), this);
+        presenter = new ProfilePresenterImpl(this, new RetrofitProfileProvider(), this);
+//        presenter.getProfile(token, username);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -179,21 +192,25 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         address.setEnabled(true);
         aadhar.setEnabled(true);
         phoneNo.setEnabled(true);
+        state.setEnabled(true);
 
         Male.setEnabled(true);
         Female.setEnabled(true);
         genderOther.setEnabled(true);
 
-        myDocs.setVisibility(View.GONE);
+//        myDocs.setVisibility(View.GONE);
         myImages.setVisibility(View.GONE);
         myVideos.setVisibility(View.GONE);
+        myImgText.setVisibility(View.GONE);
+        myVidText.setVisibility(View.GONE);
 
         showMessage("You can now edit your profile!\nPress the save button to save the changes");
     }
 
     @Override
     public void showMessage(String message) {
-        Snackbar.make(findViewById(R.id.my_profile_relLayout), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Snackbar.make(findViewById(R.id.my_profile_relLayout), message, Snackbar.LENGTH_LONG).
+                setAction("Action", null).show();
     }
 
     @Override
@@ -214,6 +231,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         address.setEnabled(false);
         aadhar.setEnabled(false);
         phoneNo.setEnabled(false);
+        state.setEnabled(false);
 
         name.setFocusable(false);
         tribe.setFocusable(false);
@@ -224,20 +242,26 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
 
         save.setVisibility(View.GONE);
 
-        myDocs.setVisibility(View.VISIBLE);
+//        myDocs.setVisibility(View.VISIBLE);
         myImages.setVisibility(View.VISIBLE);
         myVideos.setVisibility(View.VISIBLE);
+        myImgText.setVisibility(View.VISIBLE);
+        myVidText.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     public void onProfileGet(Profile profile) {
         name.setText(profile.getName());
+        tribalName = profile.getName();
+        profilePicUrl = profile.getImg();
         tribe.setText(profile.getTribe());
         description.setText(profile.getDescription());
         aadhar.setText(profile.getAadhar());
         phoneNo.setText(profile.getPhone());
         address.setText(profile.getAddress());
+        state.setText(profile.getState());
+
         gender = profile.getGender();
         if (gender.equals("Male")) {
             Male.setChecked(true);
@@ -262,8 +286,16 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
     }
 
     @Override
-    public void showVideos(ArrayList<String> urls) {
-        Bundle bundle = new Bundle();
+    public void showVideos(ArrayList<VidImgDocData.Obj> objects) {
+
+        Intent intent = new Intent(this, ImageGalleryActivity.class);
+        intent.putExtra("objects", objects);
+        intent.putExtra("tribal_name", tribalName);
+        intent.putExtra("profile_pic_url", profilePicUrl);
+        intent.putExtra("type", "video");
+        startActivity(intent);
+
+        /*Bundle bundle = new Bundle();
         bundle.putStringArrayList("urls", urls);
         bundle.putString("type_of_item", "video_thumbnails");
         VideoViewFragment fragment = new VideoViewFragment();
@@ -271,29 +303,35 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.my_profile_relLayout, fragment,
                         fragment.getClass().getSimpleName()).
-                addToBackStack(null).commit();
+                addToBackStack(null).commit();*/
     }
 
     @Override
-    public void showImages(ArrayList<String> urls) {
-        ZGallery.with(this, urls)// toolbar title color
-                .setGalleryBackgroundColor(ZColor.BLACK)
-                .setTitle("Images")
-                .show();
-
-        ZGrid.with(this, urls)
-                .setTitle("Images") // toolbar title
-                .setToolbarTitleColor(ZColor.WHITE) // toolbar title color
-                .setSpanCount(2) // colums count
-                .setGridImgPlaceHolder(R.color.colorPrimary) // color placeholder for the grid image until it loads
-                .show();
+    public void showImages(ArrayList<VidImgDocData.Obj> objects) {
+//        ZGallery.with(this, urls)// toolbar title color
+//                .setGalleryBackgroundColor(ZColor.BLACK)
+//                .setTitle("Images")
+//                .show();
+//
+//        ZGrid.with(this, urls)
+//                .setTitle("Images") // toolbar title
+//                .setToolbarTitleColor(ZColor.WHITE) // toolbar title color
+//                .setSpanCount(2) // colums count
+//                .setGridImgPlaceHolder(R.color.colorPrimary) // color placeholder for the grid image until it loads
+//                .show();
+        Intent intent = new Intent(this, ImageGalleryActivity.class);
+        intent.putExtra("objects", objects);
+        intent.putExtra("tribal_name", tribalName);
+        intent.putExtra("profile_pic_url", profilePicUrl);
+        intent.putExtra("type", "image");
+        startActivity(intent);
     }
 
     @Override
-    public void showDocs(ArrayList<String> urls) {
+    public void showDocs(ArrayList<VidImgDocData.Obj> urls) {
         Bundle bundle = new Bundle();
         Log.d("abhi", urls.get(0) + " " + urls.size());
-        bundle.putStringArrayList("urls", urls);
+        //bundle.putStringArrayList("urls", urls);
         bundle.putString("type_of_item", "docs");
         VideoViewFragment fragment = new VideoViewFragment();
         fragment.setArguments(bundle);
@@ -310,21 +348,20 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         else if (aadhar.getText().toString().trim().length() != 12)
             showMessage("Incorrect aadhar number");
         else if (name.getText().toString().equals("") || description.getText().toString().equals("")
-                || tribe.getText().toString().equals("") || address.getText().toString().equals(""))
+                || tribe.getText().toString().equals("") || address.getText().toString().equals("") || state.getText().toString().equals(""))
             showMessage("Please Enter all the details");
         else if (gender == null)
             showMessage("Please select gender");
         else {
             Profile profile = new Profile(token, name.getText().toString(), description.getText().toString(),
                     tribe.getText().toString(), address.getText().toString(), aadhar.getText().toString(),
-                    phoneNo.getText().toString(), gender, "", username);
+                    phoneNo.getText().toString(), gender, "", username, state.getText().toString());
             presenter.postProfile(profile);
         }
     }
 
     public void GenderSelect(View view) {
         boolean checked = ((RadioButton) view).isChecked();
-        // Check which radio button was clicked
         switch (view.getId()) {
             case R.id.radioButton3:
                 if (checked)

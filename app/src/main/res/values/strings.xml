@@ -13,4 +13,22 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_images">My Images</string>
+    <string name="my_videos">My Videos</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="tribe">Tribe</string>
+    <string name="address">Address</string>
+    <string name="state">State</string>
+    <string name="aadhar">Aadhar</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="save">Save</string>
+    <string name="capture_video">CAPTURE VIDEO</string>
+    <string name="capture_image">CAPTURE IMAGE</string>
+    <string name="select_document">SELECT DOCUMENT</string>
+    <string name="give_a_name_to_your_document_related_to_the_content">Give a name to your document related to the content</string>
+    <string name="give_a_name_to_your_video_related_to_the_content">Give a name to your video related to the content</string>
 </resources>
