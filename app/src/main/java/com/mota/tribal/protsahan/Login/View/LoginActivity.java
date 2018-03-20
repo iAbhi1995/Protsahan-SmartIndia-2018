@@ -39,10 +39,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         progressBar = findViewById(R.id.progress_bar);
         connectivityReceiver = new ConnectivityReceiver();
-        if (!connectivityReceiver.isConnected())
+        /*if (!connectivityReceiver.isConnected())
             Snackbar.make(findViewById(R.id.login), "Connection Error", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-
+                    .setAction("Action", null).show();*/
         session = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(LoginActivity.this);
 

@@ -14,7 +14,7 @@ public class MockLogin implements LoginProvider {
     private UserInfo mockData;
 
     @Override
-    public void getUser(String login, String password, final LoginCallback callback) {
+    public void getUser(String username, String password, final LoginCallback callback) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
