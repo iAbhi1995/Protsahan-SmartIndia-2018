@@ -60,7 +60,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/name"
@@ -72,9 +72,9 @@
                     android:hint="Name"
                     android:inputType="textPersonName"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
@@ -93,7 +93,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/description"
@@ -105,9 +105,9 @@
                     android:hint="Description"
                     android:inputType="textPersonName"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack"
                     android:textSize="18sp" />
 
 
@@ -125,7 +125,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/tribe"
@@ -140,9 +140,9 @@
                     android:hint="Tribe"
                     android:inputType="text"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -158,7 +158,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/address"
@@ -171,9 +171,9 @@
                     android:hint="Address"
                     android:inputType="textPostalAddress"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -190,7 +190,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/aadhar"
@@ -203,9 +203,9 @@
                     android:hint="Aadhar"
                     android:inputType="number"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -221,7 +221,7 @@
                 android:paddingEnd="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="30dp"
-                android:textColorHint="@color/black">
+                android:textColorHint="@color/colorBlack">
 
                 <EditText
                     android:id="@+id/phone_no"
@@ -234,9 +234,9 @@
                     android:hint="Phone Number"
                     android:inputType="number"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textCursorDrawable="@color/black" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack"
+                    android:textCursorDrawable="@color/colorBlack" />
 
 
             </android.support.design.widget.TextInputLayout>

@@ -26,7 +26,7 @@
                 android:layout_below="@+id/thumbnail"
                 android:gravity="center"
                 android:text="Video Name"
-                android:textColor="@color/black"
+                android:textColor="@color/colorBlack"
                 android:textSize="22sp" />
 
         </RelativeLayout>

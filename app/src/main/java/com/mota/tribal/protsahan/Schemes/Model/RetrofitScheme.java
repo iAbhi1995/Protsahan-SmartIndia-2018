@@ -1,12 +1,12 @@
-package com.mota.tribal.protsahan.Login.Model;
+package com.mota.tribal.protsahan.Schemes.Model;
 
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mota.tribal.protsahan.Login.Api.LoginApi;
-import com.mota.tribal.protsahan.Login.LoginCallback;
-import com.mota.tribal.protsahan.Login.Model.Data.UserInfo;
+import com.mota.tribal.protsahan.Schemes.Api.SchemeApi;
+import com.mota.tribal.protsahan.Schemes.Model.Data.SchemeInfo;
+import com.mota.tribal.protsahan.Schemes.SchemeCallback;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -16,11 +16,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitLogin implements LoginProvider {
+public class RetrofitScheme implements SchemeProvider {
     private final Retrofit retrofit;
-    private LoginApi loginApi;
+    private SchemeApi schemeApi;
 
-    public RetrofitLogin() {
+    public RetrofitScheme() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().
@@ -42,19 +42,19 @@ public class RetrofitLogin implements LoginProvider {
 
 
     @Override
-    public void getUser(String username, String password, final LoginCallback callback) {
-        loginApi = retrofit.create(LoginApi.class);
-        Call<UserInfo> call = loginApi.getUserDetails(username, password);
-        call.enqueue(new Callback<UserInfo>() {
+    public void getSchemes(final SchemeCallback callback) {
+        schemeApi = retrofit.create(SchemeApi.class);
+        Call<SchemeInfo> call = schemeApi.getSchemes();
+        call.enqueue(new Callback<SchemeInfo>() {
 
             @Override
-            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+            public void onResponse(Call<SchemeInfo> call, Response<SchemeInfo> response) {
                 Log.d("Ayush", response.toString());
                 callback.onSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<UserInfo> call, Throwable t) {
+            public void onFailure(Call<SchemeInfo> call, Throwable t) {
                 t.printStackTrace();
                 callback.onFailure();
             }

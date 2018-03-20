@@ -68,7 +68,6 @@
                         android:drawableLeft="@drawable/lock"
                         android:drawableTint="#FF4081"
                         android:hint="Password"
-                        android:inputType="numberPassword"
                         android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
 

@@ -17,8 +17,8 @@ import com.mota.tribal.protsahan.Login.Model.RetrofitLogin;
 import com.mota.tribal.protsahan.Login.Presenter.LoginPresenter;
 import com.mota.tribal.protsahan.Login.Presenter.LoginPresenterImpl;
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
-import com.mota.tribal.protsahan.MainActivity;
 import com.mota.tribal.protsahan.R;
+import com.mota.tribal.protsahan.Upload.UploadActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
@@ -39,10 +39,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         progressBar = findViewById(R.id.progress_bar);
         connectivityReceiver = new ConnectivityReceiver();
-        if (!connectivityReceiver.isConnected())
+        /*if (!connectivityReceiver.isConnected())
             Snackbar.make(findViewById(R.id.login), "Connection Error", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-
+                    .setAction("Action", null).show();*/
         session = new SessionManager(getApplicationContext());
         pDialog = new ProgressDialog(LoginActivity.this);
 
@@ -51,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             // User is already logged in. Take him to main activity
             SQLiteHandler sqLiteHandler = new SQLiteHandler(getApplicationContext());
             UserInfo user = sqLiteHandler.getUser();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, UploadActivity.class);
             startActivity(intent);
             finish();
         }
