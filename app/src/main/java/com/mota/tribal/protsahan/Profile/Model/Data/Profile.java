@@ -4,21 +4,21 @@ package com.mota.tribal.protsahan.Profile.Model.Data;
 public class Profile {
 
 
-    private String token, name, description, tribe, address, aadhar, phone, gender, img, username, state;
+    private String token, name, description, tribe, address, aadharNO, phone, gender, profilephoto, username, state;
 
 
     public Profile(String token, String name, String description,
-                   String tribe, String address, String aadhar,
-                   String phone, String gender, String img, String username, String state) {
+                   String tribe, String address, String aadharNO,
+                   String phone, String gender, String profilephoto, String username, String state) {
         this.token = token;
         this.name = name;
         this.description = description;
         this.tribe = tribe;
         this.address = address;
-        this.aadhar = aadhar;
+        this.aadharNO = aadharNO;
         this.phone = phone;
         this.gender = gender;
-        this.img = img;
+        this.profilephoto = profilephoto;
         this.username = username;
         this.state = state;
     }
@@ -44,7 +44,7 @@ public class Profile {
     }
 
     public String getAadhar() {
-        return aadhar;
+        return aadharNO;
     }
 
     public String getPhone() {
@@ -56,7 +56,7 @@ public class Profile {
     }
 
     public String getImg() {
-        return img;
+        return profilephoto;
     }
 
     public String getUsername() {

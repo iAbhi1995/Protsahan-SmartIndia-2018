@@ -38,7 +38,7 @@ public class ProfilePresenterImpl implements ProfilePresenter {
                 if (body.isSuccess())
                     view.onProfileGet(body.getProfile());
                 else
-                    view.showMessage(body.getMessage());
+                    view.showMessage("Error loading profile! try again.");
             }
 
             @Override
@@ -147,23 +147,12 @@ public class ProfilePresenterImpl implements ProfilePresenter {
     public void deleteImage(final String token, final String username, final String url, final String imageTitle) {
         view.showProgressBar(true);
         provider.deleteImage(token, username, url, imageTitle, new DeleteCallback() {
+
             @Override
             public void onSuccess(DeleteData body) {
-                provider.deleteVideo(token, username, url, imageTitle, new DeleteCallback() {
-
-                    @Override
-                    public void onSuccess(DeleteData body) {
-                        view.showProgressBar(false);
-                        view.showMessage("Video Deleted Successfully!");
-                        view.showVideos(body.getDocs().getVideos());
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        view.showProgressBar(false);
-                        view.showMessage(context.getString(R.string.ConnectionError));
-                    }
-                });
+                view.showProgressBar(false);
+                view.showMessage("Image Deleted Successfully!");
+                view.showImages(body.getDocs().getImages());
             }
 
             @Override
@@ -172,19 +161,23 @@ public class ProfilePresenterImpl implements ProfilePresenter {
                 view.showMessage(context.getString(R.string.ConnectionError));
             }
         });
-
     }
 
+
     @Override
-    public void deleteVideo(final String token, final String username, final String url, final String videoTitle) {
+    public void deleteVideo(final String token, final String username, final String _id, final String videoTitle) {
         view.showProgressBar(true);
 
-        provider.deleteVideo(token, username, url, videoTitle, new DeleteCallback() {
+        provider.deleteVideo(token, username, _id, videoTitle, new DeleteCallback() {
 
             @Override
             public void onSuccess(DeleteData body) {
                 view.showProgressBar(false);
-                view.showMessage("Video Deleted Successfully!");
+                if (body.isSuccess()) {
+                    view.showMessage("Video Deleted Successfully!");
+                    view.showVideos(body.getDocs().getVideos());
+                } else
+                    view.showMessage("Error! Please try again");
             }
 
             @Override

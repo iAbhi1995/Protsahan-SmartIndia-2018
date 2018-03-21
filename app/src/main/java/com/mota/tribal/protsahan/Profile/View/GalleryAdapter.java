@@ -3,9 +3,6 @@ package com.mota.tribal.protsahan.Profile.View;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -13,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,61 +23,39 @@ import com.mota.tribal.protsahan.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.MyViewHolder> {
+public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder> {
     private ArrayList<VidImgDocData.Obj> urls;
-    private String profile_pic_url, tribal_name, type;
+    private String profile_pic_url, tribal_name, type, count_type;
     private Context context;
     private ProfilePresenter presenter;
     private SQLiteHandler db;
     private UserInfo user;
 
-    public ImageGalleryAdapter(ArrayList<VidImgDocData.Obj> urls,
-                               String tribal_name, String profile_pic_url, String type, Context context, ProfilePresenter presenter) {
+    public GalleryAdapter(ArrayList<VidImgDocData.Obj> urls,
+                          String tribal_name, String profile_pic_url, String type, String count_type, Context context, ProfilePresenter presenter) {
         this.urls = urls;
         this.type = type;
         this.tribal_name = tribal_name;
         this.profile_pic_url = profile_pic_url;
         this.context = context;
+        this.count_type = count_type;
         this.presenter = presenter;
         db = new SQLiteHandler(context);
         user = db.getUser();
     }
 
-    public static Bitmap retriveVideoFrameFromVideo(String videoPath) throws Throwable {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = null;
-        try {
-            mediaMetadataRetriever = new MediaMetadataRetriever();
-            if (Build.VERSION.SDK_INT >= 14)
-                mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-            else
-                mediaMetadataRetriever.setDataSource(videoPath);
-            //   mediaMetadataRetriever.setDataSource(videoPath);
-            bitmap = mediaMetadataRetriever.getFrameAtTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Throwable("Exception in retriveVideoFrameFromVideo(String videoPath)" + e.getMessage());
-
-        } finally {
-            if (mediaMetadataRetriever != null) {
-                mediaMetadataRetriever.release();
-            }
-        }
-        return bitmap;
-    }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.image_gallery_item, parent, false);
-        return new ImageGalleryAdapter.MyViewHolder(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.gallery_item, parent, false);
+        return new GalleryAdapter.MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        Picasso.with(context).load(profile_pic_url).placeholder(R.drawable.mario_black).into(holder.profilePic);
+        Picasso.with(context).load(Urls.BASE_URL2 + profile_pic_url.substring(6)).placeholder(R.drawable.mario_black).into(holder.profilePic);
         holder.imageName.setText(urls.get(position).getTitle());
         holder.tribalName.setText(tribal_name);
         Log.d("abhi", Urls.BASE_URL2 + urls.get(position).getUrl().substring(6));
@@ -87,12 +63,6 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
             Picasso.with(context).load(Urls.BASE_URL2 + urls.get(position).getUrl().substring(6)).placeholder(R.drawable.mario_black).into(holder.image);
 
         if (type.equals("video")) {
-            /*try {
-                Bitmap bitmap = retriveVideoFrameFromVideo(Urls.BASE_URL2+urls.get(position).getUrl().substring(6));
-                holder.image.setImageBitmap(bitmap);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }*/
             Picasso.with(context).load(Urls.BASE_URL2 + urls.get(position).getUrl().substring(6) + ".png").placeholder(R.drawable.mario_black).into(holder.image);
             holder.playButton.setVisibility(View.VISIBLE);
             holder.playButton.setOnClickListener(new View.OnClickListener() {
@@ -105,14 +75,27 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
             });
         }
 
-
+        if (count_type.substring(0, 6).equals("single")) {
+            holder.moreInfoButton.setVisibility(View.VISIBLE);
+            holder.moreInfoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    intent.putExtra("call_from", "more_info");
+                    intent.putExtra("username", count_type.substring(6));
+                    context.startActivity(intent);
+                }
+            });
+            holder.deleteimage.setVisibility(View.GONE);
+        } else
         holder.deleteimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("abhi", user.getUsername() + " " + urls.get(position).get_id());
                 if (type.equals("image"))
-                    presenter.deleteImage(user.getToken(), user.getUsername(), urls.get(position).getUrl(), urls.get(position).getTitle());
+                    presenter.deleteImage(user.getToken(), user.getUsername(), urls.get(position).get_id(), urls.get(position).getTitle());
                 else if (type.equals("video"))
-                    presenter.deleteVideo(user.getToken(), user.getUsername(), urls.get(position).getUrl(), urls.get(position).getTitle());
+                    presenter.deleteVideo(user.getToken(), user.getUsername(), urls.get(position).get_id(), urls.get(position).getTitle());
 
             }
         });
@@ -125,6 +108,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView profilePic, image, deleteimage, playButton;
+        Button moreInfoButton;
         TextView tribalName, imageName;
 
         public MyViewHolder(View itemView) {
@@ -132,6 +116,7 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
             profilePic = itemView.findViewById(R.id.profile_img);
             image = itemView.findViewById(R.id.image);
             playButton = itemView.findViewById(R.id.play_button);
+            moreInfoButton = itemView.findViewById(R.id.more_info_button);
 
             DisplayMetrics displayMetrics = new DisplayMetrics();
             ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -146,7 +131,9 @@ public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapte
             imageName = itemView.findViewById(R.id.image_name);
             deleteimage = itemView.findViewById(R.id.delete_image);
 
+            if (count_type.equals("normal_many"))
+                deleteimage.setVisibility(View.GONE);
+
         }
     }
 }
-

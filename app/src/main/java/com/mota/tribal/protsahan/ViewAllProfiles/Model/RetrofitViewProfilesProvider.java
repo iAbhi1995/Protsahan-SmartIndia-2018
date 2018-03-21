@@ -15,9 +15,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by Abhi on 20-Mar-18.
- */
 
 public class RetrofitViewProfilesProvider implements ViewProfilesProvider {
 

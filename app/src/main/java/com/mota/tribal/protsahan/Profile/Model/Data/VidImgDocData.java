@@ -22,10 +22,10 @@ public class VidImgDocData {
     }
 
 
-    public class Obj implements Serializable {
+    public static class Obj implements Serializable {
         private String url, title, _id;
 
-        Obj(String url, String title, String id) {
+        public Obj(String url, String title, String id) {
             this.url = url;
             this.title = title;
             _id = id;

@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Profile.View.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
@@ -41,9 +41,9 @@
             android:name=".Login.View.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Profile.View.ImageGalleryActivity"
+            android:name=".Profile.View.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ViewAllProfiles.View.ViewProfilesActivity"></activity>
+        <activity android:name=".ViewAllProfiles.View.ViewProfilesActivity" />
 
     </application>
 

@@ -2,7 +2,6 @@ package com.mota.tribal.protsahan.Profile.Api;
 
 import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.Profile.Model.Data.DeleteData;
-import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 import com.mota.tribal.protsahan.Profile.Model.Data.ProfileData;
 import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
 
@@ -19,7 +18,11 @@ public interface ProfileApi {
 
     @FormUrlEncoded
     @POST(Urls.SAVE_PROFILE)
-    Call<ProfileData> postProfile(@Field("profile") Profile profile);
+    Call<ProfileData> postProfile(@Field("username") String username, @Field("token") String token,
+                                  @Field("name") String name, @Field("description") String description,
+                                  @Field("tribe") String tribe, @Field("address") String address,
+                                  @Field("aadharNO") String aadharNO, @Field("phone") String phone,
+                                  @Field("gender") String gender, @Field("state") String state);
 
     @FormUrlEncoded
     @POST(Urls.GET_PROFILE)
@@ -44,11 +47,11 @@ public interface ProfileApi {
     @FormUrlEncoded
     @POST(Urls.DELETE_IMAGE)
     Call<DeleteData> deleteImage(@Field("token") String token, @Field("username") String username,
-                                 @Field("url") String url, @Field("title") String imageTitle);
+                                 @Field("_id") String id, @Field("title") String imageTitle);
 
     @FormUrlEncoded
     @POST(Urls.DELETE_VIDEO)
     Call<DeleteData> deleteVideo(@Field("token") String token, @Field("username") String username,
-                                 @Field("url") String url, @Field("title") String videoTitle);
+                                 @Field("_id") String id, @Field("title") String videoTitle);
 
 }

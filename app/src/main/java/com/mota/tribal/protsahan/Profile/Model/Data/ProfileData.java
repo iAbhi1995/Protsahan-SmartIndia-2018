@@ -3,12 +3,12 @@ package com.mota.tribal.protsahan.Profile.Model.Data;
 public class ProfileData {
     private boolean success;
     private String message;
-    private Profile profile;
+    private Profile docs;
 
-    public ProfileData(boolean success, String message, Profile profile) {
+    public ProfileData(boolean success, String message, Profile docs) {
         this.success = success;
         this.message = message;
-        this.profile = profile;
+        this.docs = docs;
     }
 
     public boolean isSuccess() {
@@ -20,6 +20,6 @@ public class ProfileData {
     }
 
     public Profile getProfile() {
-        return profile;
+        return docs;
     }
 }

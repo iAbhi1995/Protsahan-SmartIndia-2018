@@ -1,5 +1,7 @@
 package com.mota.tribal.protsahan.Profile.Model;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mota.tribal.protsahan.Helper.Urls;
@@ -51,7 +53,7 @@ public class RetrofitProfileProvider implements ProfileProvider {
     @Override
     public void getProfile(String token, String username, final ProfileCallback callback) {
         api = retrofit.create(ProfileApi.class);
-        Call<ProfileData> call = api.getProfile(token, username);
+        Call<ProfileData> call = api.getProfile(username, token);
         call.enqueue(new Callback<ProfileData>() {
             @Override
             public void onResponse(Call<ProfileData> call, Response<ProfileData> response) {
@@ -70,7 +72,9 @@ public class RetrofitProfileProvider implements ProfileProvider {
     public void postProfile(Profile profile, final ProfileCallback callback) {
 
         api = retrofit.create(ProfileApi.class);
-        Call<ProfileData> call = api.postProfile(profile);
+        Call<ProfileData> call = api.postProfile(profile.getUsername(), profile.getToken(), profile.getName(),
+                profile.getDescription(), profile.getTribe(), profile.getAddress(), profile.getAadhar(),
+                profile.getPhone(), profile.getGender(), profile.getState());
         call.enqueue(new Callback<ProfileData>() {
             @Override
             public void onResponse(Call<ProfileData> call, Response<ProfileData> response) {
@@ -159,9 +163,9 @@ public class RetrofitProfileProvider implements ProfileProvider {
     }
 
     @Override
-    public void deleteImage(String token, String username, String url, String imageTitle, final DeleteCallback callback) {
+    public void deleteImage(String token, String username, String _id, String imageTitle, final DeleteCallback callback) {
         api = retrofit.create(ProfileApi.class);
-        Call<DeleteData> call = api.deleteVideo(token, username, url, imageTitle);
+        Call<DeleteData> call = api.deleteImage(token, username, _id, imageTitle);
         call.enqueue(new Callback<DeleteData>() {
             @Override
             public void onResponse(Call<DeleteData> call, Response<DeleteData> response) {
@@ -176,9 +180,10 @@ public class RetrofitProfileProvider implements ProfileProvider {
     }
 
     @Override
-    public void deleteVideo(String token, String username, String url, String videoTitle, final DeleteCallback callback) {
+    public void deleteVideo(String token, String username, String _id, String videoTitle, final DeleteCallback callback) {
         api = retrofit.create(ProfileApi.class);
-        Call<DeleteData> call = api.deleteImage(token, username, url, videoTitle);
+        Log.d("abhi", username + " " + _id + "abhi");
+        Call<DeleteData> call = api.deleteVideo(token, username, _id, videoTitle);
         call.enqueue(new Callback<DeleteData>() {
             @Override
             public void onResponse(Call<DeleteData> call, Response<DeleteData> response) {

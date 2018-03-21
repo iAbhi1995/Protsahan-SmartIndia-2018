@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
 import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
@@ -62,16 +64,30 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
     private String username;
     private String tribalName, profilePicUrl;
     private SQLiteHandler db;
+    private boolean hideState;
+    private String countType;
+    private String callFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        hideState = false;
+        countType = "normal";
+        if (getIntent().getExtras() != null)
+            callFrom = getIntent().getExtras().getString("call_from");
 
-        db = new SQLiteHandler(this);
-        username = db.getUser().getUsername();
-        token = db.getUser().getToken();
-
+        if (callFrom != null && !callFrom.equals("") && callFrom.equals("more_info")) {
+            username = getIntent().getExtras().getString("username");
+            token = "";
+            countType = "normal_many";
+            hideState = true;
+            invalidateOptionsMenu();
+        } else {
+            db = new SQLiteHandler(this);
+            username = db.getUser().getUsername();
+            token = db.getUser().getToken();
+        }
 
         name = findViewById(R.id.name);
         tribe = findViewById(R.id.tribe);
@@ -102,6 +118,8 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         address.setEnabled(false);
         aadhar.setEnabled(false);
         phoneNo.setEnabled(false);
+        state.setEnabled(false);
+
         Male.setEnabled(false);
         Female.setEnabled(false);
         genderOther.setEnabled(false);
@@ -109,15 +127,17 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        profilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("abhi", "In the on Click");
-                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
-                openGalleryIntent.setType("image/*");
-                startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
-            }
-        });
+
+        if (!countType.equals("normal_many"))
+            profilePic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("abhi", "In the on Click");
+                    Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
+                    openGalleryIntent.setType("image/*");
+                    startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
+                }
+            });
 
 
         //TODO:Need to get Id,Username from shared preference and store it in the variable "id"
@@ -126,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
 
 //        presenter = new ProfilePresenterImpl(this, new MockProfileProvider(), this);
         presenter = new ProfilePresenterImpl(this, new RetrofitProfileProvider(), this);
-//        presenter.getProfile(token, username);
+        presenter.getProfile(token, username);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -143,7 +163,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
                 Log.d("abhi", "Filename " + file.getName());
                 //RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                 RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
-                fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), mFile);
+                fileToUpload = MultipartBody.Part.createFormData("profilephoto", file.getName(), mFile);
                 filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
                 presenter.postProfilePic(token, username, fileToUpload);
             } else {
@@ -168,7 +188,16 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.profile_menu, menu);
+//        getMenuInflater().inflate(R.menu.profile_menu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.profile_menu, menu);
+
+        if (hideState) {
+            MenuItem item = menu.findItem(R.id.edit);
+            item.setVisible(false);
+        }
+
+
         return true;
     }
 
@@ -282,48 +311,29 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
             Female.setChecked(false);
             gender = "Other";
         }
-        Picasso.with(this).load(profile.getImg()).placeholder(R.drawable.mario_black).into(profilePic);
+        Picasso.with(this).load(Urls.BASE_URL2 + profilePicUrl.substring(7)).placeholder(R.drawable.mario_black).into(profilePic);
     }
 
     @Override
     public void showVideos(ArrayList<VidImgDocData.Obj> objects) {
 
-        Intent intent = new Intent(this, ImageGalleryActivity.class);
+        Intent intent = new Intent(this, GalleryActivity.class);
         intent.putExtra("objects", objects);
         intent.putExtra("tribal_name", tribalName);
         intent.putExtra("profile_pic_url", profilePicUrl);
         intent.putExtra("type", "video");
+        intent.putExtra("count_type", countType);
         startActivity(intent);
-
-        /*Bundle bundle = new Bundle();
-        bundle.putStringArrayList("urls", urls);
-        bundle.putString("type_of_item", "video_thumbnails");
-        VideoViewFragment fragment = new VideoViewFragment();
-        fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.my_profile_relLayout, fragment,
-                        fragment.getClass().getSimpleName()).
-                addToBackStack(null).commit();*/
     }
 
     @Override
     public void showImages(ArrayList<VidImgDocData.Obj> objects) {
-//        ZGallery.with(this, urls)// toolbar title color
-//                .setGalleryBackgroundColor(ZColor.BLACK)
-//                .setTitle("Images")
-//                .show();
-//
-//        ZGrid.with(this, urls)
-//                .setTitle("Images") // toolbar title
-//                .setToolbarTitleColor(ZColor.WHITE) // toolbar title color
-//                .setSpanCount(2) // colums count
-//                .setGridImgPlaceHolder(R.color.colorPrimary) // color placeholder for the grid image until it loads
-//                .show();
-        Intent intent = new Intent(this, ImageGalleryActivity.class);
+        Intent intent = new Intent(this, GalleryActivity.class);
         intent.putExtra("objects", objects);
         intent.putExtra("tribal_name", tribalName);
         intent.putExtra("profile_pic_url", profilePicUrl);
         intent.putExtra("type", "image");
+        intent.putExtra("count_type", countType);
         startActivity(intent);
     }
 

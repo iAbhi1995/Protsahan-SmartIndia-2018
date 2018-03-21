@@ -61,4 +61,9 @@
     <string name="details_connect">CONNECT</string>
     <string name="details_close">CLOSE</string>
     <string name="details_details">DETAILS</string>
+    <string name="more_info">More Info</string>
+    <string name="capture_video_intruction">Please Capture a video to upload!</string>
+    <string name="video_title_instruction">Enter a Video Name relating to the content of video</string>
+    <string name="image_capture_instruction">Please Capture a image to upload!</string>
+    <string name="image_title_instruction">Enter a image name relating to the content of image</string>
 </resources>

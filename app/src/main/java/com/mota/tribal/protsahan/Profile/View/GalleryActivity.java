@@ -18,11 +18,11 @@ import com.mota.tribal.protsahan.R;
 
 import java.util.ArrayList;
 
-public class ImageGalleryActivity extends AppCompatActivity implements ProfileView {
+public class GalleryActivity extends AppCompatActivity implements ProfileView {
 
     private RecyclerView recyclerView;
     private ProfilePresenter presenter;
-    private String tribalName, profilePic, type;
+    private String tribalName, profilePic, type, count_type;
     private ProgressBar progressBar;
 
     @Override
@@ -37,12 +37,16 @@ public class ImageGalleryActivity extends AppCompatActivity implements ProfileVi
         tribalName = data.getString("tribal_name");
         ArrayList<VidImgDocData.Obj> urlList;
         urlList = (ArrayList<VidImgDocData.Obj>) data.getSerializable("objects");
+
+//        Log.d("abhi",urlList.size()+" "+urlList.get(0).getUrl());
+
         profilePic = data.getString("profile_pic_url");
         type = data.getString("type");
+        count_type = data.getString("count_type");
         presenter = new ProfilePresenterImpl(this, new RetrofitProfileProvider(), this);
 
-        ImageGalleryAdapter adapter = new ImageGalleryAdapter(urlList, tribalName,
-                profilePic, type, this, presenter);
+        GalleryAdapter adapter = new GalleryAdapter(urlList, tribalName,
+                profilePic, type, count_type, this, presenter);
         recyclerView.setAdapter(adapter);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,15 +78,15 @@ public class ImageGalleryActivity extends AppCompatActivity implements ProfileVi
 
     @Override
     public void showVideos(ArrayList<VidImgDocData.Obj> urls) {
-        ImageGalleryAdapter adapter = new ImageGalleryAdapter(urls, tribalName,
-                profilePic, type, this, presenter);
+        GalleryAdapter adapter = new GalleryAdapter(urls, tribalName,
+                profilePic, type, count_type, this, presenter);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void showImages(ArrayList<VidImgDocData.Obj> urls) {
-        ImageGalleryAdapter adapter = new ImageGalleryAdapter(urls, tribalName,
-                profilePic, type, this, presenter);
+        GalleryAdapter adapter = new GalleryAdapter(urls, tribalName,
+                profilePic, type, count_type, this, presenter);
         recyclerView.setAdapter(adapter);
     }
 
@@ -90,5 +94,4 @@ public class ImageGalleryActivity extends AppCompatActivity implements ProfileVi
     public void showDocs(ArrayList<VidImgDocData.Obj> urls) {
 
     }
-
 }

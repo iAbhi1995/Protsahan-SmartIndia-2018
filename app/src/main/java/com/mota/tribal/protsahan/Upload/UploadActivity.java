@@ -2,6 +2,7 @@ package com.mota.tribal.protsahan.Upload;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,6 +26,7 @@ import com.mota.tribal.protsahan.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -53,6 +55,9 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
     private Retrofit retrofit;
     private SQLiteHandler db;
     private ProgressBar progressBar;
+    private ContentValues values;
+    private Uri imageUri;
+    private Bitmap thumbnail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +105,13 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
         captureImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+                imageUri = getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                 Intent imageCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 if (imageCaptureIntent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(imageCaptureIntent, REQUEST_IMAGE_CAPTURE);
                 }
@@ -165,17 +176,27 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
             if (EasyPermissions.hasPermissions(UploadActivity.this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                String imageurl = "";
+                try {
+                    thumbnail = MediaStore.Images.Media.getBitmap(
+                            getContentResolver(), imageUri);
+                    imageurl = getRealPathFromURI(imageUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+//                Bitmap photo = (Bitmap) data.getExtras().get("data");
 
                 // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-                Uri tempUri = getImageUri(getApplicationContext(), photo);
+//                Uri tempUri = getImageUri(getApplicationContext(), photo);
 
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
-                File finalFile = new File(getRealPathFromURI(tempUri));
+                File finalFile = new File(imageurl);
                 imagePath.setText(finalFile.getPath());
                 pathToStoredImage = finalFile.getPath();
 //                uploadImageToServer(finalFile.getPath());
-                System.out.println(tempUri);
+//                System.out.println(tempUri);
 
             } else {
                 EasyPermissions.requestPermissions(UploadActivity.this,
@@ -240,7 +261,7 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
 
     private void uploadVideoToServer(String pathToVideoFile) {
         if (pathToVideoFile.equals("")) {
-            showMessage("{Please Select a video to upload!");
+            showMessage(getString(R.string.capture_video_intruction));
             return;
         }
         File videoFile = new File(pathToVideoFile);
@@ -250,7 +271,7 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
         UploadApi vInterface = retrofit.create(UploadApi.class);
         String videoname = videoName.getText().toString();
         if (videoname.equals(""))
-            showMessage("Enter a Video Name relating to the content of video");
+            showMessage(getString(R.string.video_title_instruction));
         else {
             showProgressBar(true);
             Call<Data> serverCom = vInterface.uploadVideoToServer(accessToken, username, videoname, vFile);
@@ -278,7 +299,7 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
 
     private void uploadImageToServer(String pathToImage) {
         if (pathToImage.equals("")) {
-            showMessage("{Please Select a image to upload!");
+            showMessage(getString(R.string.image_capture_instruction));
             return;
         }
         File imageFile = new File(pathToImage);
@@ -287,7 +308,7 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
         UploadApi vInterface = retrofit.create(UploadApi.class);
         String imagename = imageName.getText().toString();
         if (imagename.equals(""))
-            showMessage("Enter a image name relating to the content of image");
+            showMessage(getString(R.string.image_title_instruction));
         else {
             showProgressBar(true);
             Call<Data> serverCom = vInterface.uploadImageToServer(accessToken, username, imagename, iFile);
