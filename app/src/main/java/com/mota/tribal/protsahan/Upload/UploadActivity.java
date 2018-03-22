@@ -64,7 +64,7 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
         db = new SQLiteHandler(this);
-        accessToken = db.getUser().getToken();
+        accessToken = "Bearer " + db.getUser().getToken();
         username = db.getUser().getUsername();
 
 
@@ -208,8 +208,9 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
             uri = data.getData();
             if (EasyPermissions.hasPermissions(UploadActivity.this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                docPath.setText(uri.getPath());
+
                 Log.d("abhi", uri.getPath());
+                docPath.setText(uri.getPath());
                 pathToStoredDoc = uri.getPath();
 //                uploadDocToServer(uri.getPath());
             } else {

@@ -10,11 +10,14 @@
     <string name="ConnectionError">Connection Error! Please check your connection and try again</string>
     <string name="PermissionDenied">These permissions are required to perform the function</string>
     <string name="edit">Edit</string>
+
+
     <string name="action_settings">Settings</string>
     <string name="action_add_favourite">Add to Favourites</string>
     <string name="action_play_next">Play Next</string>
     <string name="backdrop_title">LOVE MUSIC</string>
     <string name="backdrop_subtitle">This season top 20 albums</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

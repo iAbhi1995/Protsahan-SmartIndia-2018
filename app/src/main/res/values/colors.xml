@@ -31,4 +31,9 @@
     <color name="details_item_text">#858d92</color>
     <color name="details_item_separator">@color/item_separator_color</color>
     <!-- Garland View-->
+
+
+    <color name="viewBg">#f1f5f8</color>
+    <color name="album_title">#4c4c4c</color>
+
 </resources>
