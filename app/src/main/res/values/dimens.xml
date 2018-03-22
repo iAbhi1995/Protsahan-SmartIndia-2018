@@ -19,7 +19,7 @@
     <dimen name="ic_album_overflow_margin_top">10dp</dimen>
 
 
-    <!--Garland View -->
+    <!--GarlQueryViewView -->
     <dimen name="inner_item_offset">16dp</dimen>
     <dimen name="inner_item_height">170dp</dimen>
 
@@ -55,6 +55,6 @@
     <dimen name="profile_texts_h_offset">32dp</dimen>
     <dimen name="profile_texts_v_max_offset">66dp</dimen>
     <dimen name="profile_texts_v_min_offset">8dp</dimen>
-    <!--Garland View end-->
+    <!--GarlQueryViewView end-->
 
 </resources>

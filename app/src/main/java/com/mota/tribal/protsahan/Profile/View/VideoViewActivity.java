@@ -6,19 +6,21 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.afollestad.easyvideoplayer.EasyVideoCallback;
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
+import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.R;
 
 public class VideoViewActivity extends AppCompatActivity implements EasyVideoCallback {
 
     private EasyVideoPlayer player;
-    private String TEST_URL = "http://www.androidbegin.com/tutorial/AndroidCommercial.3gp";
+    private String TEST_URL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_view);
 
-        TEST_URL = getIntent().getExtras().getString("url");
+        if (getIntent().getExtras() != null)
+            TEST_URL = Urls.BASE_URL2 + getIntent().getExtras().getString("url").substring(6);
         // Grabs a reference to the player view
         player = findViewById(R.id.player);
         // Sets the callback to this Activity, since it inherits EasyVideoCallback

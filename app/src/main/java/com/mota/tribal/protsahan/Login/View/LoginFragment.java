@@ -120,9 +120,9 @@ public class LoginFragment extends Fragment implements LoginView {
         bLogin = getView().findViewById(R.id.bLogin);
         forgotpassword = getView().findViewById(R.id.forgotpassword);
 
-        /*forgotpassword.setOnClickListener(new View.OnClickListener() {
+        /*forgotpassword.setOnClickListener(new QueryView.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(QueryView v) {
                 final String email = etUsername.getText().toString().trim();
                 setForgotpassword();
 

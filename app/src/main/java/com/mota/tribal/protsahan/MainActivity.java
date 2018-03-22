@@ -11,19 +11,24 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
-import com.mota.tribal.protsahan.Login.View.AccountActivity;
+import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
+import com.mota.tribal.protsahan.Query.View.QueryActivity;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
+import com.mota.tribal.protsahan.Upload.UploadActivity;
+import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Intent intent;
 
+    //private TextView mTextMessage;
+
+    private Intent intent;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -77,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         SchemeNotificationAdapter adapter = new SchemeNotificationAdapter(this, titles);
         recyclerView.setAdapter(adapter);
-        Log.d("Ayush", FirebaseInstanceId.getInstance().getToken());
     }
 
     private void initCollapsingToolbar() {
@@ -107,4 +111,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.profile_menu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_menu, menu);
+
+//        if (hideState) {
+//            MenuItem item = menu.findItem(R.id.edit);
+//            item.setVisible(false);
+//        }
+//
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Intent i;
+        if (id == R.id.my_profile) {
+            i = new Intent(this, ProfileActivity.class);
+            i.putExtra("call_from", "main");
+            startActivity(i);
+        } else if (id == R.id.upload) {
+            i = new Intent(this, UploadActivity.class);
+            startActivity(i);
+        } else if (id == R.id.query) {
+            i = new Intent(this, QueryActivity.class);
+            startActivity(i);
+        }
+
+        return true;
+    }
+
+
 }

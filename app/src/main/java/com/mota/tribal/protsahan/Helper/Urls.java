@@ -15,4 +15,5 @@ public class Urls {
     public static final String DELETE_IMAGE = "artisans/deleteimage";
     public static final String DELETE_VIDEO = "artisans/deletevideo";
     public static final String GET_ALL_PROFILES = "artisans/files";
+    public static final String ALL_QUERIES = "";
 }

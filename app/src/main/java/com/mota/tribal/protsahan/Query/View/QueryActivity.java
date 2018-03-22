@@ -1,6 +1,7 @@
 package com.mota.tribal.protsahan.Query.View;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,17 +9,18 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toolbar;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.MainActivity;
 import com.mota.tribal.protsahan.R;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
+import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 
-public class QueryActivity extends AppCompatActivity {
+public class QueryActivity extends AppCompatActivity implements QueriesAll.OnFragmentInteractionListener, AskQuestion.OnFragmentInteractionListener {
 
-    private Toolbar mtoolbar;
+    private android.support.v7.widget.Toolbar mtoolbar;
 
+    private Intent intent;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -29,9 +31,11 @@ public class QueryActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_scheme:
-                    Intent intent = new Intent(QueryActivity.this, SchemeActivity.class);
+                    intent = new Intent(QueryActivity.this, SchemeActivity.class);
                     startActivity(intent);
                 case R.id.navigation_profiles:
+                    intent = new Intent(QueryActivity.this, ViewProfilesActivity.class);
+                    startActivity(intent);
                     return true;
                 case R.id.navigation_account:
                     return true;
@@ -46,6 +50,9 @@ public class QueryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_query);
+        mtoolbar = findViewById(R.id.loginbar);
+        setSupportActionBar(mtoolbar);
+//        getActionBar().setTitle("Query");
         setUpViewPager();
         /*session = new SessionManager(getApplicationContext());
         if (session.isLoggedIn()) {
@@ -78,8 +85,10 @@ public class QueryActivity extends AppCompatActivity {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new AskQuestion());
         adapter.addFragment(new QueriesAll());
+
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(adapter);
+
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setText("Ask Question");
@@ -87,4 +96,8 @@ public class QueryActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

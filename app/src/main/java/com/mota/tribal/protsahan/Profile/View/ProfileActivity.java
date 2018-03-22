@@ -227,7 +227,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         Female.setEnabled(true);
         genderOther.setEnabled(true);
 
-//        myDocs.setVisibility(View.GONE);
+//        myDocs.setVisibility(QueryView.GONE);
         myImages.setVisibility(View.GONE);
         myVideos.setVisibility(View.GONE);
         myImgText.setVisibility(View.GONE);
@@ -271,7 +271,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
 
         save.setVisibility(View.GONE);
 
-//        myDocs.setVisibility(View.VISIBLE);
+//        myDocs.setVisibility(QueryView.VISIBLE);
         myImages.setVisibility(View.VISIBLE);
         myVideos.setVisibility(View.VISIBLE);
         myImgText.setVisibility(View.VISIBLE);
@@ -292,26 +292,27 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         state.setText(profile.getState());
 
         gender = profile.getGender();
-        if (gender.equals("Male")) {
+        if (gender != null && gender.equals("Male")) {
             Male.setChecked(true);
             Male.setEnabled(true);
             Female.setChecked(false);
             genderOther.setChecked(false);
             gender = "Male";
-        } else if (gender.equals("Female")) {
+        } else if (gender != null && gender.equals("Female")) {
             Female.setChecked(true);
             Female.setEnabled(true);
             Male.setChecked(false);
             genderOther.setChecked(false);
             gender = "Female";
-        } else {
+        } else if (gender != null && gender.equals("Other")) {
             genderOther.setChecked(true);
             genderOther.setEnabled(true);
             Male.setChecked(false);
             Female.setChecked(false);
             gender = "Other";
         }
-        Picasso.with(this).load(Urls.BASE_URL2 + profilePicUrl.substring(7)).placeholder(R.drawable.mario_black).into(profilePic);
+        if (profilePicUrl != null)
+            Picasso.with(this).load(Urls.BASE_URL2 + profilePicUrl.substring(7)).placeholder(R.drawable.mario_black).into(profilePic);
     }
 
     @Override

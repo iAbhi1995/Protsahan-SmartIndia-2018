@@ -35,7 +35,7 @@ public class InnerAdapter extends com.ramotion.garlandview.inner.InnerAdapter<In
     public void onBindViewHolder(InnerItem holder, int position) {
         holder.setContent(mData.get(position));
         Intent intent = new Intent(context, SchemeDescriptionActivity.class);
-        intent.putExtra("Data", mData.get(position).toString());
+        intent.putExtra("QueryData", mData.get(position).toString());
     }
 
     @Override
