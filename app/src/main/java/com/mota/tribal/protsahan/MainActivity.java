@@ -11,14 +11,18 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
+import com.mota.tribal.protsahan.Login.View.AccountActivity;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    Intent intent;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -34,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_profiles:
                     return true;
                 case R.id.navigation_account:
-                    return true;
+                    intent = new Intent(MainActivity.this, AccountActivity.class);
+                    startActivity(intent);
                 case R.id.navigation_settings:
                     return true;
             }
@@ -72,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         SchemeNotificationAdapter adapter = new SchemeNotificationAdapter(this, titles);
         recyclerView.setAdapter(adapter);
+        Log.d("Ayush", FirebaseInstanceId.getInstance().getToken());
     }
 
     private void initCollapsingToolbar() {

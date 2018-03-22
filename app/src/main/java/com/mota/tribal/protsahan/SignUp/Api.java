@@ -11,6 +11,6 @@ import retrofit2.http.POST;
 
 public interface Api {
     @FormUrlEncoded
-    @POST("artisans/register")
+    @POST("artisans")
     Call<Data> getResponse(@Field("username") String username, @Field("password") String password);
 }

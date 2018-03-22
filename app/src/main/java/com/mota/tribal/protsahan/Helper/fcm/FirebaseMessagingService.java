@@ -9,52 +9,24 @@ import com.google.firebase.messaging.RemoteMessage;
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
 
-    private static final String TAG = "ayush";
+    private static final String TAG = "Ayush";
     private NotificationUtils notificationUtils;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.d("Ayush", "onMessageReceived");
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-       /* Log.d("ayush",remoteMessage.getData().get("created_at"));
-        Log.d("ayush",remoteMessage.getData().get("image_url"));
-        Log.d("ayush",remoteMessage.getData().get("title"));
-        String date = null;
-        try {
-            
-            JSONObject jsonObject = new JSONObject( remoteMessage.getData().get("created_at"));
-            date = jsonObject.getString("date");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Notifications notification = new Notifications(Integer.parseInt(remoteMessage.getData().get("id")),
-                remoteMessage.getData().get("title"), remoteMessage.getData().get("message"),
-                remoteMessage.getData().get("image_url"),
-                date);
+        Log.d("Ayush", "Msg received");
 
-        db.addNotification(notification);
+        String activity = remoteMessage.getData().get("click_action");
 
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Title: " + notification.getTitle());
-        Log.d(TAG, "message: " + notification.getMessage());
-        Log.d(TAG, "image: " + notification.getImageUrl());
-        Log.d(TAG, "timestamp: " + notification.getCreatedAt());
-
-        Intent resultIntent = new Intent(getApplicationContext(), NotificationsActivity.class);
-        resultIntent.putExtra("message", notification.getMessage());
-        resultIntent.putExtra("title", notification.getTitle());
-        resultIntent.putExtra("image_url", notification.getImageUrl());
-        resultIntent.putExtra("created_at", notification.getCreatedAt());
-
-        showNotificationMessage(getApplicationContext(), notification.getTitle(),
-        notification.getMessage(), notification.getCreatedAt(), resultIntent,
-        notification.getImageUrl()); */
+        Intent resultIntent = new Intent(activity);
+        showNotificationMessage(getApplicationContext(), remoteMessage.getData().get("title"), remoteMessage.getData().get("body")
+                , remoteMessage.getData().get("Icon"), resultIntent);
     }
 
-    private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
-       /* notificationUtils = new NotificationUtils(context);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | IntentCompat.FLAG_ACTIVITY_TASK_ON_HOME);
-        notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);*/
+    private void showNotificationMessage(Context context, String title, String message, String iconUrl, Intent intent) {
+        notificationUtils = new NotificationUtils(context);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+        notificationUtils.showNotificationMessage(title, message, iconUrl, intent);
     }
 }

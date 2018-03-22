@@ -1,7 +1,5 @@
 package com.mota.tribal.protsahan.Login.Model;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mota.tribal.protsahan.Helper.Urls;
@@ -50,7 +48,7 @@ public class RetrofitLogin implements LoginProvider {
 
             @Override
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-                Log.d("Ayush", response.toString());
+                //Log.d("Ayush", response.toString());
                 callback.onSuccess(response.body());
             }
 

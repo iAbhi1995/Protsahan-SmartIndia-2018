@@ -12,6 +12,7 @@ import java.util.List;
 public class MockScheme implements SchemeProvider {
     private List<List<InnerData>> datalist;
     private List<InnerData> innerDataList;
+    private List<String> schemename;
     private InnerData data;
     private SchemeInfo mockdata;
 
@@ -29,8 +30,14 @@ public class MockScheme implements SchemeProvider {
 
         innerDataList = new ArrayList<>();
         datalist = new ArrayList<>();
-        data = new InnerData("Dummy", "Protshan", "Krishna Vatika Boerdadar Raigarh", "http://www.imgworlds.com/wp-content/themes/IMG/img/phase3/welcome/trex.png", 25);
+        schemename = new ArrayList<>();
+        schemename.add("TRI");
+        schemename.add("Livelihood Support");
+        schemename.add("Equity support to NSTFDC/STFDC");
+        schemename.add("NGO");
+        data = new InnerData("No 1", "Protshan", "Krishna Vatika Boerdadar Raigarh", "http://www.imgworlds.com/wp-content/themes/IMG/img/phase3/welcome/trex.png", 0);
         innerDataList.add(data);
+        data = new InnerData("No 2", "Protshan", "Krishna Vatika Boerdadar Raigarh", "http://www.imgworlds.com/wp-content/themes/IMG/img/phase3/welcome/trex.png", 25);
         innerDataList.add(data);
         innerDataList.add(data);
         innerDataList.add(data);
@@ -42,7 +49,7 @@ public class MockScheme implements SchemeProvider {
         datalist.add(innerDataList);
         datalist.add(innerDataList);
         datalist.add(innerDataList);
-        mockdata = new SchemeInfo(datalist, "Success", true);
+        mockdata = new SchemeInfo(datalist, schemename, "Success", true);
 
         return mockdata;
     }

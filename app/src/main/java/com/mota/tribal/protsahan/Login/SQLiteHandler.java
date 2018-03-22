@@ -84,8 +84,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             cursor.close();
         }
         db.close();
-        user.setUsername("ankit.son.og@gmail.com");
-        user.setToken("101");
         return user;
     }
 

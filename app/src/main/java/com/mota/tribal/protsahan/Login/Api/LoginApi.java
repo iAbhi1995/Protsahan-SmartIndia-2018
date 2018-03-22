@@ -12,7 +12,5 @@ public interface LoginApi {
     @FormUrlEncoded
     @POST("artisans/login")
     Call<UserInfo> getUserDetails(@Field("username") String username, @Field("password") String password);
-
-
 }
 

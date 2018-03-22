@@ -46,9 +46,6 @@ public class QueryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_query);
-        mtoolbar = findViewById(R.id.toolbar);
-        setActionBar(mtoolbar);
-        getActionBar().setTitle("Query");
         setUpViewPager();
         /*session = new SessionManager(getApplicationContext());
         if (session.isLoggedIn()) {
