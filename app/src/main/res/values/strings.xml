@@ -69,4 +69,6 @@
     <string name="video_title_instruction">Enter a Video Name relating to the content of video</string>
     <string name="image_capture_instruction">Please Capture a image to upload!</string>
     <string name="image_title_instruction">Enter a image name relating to the content of image</string>
+    <string name="download_pdf">DOWNLOAD PDF</string>
+    <string name="view_pdf">View PDF</string>
 </resources>

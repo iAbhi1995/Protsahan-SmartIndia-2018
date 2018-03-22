@@ -17,7 +17,7 @@ public class ConnectivityReceiver
         super();
     }
 
-    public boolean isConnected() {
+    public static boolean isConnected() {
         return this.connect;
     }
 
