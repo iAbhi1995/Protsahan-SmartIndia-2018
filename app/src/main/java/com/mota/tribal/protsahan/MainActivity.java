@@ -7,12 +7,17 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
+//        toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
         setSupportActionBar(toolbar);
 
         initCollapsingToolbar();
@@ -58,6 +63,24 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
+
+        ArrayList<String> titles = new ArrayList<>();
+        titles.add("title 0");
+        titles.add("title 1");
+        titles.add("title 2");
+        titles.add("title 3");
+        titles.add("title 4");
+        titles.add("title 5");
+        titles.add("title 6");
+        titles.add("title 7");
+        titles.add("title 8");
+        titles.add("title 9");
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        SchemeNotificationAdapter adapter = new SchemeNotificationAdapter(this, titles);
+        recyclerView.setAdapter(adapter);
     }
 
     private void initCollapsingToolbar() {
@@ -78,17 +101,13 @@ public class MainActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle(getString(R.string.app_name));
+                    collapsingToolbar.setTitle("Notifications");
                     isShow = true;
                 } else if (isShow) {
-                    collapsingToolbar.setTitle(" ");
+                    collapsingToolbar.setTitle("");
                     isShow = false;
                 }
             }
         });
     }
-
-
-
-
 }
