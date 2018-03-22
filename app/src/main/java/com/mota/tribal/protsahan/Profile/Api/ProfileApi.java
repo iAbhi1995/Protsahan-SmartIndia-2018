@@ -12,10 +12,6 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 
-/**
- * Created by Abhi on 10-Mar-18.
- */
-
 public interface ProfileApi {
 
     @POST(Urls.SAVE_PROFILE)

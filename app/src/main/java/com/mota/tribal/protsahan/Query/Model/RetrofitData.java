@@ -1,13 +1,12 @@
-package com.mota.tribal.protsahan.Login.Model;
+package com.mota.tribal.protsahan.Query.Model;
 
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mota.tribal.protsahan.Helper.Urls;
-import com.mota.tribal.protsahan.Login.Api.LoginApi;
-import com.mota.tribal.protsahan.Login.LoginCallback;
-import com.mota.tribal.protsahan.Login.Model.Data.UserInfo;
+import com.mota.tribal.protsahan.Query.Api.RetrofitApi;
+import com.mota.tribal.protsahan.Query.Model.Data.Data;
+import com.mota.tribal.protsahan.Query.OnCallback;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -17,11 +16,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitLogin implements LoginProvider {
+public class RetrofitData implements DataProvider {
     private final Retrofit retrofit;
-    private LoginApi loginApi;
+    private RetrofitApi retrofitApi;
 
-    public RetrofitLogin() {
+    public RetrofitData() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().
@@ -35,7 +34,7 @@ public class RetrofitLogin implements LoginProvider {
                 .create();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(Urls.BASE_URL)
+                .baseUrl("http://192.168.1.3:3000/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
@@ -43,19 +42,19 @@ public class RetrofitLogin implements LoginProvider {
 
 
     @Override
-    public void getUser(String username, String password, final LoginCallback callback) {
-        loginApi = retrofit.create(LoginApi.class);
-        Call<UserInfo> call = loginApi.getUserDetails(username, password);
-        call.enqueue(new Callback<UserInfo>() {
+    public void get(String username, String password, final OnCallback callback) {
+        retrofitApi = retrofit.create(RetrofitApi.class);
+        Call<Data> call = retrofitApi.getUserDetails(username, password);
+        call.enqueue(new Callback<Data>() {
 
             @Override
-            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+            public void onResponse(Call<Data> call, Response<Data> response) {
                 Log.d("Ayush", response.toString());
                 callback.onSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<UserInfo> call, Throwable t) {
+            public void onFailure(Call<Data> call, Throwable t) {
                 t.printStackTrace();
                 callback.onFailure();
             }

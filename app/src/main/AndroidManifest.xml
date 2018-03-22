@@ -31,15 +31,44 @@
         </activity>
         <activity
             android:name=".Profile.View.ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Profile.View.VideoViewActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Login.View.LoginActivity"
-            android:label="@string/title_activity_main" />
-        <activity android:name=".Schemes.View.SchemeActivity"></activity>
+            android:name=".Login.View.AccountActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name=".Login.View.LoginActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Schemes.View.SchemeActivity" />
+        <activity
+            android:name=".Schemes.View.SchemeDescriptionActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Query.View.QueryActivity" />
+
+        <service android:name=".Helper.fcm.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".Helper.fcm.FirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher_foreground" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
     </application>
 
 </manifest>
