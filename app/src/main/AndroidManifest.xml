@@ -39,14 +39,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Login.View.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Profile.View.GalleryActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ViewAllProfiles.View.ViewProfilesActivity" />
-        <activity android:name=".PDF.ViewPDFActivity"></activity>
-            android:name=".Login.View.AccountActivity"
-            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name=".Login.View.LoginActivity" />
@@ -54,6 +46,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Profile.View.GalleryActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewAllProfiles.View.ViewProfilesActivity" />
+        <activity android:name=".PDF.ViewPDFActivity"></activity>
         <activity android:name=".Schemes.View.SchemeActivity" />
         <activity
             android:name=".Schemes.View.SchemeDescriptionActivity"
