@@ -1,6 +1,7 @@
 package com.mota.tribal.protsahan.Schemes.View.outer;
 
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,11 @@ public class OuterAdapter extends TailAdapter<OuterItem> {
 
     private final List<List<InnerData>> mData;
     private final RecyclerView.RecycledViewPool mPool;
+    private Context context;
 
-    public OuterAdapter(List<List<InnerData>> data) {
+    public OuterAdapter(List<List<InnerData>> data, Context context) {
         this.mData = data;
+        this.context = context;
 
         mPool = new RecyclerView.RecycledViewPool();
         mPool.setMaxRecycledViews(0, POOL_SIZE);
@@ -29,7 +32,7 @@ public class OuterAdapter extends TailAdapter<OuterItem> {
     @Override
     public OuterItem onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        return new OuterItem(view, mPool);
+        return new OuterItem(view, mPool, context);
     }
 
     @Override

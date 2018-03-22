@@ -1,5 +1,6 @@
 package com.mota.tribal.protsahan.Schemes.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,16 +13,21 @@ import com.mota.tribal.protsahan.Schemes.Model.Data.SchemeInfo;
 import com.mota.tribal.protsahan.Schemes.Model.MockScheme;
 import com.mota.tribal.protsahan.Schemes.Presenter.SchemePresenter;
 import com.mota.tribal.protsahan.Schemes.Presenter.SchemePresenterImpl;
+import com.mota.tribal.protsahan.Schemes.View.inner.InnerItem;
 import com.mota.tribal.protsahan.Schemes.View.outer.OuterAdapter;
 import com.ramotion.garlandview.TailLayoutManager;
 import com.ramotion.garlandview.TailRecyclerView;
 import com.ramotion.garlandview.TailSnapHelper;
 import com.ramotion.garlandview.header.HeaderTransformer;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 
-public class SchemeActivity extends AppCompatActivity implements SchemeView {
+public class SchemeActivity extends AppCompatActivity implements SchemeView, ViewClickHelperApp.ReadyListener {
 
     private SchemePresenter presenter;
     private ProgressBar progressBar;
@@ -32,53 +38,9 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheme);
         progressBar = findViewById(R.id.progress_bar);
-
         presenter = new SchemePresenterImpl(new MockScheme(), SchemeActivity.this, SchemeActivity.this);
         presenter.getResponse();
-
     }
-
-
-
-   /* @Override
-    public void onFakerReady(final Faker faker) {
-        Single.create(new SingleOnSubscribe<List<List<SchemeInfo>>>() {
-            @Override
-            public void subscribe(SingleEmitter<List<List<SchemeInfo>>> e) throws Exception {
-                final List<List<SchemeInfo>> outerData = new ArrayList<>();
-                for (int i = 0; i < OUTER_COUNT && !e.isDisposed(); i++) {
-                    final List<SchemeInfo> innerData = new ArrayList<>();
-                    for (int j = 0; j < INNER_COUNT && !e.isDisposed(); j++) {
-                        innerData.add(createInnerData(faker));
-                    }
-                    outerData.add(innerData);
-                }
-
-                if (!e.isDisposed()) {
-                    e.onSuccess(outerData);
-                }
-            }
-        })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<List<List<SchemeInfo>>>() {
-            @Override
-            public void accept(List<List<SchemeInfo>> outerData) throws Exception {
-                initRecyclerView(outerData);
-            }
-        });
-    }*/
-
-    private void initRecyclerView(List<List<InnerData>> data) {
-        findViewById(R.id.progressBar).setVisibility(View.GONE);
-
-        final TailRecyclerView rv = findViewById(R.id.recycler_view);
-        ((TailLayoutManager) rv.getLayoutManager()).setPageTransformer(new HeaderTransformer());
-        rv.setAdapter(new OuterAdapter(data));
-
-        new TailSnapHelper().attachToRecyclerView(rv);
-    }
-
     @Override
     public void showProgressBar(boolean b) {
         if (b)
@@ -99,16 +61,46 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView {
         initRecyclerView(outerData);
     }
 
-  /*  @Subscribe(threadMode = ThreadMode.MAIN)
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private void initRecyclerView(List<List<InnerData>> data) {
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
+
+        final TailRecyclerView rv = findViewById(R.id.recycler_view);
+        ((TailLayoutManager) rv.getLayoutManager()).setPageTransformer(new HeaderTransformer());
+        rv.setAdapter(new OuterAdapter(data, getApplicationContext()));
+
+        new TailSnapHelper().attachToRecyclerView(rv);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void OnInnerItemClick(InnerItem item) {
-        final SchemeInfo itemData = item.getItemData();
+        final InnerData itemData = item.getItemData();
         if (itemData == null) {
             return;
         }
 
-        DetailsActivity.start(this,
-                item.getItemData().name, item.mAddress.getText().toString(),
-                item.getItemData().avatarUrl, item.itemView, item.mAvatarBorder);
-    }*/
+        Intent intent = new Intent(SchemeActivity.this, SchemeDescriptionActivity.class);
+        intent.putExtra("item", itemData.getAddress());
+        startActivity(intent);
+    }
 
+    @Override
+    public void onReady() {
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+    }
 }

@@ -64,19 +64,18 @@ public class OuterItem extends HeaderItem {
     private final View mMiddle;
     private final View mMiddleAnswer;
     private final View mFooter;
-
     private final List<View> mMiddleCollapsible = new ArrayList<>(2);
-
     private final int m10dp;
     private final int m120dp;
     private final int mTitleSize1;
     private final int mTitleSize2;
-
+    private Context context;
     private boolean mIsScrolling;
 
-    public OuterItem(View itemView, RecyclerView.RecycledViewPool pool) {
+    public OuterItem(View itemView, RecyclerView.RecycledViewPool pool, Context context) {
         super(itemView);
 
+        this.context = context;
         // Init header
         m10dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.dp10);
         m120dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.dp120);
@@ -102,7 +101,7 @@ public class OuterItem extends HeaderItem {
         // Init RecyclerView
         mRecyclerView = itemView.findViewById(R.id.recycler_view);
         mRecyclerView.setRecycledViewPool(pool);
-        mRecyclerView.setAdapter(new InnerAdapter());
+        mRecyclerView.setAdapter(new InnerAdapter(context));
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

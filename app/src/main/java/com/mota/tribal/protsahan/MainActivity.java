@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
+    //private TextView mTextMessage;
 
     private Intent intent;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
