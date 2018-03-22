@@ -20,4 +20,8 @@ public interface ProfilePresenter {
     void getDocs(String id, String username);
 
     void postProfilePic(String id, String username, MultipartBody.Part file);
+
+    void deleteImage(String token, String username, String url, String imageTitle);
+
+    void deleteVideo(String token, String username, String url, String videoTitle);
 }

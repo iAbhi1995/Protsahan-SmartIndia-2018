@@ -18,7 +18,7 @@ public class ConnectivityReceiver
     }
 
     public boolean isConnected() {
-        return this.connect;
+        return connect;
     }
 
     @Override

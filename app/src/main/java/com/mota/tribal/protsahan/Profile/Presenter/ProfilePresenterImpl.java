@@ -2,6 +2,8 @@ package com.mota.tribal.protsahan.Profile.Presenter;
 
 import android.content.Context;
 
+import com.mota.tribal.protsahan.Profile.DeleteCallback;
+import com.mota.tribal.protsahan.Profile.Model.Data.DeleteData;
 import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 import com.mota.tribal.protsahan.Profile.Model.Data.ProfileData;
 import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
@@ -13,9 +15,6 @@ import com.mota.tribal.protsahan.R;
 
 import okhttp3.MultipartBody;
 
-/**
- * Created by Abhi on 10-Mar-18.
- */
 
 public class ProfilePresenterImpl implements ProfilePresenter {
 
@@ -39,7 +38,7 @@ public class ProfilePresenterImpl implements ProfilePresenter {
                 if (body.isSuccess())
                     view.onProfileGet(body.getProfile());
                 else
-                    view.showMessage(body.getMessage());
+                    view.showMessage("Error loading profile! try again.");
             }
 
             @Override
@@ -78,7 +77,7 @@ public class ProfilePresenterImpl implements ProfilePresenter {
             @Override
             public void onSuccess(VidImgDocData body) {
                 view.showProgressBar(false);
-                view.showVideos(body.getUrls());
+                view.showVideos(body.getVideos());
             }
 
             @Override
@@ -96,7 +95,7 @@ public class ProfilePresenterImpl implements ProfilePresenter {
             @Override
             public void onSuccess(VidImgDocData body) {
                 view.showProgressBar(false);
-                view.showImages(body.getUrls());
+                view.showImages(body.getImages());
             }
 
             @Override
@@ -113,7 +112,7 @@ public class ProfilePresenterImpl implements ProfilePresenter {
             @Override
             public void onSuccess(VidImgDocData body) {
                 view.showProgressBar(false);
-                view.showDocs(body.getUrls());
+                view.showDocs(body.getVideos());
             }
 
             @Override
@@ -134,6 +133,51 @@ public class ProfilePresenterImpl implements ProfilePresenter {
                     view.showMessage("Profile Pic Saved!");
                 else
                     view.showMessage(body.getMessage());
+            }
+
+            @Override
+            public void onFailure() {
+                view.showProgressBar(false);
+                view.showMessage(context.getString(R.string.ConnectionError));
+            }
+        });
+    }
+
+    @Override
+    public void deleteImage(final String token, final String username, final String url, final String imageTitle) {
+        view.showProgressBar(true);
+        provider.deleteImage(token, username, url, imageTitle, new DeleteCallback() {
+
+            @Override
+            public void onSuccess(DeleteData body) {
+                view.showProgressBar(false);
+                view.showMessage("Image Deleted Successfully!");
+                view.showImages(body.getDocs().getImages());
+            }
+
+            @Override
+            public void onFailure() {
+                view.showProgressBar(false);
+                view.showMessage(context.getString(R.string.ConnectionError));
+            }
+        });
+    }
+
+
+    @Override
+    public void deleteVideo(final String token, final String username, final String _id, final String videoTitle) {
+        view.showProgressBar(true);
+
+        provider.deleteVideo(token, username, _id, videoTitle, new DeleteCallback() {
+
+            @Override
+            public void onSuccess(DeleteData body) {
+                view.showProgressBar(false);
+                if (body.isSuccess()) {
+                    view.showMessage("Video Deleted Successfully!");
+                    view.showVideos(body.getDocs().getVideos());
+                } else
+                    view.showMessage("Error! Please try again");
             }
 
             @Override

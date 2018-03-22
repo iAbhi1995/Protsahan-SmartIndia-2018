@@ -1,25 +1,46 @@
 package com.mota.tribal.protsahan.Profile.Model.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Created by Abhi on 15-Mar-18.
- */
-
 public class VidImgDocData {
-    private boolean success;
-    private ArrayList<String> urls;
 
-    public VidImgDocData(boolean success, ArrayList<String> urls) {
-        this.success = success;
-        this.urls = urls;
+    private ArrayList<Obj> images;
+    private ArrayList<Obj> videos;
+
+    public VidImgDocData(ArrayList<Obj> images, ArrayList<Obj> videos) {
+        this.images = images;
+        this.videos = videos;
     }
 
-    public boolean isSuccess() {
-        return success;
+    public ArrayList<Obj> getImages() {
+        return images;
     }
 
-    public ArrayList<String> getUrls() {
-        return urls;
+    public ArrayList<Obj> getVideos() {
+        return videos;
+    }
+
+
+    public static class Obj implements Serializable {
+        private String url, title, _id;
+
+        public Obj(String url, String title, String id) {
+            this.url = url;
+            this.title = title;
+            _id = id;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String get_id() {
+            return _id;
+        }
     }
 }
