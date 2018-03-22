@@ -36,10 +36,9 @@ public class ViewPDFActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         LinkToPDF = getIntent().getExtras().getString("link_to_pdf");
         try {
-            lt.setMessage("Loading Problem Statement...");
+            lt.setMessage("Loading Pdf...");
             lt.show();
-            if (ConnectivityReceiver.isConnected()) {
-                // Internet Connection is Present
+            if (new ConnectivityReceiver().isConnected()) {
                 mWebView = findViewById(R.id.webView);
                 mWebView.getSettings().setJavaScriptEnabled(true);
 
@@ -64,7 +63,7 @@ public class ViewPDFActivity extends AppCompatActivity {
 //        final ConnectionDetector[] cd = new ConnectionDetector[1];
 //        cd[0] = new ConnectionDetector(getApplicationContext());
 //        isInternetPresent[0] = cd[0].isConnectingToInternet();
-        if (ConnectivityReceiver.isConnected()) {
+        if (new ConnectivityReceiver().isConnected()) {
             final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(LinkToPDF));
             startActivity(intent);
         } else {

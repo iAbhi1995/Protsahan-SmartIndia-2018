@@ -17,8 +17,8 @@ public class ConnectivityReceiver
         super();
     }
 
-    public static boolean isConnected() {
-        return this.connect;
+    public boolean isConnected() {
+        return connect;
     }
 
     @Override
