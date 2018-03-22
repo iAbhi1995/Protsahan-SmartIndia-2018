@@ -43,7 +43,10 @@
         <activity
             android:name=".Profile.View.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ViewAllProfiles.View.ViewProfilesActivity" />
+        <activity
+            android:name=".ViewAllProfiles.View.ViewProfilesActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".PDF.ViewPDFActivity"></activity>
     </application>
 

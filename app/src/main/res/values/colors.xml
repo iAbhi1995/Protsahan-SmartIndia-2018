@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#75dc96</color>
+    <color name="colorPrimary">#55dc96</color>
     <color name="colorPrimaryDark">#00a31b</color>
     <color name="colorAccent">#740028</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#ffffff</color>
     <color name="black">#000000</color>
     <color name="grey">#808080</color>
+    <color name="lime_green">#c1ffc5</color>
 
 
     <color name="profilePrimary">#26a69a</color>

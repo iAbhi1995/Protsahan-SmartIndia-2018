@@ -71,4 +71,5 @@
     <string name="image_title_instruction">Enter a image name relating to the content of image</string>
     <string name="download_pdf">DOWNLOAD PDF</string>
     <string name="view_pdf">View PDF</string>
+    <string name="activity_view_profiles">View All</string>
 </resources>

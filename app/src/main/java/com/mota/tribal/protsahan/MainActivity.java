@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
+import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
+    private Intent intent;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -30,19 +32,20 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+//                    mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_scheme:
-                    Intent intent = new Intent(MainActivity.this, SchemeActivity.class);
+                    intent = new Intent(MainActivity.this, SchemeActivity.class);
                     startActivity(intent);
                 case R.id.navigation_profiles:
-                    mTextMessage.setText(R.string.title_profiles);
+                    intent = new Intent(MainActivity.this, ViewProfilesActivity.class);
+                    startActivity(intent);
                     return true;
                 case R.id.navigation_account:
-                    mTextMessage.setText(R.string.title_account);
+//                    mTextMessage.setText(R.string.title_account);
                     return true;
                 case R.id.navigation_settings:
-                    mTextMessage.setText(R.string.title_settings);
+//                    mTextMessage.setText(R.string.title_settings);
                     return true;
             }
             return false;
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         initCollapsingToolbar();
 
-        mTextMessage = findViewById(R.id.message);
+//        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
