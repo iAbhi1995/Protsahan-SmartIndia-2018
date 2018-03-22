@@ -75,4 +75,7 @@
     <string name="download_pdf">DOWNLOAD PDF</string>
     <string name="view_pdf">View PDF</string>
     <string name="activity_view_profiles">View All</string>
+    <string name="my_profile">My Profile</string>
+    <string name="upload">Upload</string>
+    <string name="query">Query</string>
 </resources>
