@@ -15,7 +15,7 @@
     <color name="profileAccent">#048b7a</color>
 
 
-    <!-- Garland View-->
+    <!-- GarlQueryViewView-->
     <color name="backgroundTop">#444a5a</color>
     <color name="backgroundBottom">#f5f6fa</color>
     <color name="header_green">#b3d577</color>
@@ -31,7 +31,7 @@
     <color name="details_item_header">@color/details_name_color</color>
     <color name="details_item_text">#858d92</color>
     <color name="details_item_separator">@color/item_separator_color</color>
-    <!-- Garland View-->
+    <!-- GarlQueryViewView-->
 
 
     <color name="viewBg">#f1f5f8</color>

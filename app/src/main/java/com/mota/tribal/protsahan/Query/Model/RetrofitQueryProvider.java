@@ -4,9 +4,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mota.tribal.protsahan.Query.Api.RetrofitApi;
-import com.mota.tribal.protsahan.Query.Model.Data.Data;
-import com.mota.tribal.protsahan.Query.OnCallback;
+import com.mota.tribal.protsahan.Helper.Urls;
+import com.mota.tribal.protsahan.Query.Api.QueryApi;
+import com.mota.tribal.protsahan.Query.Model.Data.QueryData;
+import com.mota.tribal.protsahan.Query.QueryCallback;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -16,11 +17,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitData implements DataProvider {
+public class RetrofitQueryProvider implements QueryProvider {
     private final Retrofit retrofit;
-    private RetrofitApi retrofitApi;
+    private QueryApi retrofitApi;
 
-    public RetrofitData() {
+    public RetrofitQueryProvider() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().
@@ -34,7 +35,7 @@ public class RetrofitData implements DataProvider {
                 .create();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.3:3000/api/")
+                .baseUrl(Urls.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
@@ -42,19 +43,19 @@ public class RetrofitData implements DataProvider {
 
 
     @Override
-    public void get(String username, String password, final OnCallback callback) {
-        retrofitApi = retrofit.create(RetrofitApi.class);
-        Call<Data> call = retrofitApi.getUserDetails(username, password);
-        call.enqueue(new Callback<Data>() {
+    public void getAllQueries(String username, String password, final QueryCallback callback) {
+        retrofitApi = retrofit.create(QueryApi.class);
+        Call<QueryData> call = retrofitApi.getUserDetails(username, password);
+        call.enqueue(new Callback<QueryData>() {
 
             @Override
-            public void onResponse(Call<Data> call, Response<Data> response) {
+            public void onResponse(Call<QueryData> call, Response<QueryData> response) {
                 Log.d("Ayush", response.toString());
                 callback.onSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<Data> call, Throwable t) {
+            public void onFailure(Call<QueryData> call, Throwable t) {
                 t.printStackTrace();
                 callback.onFailure();
             }

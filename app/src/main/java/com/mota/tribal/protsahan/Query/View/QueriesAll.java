@@ -3,11 +3,20 @@ package com.mota.tribal.protsahan.Query.View;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import com.mota.tribal.protsahan.Login.SQLiteHandler;
+import com.mota.tribal.protsahan.Query.Model.Data.QueryData;
+import com.mota.tribal.protsahan.Query.Model.MockQueryProvider;
+import com.mota.tribal.protsahan.Query.Presenter.QueryPresenter;
+import com.mota.tribal.protsahan.Query.Presenter.QueryPresenterImpl;
 import com.mota.tribal.protsahan.R;
 
 /**
@@ -18,17 +27,22 @@ import com.mota.tribal.protsahan.R;
  * Use the {@link QueriesAll#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class QueriesAll extends Fragment {
+public class QueriesAll extends Fragment implements QueryView {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
+    private QueryPresenter presenter;
+    private ProgressBar progressBar;
+    private SQLiteHandler db;
+    private String username, token;
+    private View view;
 
     public QueriesAll() {
         // Required empty public constructor
@@ -52,6 +66,20 @@ public class QueriesAll extends Fragment {
         return fragment;
     }
 
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(view.findViewById(R.id.all_queries_rel_layout), message, Snackbar.LENGTH_LONG).
+                setAction("Action", null).show();
+    }
+
+    @Override
+    public void onGettingAllQueries(QueryData data) {
+        QueryAdapter adapter = new QueryAdapter(getContext(), data.getQueries());
+        recyclerView.setAdapter(adapter);
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +92,29 @@ public class QueriesAll extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_queries, container, false);
+        view = inflater.inflate(R.layout.fragment_queries, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        progressBar = view.findViewById(R.id.progress_bar);
+
+//        presenter = new QueryPresenterImpl(new RetrofitQueryProvider(), this, getContext());
+        presenter = new QueryPresenterImpl(new MockQueryProvider(), this, getContext());
+
+        db = new SQLiteHandler(getContext());
+        username = db.getUser().getUsername();
+        token = db.getUser().getToken();
+        presenter.getAllQueries(username, token);
+        return view;
     }
+
+    @Override
+    public void showProgressBar(boolean b) {
+        if (b)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

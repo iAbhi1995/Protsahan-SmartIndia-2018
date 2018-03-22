@@ -49,7 +49,7 @@ public class ViewProfilesActivity extends AppCompatActivity implements ViewProfi
         snapHelperTop.attachToRecyclerView(imageRecycler);
 
         ViewProfilesPresenter presenter = new ViewProfilesPresenterImpl(new RetrofitViewProfilesProvider(), this, this);
-        Log.d("abhi", "in View Profiles Activity");
+        Log.d("abhi", "in QueryView Profiles Activity");
         presenter.getProfiles();
 
     }

@@ -59,9 +59,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         bLogin = findViewById(R.id.bLogin);
         forgotpassword = findViewById(R.id.forgotpassword);
 
-        /*forgotpassword.setOnClickListener(new View.OnClickListener() {
+        /*forgotpassword.setOnClickListener(new QueryView.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(QueryView v) {
                 final String email = etUsername.getText().toString().trim();
                 setForgotpassword();
 

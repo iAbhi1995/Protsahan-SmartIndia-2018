@@ -227,7 +227,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         Female.setEnabled(true);
         genderOther.setEnabled(true);
 
-//        myDocs.setVisibility(View.GONE);
+//        myDocs.setVisibility(QueryView.GONE);
         myImages.setVisibility(View.GONE);
         myVideos.setVisibility(View.GONE);
         myImgText.setVisibility(View.GONE);
@@ -271,7 +271,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
 
         save.setVisibility(View.GONE);
 
-//        myDocs.setVisibility(View.VISIBLE);
+//        myDocs.setVisibility(QueryView.VISIBLE);
         myImages.setVisibility(View.VISIBLE);
         myVideos.setVisibility(View.VISIBLE);
         myImgText.setVisibility(View.VISIBLE);
