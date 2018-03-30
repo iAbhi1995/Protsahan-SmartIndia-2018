@@ -10,4 +10,5 @@ public interface QueryView {
 
     void onGettingAllQueries(QueryData data);
 
+
 }

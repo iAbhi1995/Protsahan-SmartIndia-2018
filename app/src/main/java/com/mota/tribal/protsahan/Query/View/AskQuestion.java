@@ -3,11 +3,20 @@ package com.mota.tribal.protsahan.Query.View;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 
+import com.mota.tribal.protsahan.Login.SQLiteHandler;
+import com.mota.tribal.protsahan.Query.Model.Data.QueryData;
+import com.mota.tribal.protsahan.Query.Model.MockQueryProvider;
+import com.mota.tribal.protsahan.Query.Presenter.QueryPresenter;
+import com.mota.tribal.protsahan.Query.Presenter.QueryPresenterImpl;
 import com.mota.tribal.protsahan.R;
 
 /**
@@ -18,7 +27,7 @@ import com.mota.tribal.protsahan.R;
  * Use the {@link AskQuestion#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AskQuestion extends Fragment {
+public class AskQuestion extends Fragment implements QueryView {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +38,12 @@ public class AskQuestion extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private ProgressBar progressBar;
+    private Button submitButton;
+    private QueryPresenter presenter;
+    private String question;
+    private SQLiteHandler handler;
+    private EditText query;
 
     public AskQuestion() {
         // Required empty public constructor
@@ -65,7 +80,23 @@ public class AskQuestion extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ask_question, container, false);
+        View view = inflater.inflate(R.layout.fragment_ask_question, container, false);
+        handler = new SQLiteHandler(getActivity());
+        progressBar = view.findViewById(R.id.progress_bar);
+        submitButton = view.findViewById(R.id.submit_query);
+        query = view.findViewById(R.id.asked_question);
+
+        presenter = new QueryPresenterImpl(new MockQueryProvider(), this, getActivity());
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (query.getText().toString().equals(""))
+                    showMessage(getString(R.string.error_when_no_question));
+                else
+                    presenter.askQuery(handler.getUser().getUsername(), handler.getUser().getToken(), question);
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -81,8 +112,7 @@ public class AskQuestion extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -90,6 +120,25 @@ public class AskQuestion extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void showProgressBar(boolean b) {
+        if (b)
+            progressBar.setVisibility(View.VISIBLE);
+        else
+            progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(getView().findViewById(R.id.rel_layout_ask_query), message, Snackbar.LENGTH_LONG).
+                setAction("Action", null).show();
+    }
+
+    @Override
+    public void onGettingAllQueries(QueryData data) {
+
     }
 
     /**

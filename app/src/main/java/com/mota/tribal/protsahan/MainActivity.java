@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle("Notifications");
+                    collapsingToolbar.setTitle("Latest News");
                     isShow = true;
                 } else if (isShow) {
                     collapsingToolbar.setTitle("");
