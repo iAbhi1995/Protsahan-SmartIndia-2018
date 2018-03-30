@@ -11,10 +11,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.Login.View.AccountActivity;
 import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
@@ -51,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_settings:
-                    return true;
+                    intent = new Intent(MainActivity.this, UploadActivity.class);
+                    startActivity(intent);
+                    break;
             }
             return false;
         }
@@ -64,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
 //      toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
         setSupportActionBar(toolbar);
-//      String token = FirebaseInstanceId.getInstance().getToken();
-//      Log.d("Ayush",token);
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("Ayush", token);
         initCollapsingToolbar();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
