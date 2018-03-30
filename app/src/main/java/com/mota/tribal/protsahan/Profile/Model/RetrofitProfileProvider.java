@@ -75,7 +75,7 @@ public class RetrofitProfileProvider implements ProfileProvider {
         api = retrofit.create(ProfileApi.class);
         Call<ProfileData> call = api.postProfile(profile.getUsername(), "Bearer " + profile.getToken(), profile.getName(),
                 profile.getDescription(), profile.getTribe(), profile.getAddress(), profile.getAadhar(),
-                profile.getPhone(), profile.getGender(), profile.getState(), profile.getSkillsSelected(), profile.getEducation());
+                profile.getPhone(), profile.getGender(), profile.getState(), profile.getskills(), profile.getqualification());
         call.enqueue(new Callback<ProfileData>() {
             @Override
             public void onResponse(Call<ProfileData> call, Response<ProfileData> response) {

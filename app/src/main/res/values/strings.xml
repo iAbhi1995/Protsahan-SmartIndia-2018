@@ -34,7 +34,6 @@
     <string name="name">Name</string>
     <string name="tribe">Tribe</string>
     <string name="address">Address</string>
-    <string name="state">State</string>
     <string name="aadhar">Aadhar</string>
     <string name="phone_number">Phone Number</string>
     <string name="male">Male</string>
@@ -85,4 +84,5 @@
     <string name="error_when_no_question">Please enter a question! then press submit button</string>
     <string name="logout">Logout</string>
     <string name="education">Education</string>
+    <string name="state">State</string>
 </resources>

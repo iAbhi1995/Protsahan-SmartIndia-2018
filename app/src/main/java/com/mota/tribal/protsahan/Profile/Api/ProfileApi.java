@@ -26,7 +26,7 @@ public interface ProfileApi {
                                   @Field("tribe") String tribe, @Field("address") String address,
                                   @Field("aadharNO") String aadharNO, @Field("phone") String phone,
                                   @Field("gender") String gender, @Field("state") String state,
-                                  @Field("skills") ArrayList<String> skills, @Field("education") String education);
+                                  @Field("skills") ArrayList<String> skills, @Field("qualification") String qualification);
 
     @FormUrlEncoded
     @POST(Urls.GET_PROFILE)

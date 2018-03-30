@@ -92,6 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="9"
+                        android:autoLink="web"
                         android:padding="12dp"
                         android:text="Dummy"
                         android:textColor="@color/colorBlack"

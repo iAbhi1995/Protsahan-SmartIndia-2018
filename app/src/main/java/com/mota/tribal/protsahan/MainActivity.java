@@ -20,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.Helper.NewsData;
 import com.mota.tribal.protsahan.Helper.Urls;
@@ -59,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_account:
                     SessionManager sessionManager = new SessionManager(getApplicationContext());
                     if (sessionManager.isLoggedIn()) {
+                        Log.d("Ayush", "Mei  yahan hun");
                         intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(intent);
                     } else {
                         intent = new Intent(MainActivity.this, AccountActivity.class);
                         startActivity(intent);
@@ -81,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
 //      toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
         setSupportActionBar(toolbar);
-        String token = FirebaseInstanceId.getInstance().getToken();
-        Log.d("Ayush", token);
         initCollapsingToolbar();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

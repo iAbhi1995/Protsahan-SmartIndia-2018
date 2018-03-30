@@ -186,7 +186,7 @@ public class ProfileActivity extends AppCompatActivity implements
 
 //        presenter = new ProfilePresenterImpl(this, new MockProfileProvider(), this);
         presenter = new ProfilePresenterImpl(this, new RetrofitProfileProvider(), this);
-        // presenter.getProfile(token, username);
+        presenter.getProfile(token, username);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -336,10 +336,11 @@ public class ProfileActivity extends AppCompatActivity implements
         phoneNo.setText(profile.getPhone());
         address.setText(profile.getAddress());
         state.setText(profile.getState());
-        education.setText(profile.getEducation());
+        education.setText(profile.getqualification());
         String skill = "";
-        for (int i = 0; i < profile.getSkillsSelected().size(); i++)
-            skill = skill + profile.getSkillsSelected().get(i) + ", ";
+        if (profile.getskills() != null)
+            for (int i = 0; i < profile.getskills().size(); i++)
+                skill = skill + profile.getskills().get(i) + ", ";
         skillsShowcase.setText(skill);
 
         gender = profile.getGender();
