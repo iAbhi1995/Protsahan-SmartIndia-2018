@@ -182,6 +182,7 @@ public class LoginFragment extends Fragment implements LoginView {
         SQLiteHandler db = new SQLiteHandler(getContext());
         UserInfo userInfo = db.getUser();
         String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("Ayush", "Sending Token" + token);
         FCM_Api api;
         api = retrofit.create(FCM_Api.class);
         Call<ResponseData> call = api.getResponse(userInfo.getUsername(), token);

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.mota.tribal.protsahan.MainActivity;
 import com.mota.tribal.protsahan.R;
 import com.mota.tribal.protsahan.Schemes.Model.Data.InnerData;
 import com.mota.tribal.protsahan.Schemes.Model.Data.SchemeInfo;
@@ -95,7 +96,11 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView, Vie
         }
 
         Intent intent = new Intent(SchemeActivity.this, SchemeDescriptionActivity.class);
-        intent.putExtra("item", itemData.getDescription());
+        intent.putExtra("name", itemData.getName());
+        intent.putExtra("description", itemData.getDescription());
+        intent.putExtra("year", itemData.getYear() + "");
+        intent.putExtra("imgurl", itemData.getAvatarUrl());
+
         startActivity(intent);
     }
 
@@ -105,5 +110,11 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView, Vie
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(SchemeActivity.this, MainActivity.class);
     }
 }
