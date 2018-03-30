@@ -83,7 +83,7 @@ public class NotificationUtils {
     public void showNotificationMessage(final String title, final String message, final String imageUrl, Intent intent) {
 
         Log.d("Ayush", "showNotificationMessage method");
-        final int icon = R.mipmap.ic_launcher;
+        final int icon = R.drawable.ic_launcher_foreground1;
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent resultPendingIntent =

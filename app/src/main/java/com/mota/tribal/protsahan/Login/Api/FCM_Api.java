@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 public interface FCM_Api {
     @FormUrlEncoded
     @POST("artisans/fcmtoken")
-    Call<ResponseData> getResponse(@Field("username") String username, @Field("token") String token);
+    Call<ResponseData> getResponse(@Field("username") String username, @Field("fcmtoken") String token);
 
 
 }

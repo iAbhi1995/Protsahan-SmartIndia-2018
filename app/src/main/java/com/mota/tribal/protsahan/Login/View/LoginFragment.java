@@ -176,7 +176,7 @@ public class LoginFragment extends Fragment implements LoginView {
 
         db = new SQLiteHandler(getContext());
         db.deleteUsers();
-        db.addUser(data.getUsername(), data.getToken());
+        db.addUser(data.getUsername(), data.getToken(), data.getId());
         session = new SessionManager(getContext());
         session.setLogin(true);
         SQLiteHandler db = new SQLiteHandler(getContext());

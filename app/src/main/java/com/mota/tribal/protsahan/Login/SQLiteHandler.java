@@ -27,6 +27,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     // Login Table Columns names
     private static final String EMAIL = "email";
+    private static final String ID = "id";
     private static final String TOKEN = "token";
 
     public SQLiteHandler(Context context) {
@@ -37,7 +38,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
-                + EMAIL + " TEXT UNIQUE,"
+                + EMAIL + " TEXT UNIQUE," + ID + " TEXT,"
                 + TOKEN + " TEXT" + ")";
         db.execSQL(CREATE_LOGIN_TABLE);
 
@@ -57,21 +58,20 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      */
-    public void addUser(String email, String token) {
+    public void addUser(String email, String token, String id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(EMAIL, email); // Created At
         values.put(TOKEN, token);
+        values.put(ID, id);
         // Inserting Row
-        long id = db.insert(TABLE_LOGIN, null, values);
+        long d = db.insert(TABLE_LOGIN, null, values);
         db.close(); // Closing database connection
-
-        Log.d(TAG, "New user inserted into sqlite: " + id);
     }
 
     public UserInfo getUser() {
-        UserInfo user = new UserInfo(true, "Successfully LoggedIn", null, null);
+        UserInfo user = new UserInfo(true, "Successfully LoggedIn", null, null, null);
         String selectQuery = "SELECT  * FROM " + TABLE_LOGIN;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -80,7 +80,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
 
             user.setUsername(cursor.getString(0));
-            user.setToken(cursor.getString(1));
+            user.setId(cursor.getString(1));
+            user.setToken(cursor.getString(2));
             cursor.close();
         }
         db.close();
@@ -98,7 +99,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         int rowCount = cursor.getCount();
         db.close();
         cursor.close();
-
         // return row count
         return rowCount;
     }
