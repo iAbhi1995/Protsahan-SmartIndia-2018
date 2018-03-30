@@ -93,7 +93,7 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView, Vie
         }
 
         Intent intent = new Intent(SchemeActivity.this, SchemeDescriptionActivity.class);
-        intent.putExtra("item", itemData.getAddress());
+        intent.putExtra("item", itemData.getDescription());
         startActivity(intent);
     }
 

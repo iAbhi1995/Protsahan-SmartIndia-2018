@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="13dp"
                 android:layout_marginLeft="0dp"
-                android:text="@string/connect"
+                android:text="@string/title_scheme"
                 android:textColor="@color/header_green"
                 android:textSize="@dimen/item_footer_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"

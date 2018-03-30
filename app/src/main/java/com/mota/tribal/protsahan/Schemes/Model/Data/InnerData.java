@@ -4,16 +4,16 @@ public class InnerData {
 
     public final String title;
     public final String name;
-    public final String address;
+    public final int year;
+    public final String description;
     public final String avatarUrl;
-    public final int age;
 
-    public InnerData(String title, String name, String address, String avatarUrl, int age) {
+    public InnerData(String title, String name, String description, String avatarUrl, int year) {
         this.title = title;
         this.name = name;
-        this.address = address;
+        this.year = year;
         this.avatarUrl = avatarUrl;
-        this.age = age;
+        this.description = description;
 
     }
 
@@ -25,16 +25,16 @@ public class InnerData {
         return name;
     }
 
-    public String getAddress() {
-        return address;
+    public int getYear() {
+        return year;
     }
 
     public String getAvatarUrl() {
         return avatarUrl;
     }
 
-    public int getAge() {
-        return age;
+    public String getDescription() {
+        return description;
     }
 
 }

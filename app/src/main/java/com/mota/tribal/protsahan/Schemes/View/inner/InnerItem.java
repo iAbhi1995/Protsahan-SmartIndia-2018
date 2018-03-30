@@ -62,9 +62,9 @@ public class InnerItem extends com.ramotion.garlandview.inner.InnerItem {
         mSchemeInfo = data;
 
         mHeader.setText(data.title);
-        mName.setText(String.format("%s %s", data.name, itemView.getContext().getString(R.string.answer_low)));
-        mAddress.setText(String.format("%s %s · %s",
-                data.age, mAddress.getContext().getString(R.string.years), data.address));
+        mName.setText(String.format("%s ", data.name));
+        mAddress.setText(String.format("%s · %s",
+                data.year, data.description));
 
         Glide.with(itemView.getContext())
                 .load(data.avatarUrl)

@@ -35,9 +35,9 @@ public class MockScheme implements SchemeProvider {
         schemename.add("Livelihood Support");
         schemename.add("Equity support to NSTFDC/STFDC");
         schemename.add("NGO");
-        data = new InnerData("No 1", "Protshan", "Krishna Vatika Boerdadar Raigarh", "http://www.imgworlds.com/wp-content/themes/IMG/img/phase3/welcome/trex.png", 0);
+        data = new InnerData("No 1", "Support to Tribal Research Institutes (TRI)", "The basic objective of the scheme is to strengthen the Tribal Research Institutes (TRIs) in their infrastructural needs, Research & documentation activities and Training & Capacity Building programmers etc.More info at https://tribal.nic.in/DivisionsFiles/TRI/ModifiedGuidelines.pdf", "http://www.imgworlds.com/wp-content/themes/IMG/img/phase3/welcome/trex.png", 2017);
         innerDataList.add(data);
-        data = new InnerData("No 2", "Protshan", "Krishna Vatika Boerdadar Raigarh", "http://www.imgworlds.com/wp-content/themes/IMG/img/phase3/welcome/trex.png", 25);
+        data = new InnerData("No 2", "Financial Assistance for support to Centres of Excellence", "Krishna Vatika Boerdadar Raigarh", "http://www.imgworlds.com/wp-content/themes/IMG/img/phase3/welcome/trex.png", 25);
         innerDataList.add(data);
         innerDataList.add(data);
         innerDataList.add(data);
