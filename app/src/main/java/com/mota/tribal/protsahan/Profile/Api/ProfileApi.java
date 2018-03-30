@@ -5,6 +5,8 @@ import com.mota.tribal.protsahan.Profile.Model.Data.DeleteData;
 import com.mota.tribal.protsahan.Profile.Model.Data.ProfileData;
 import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
 
+import java.util.ArrayList;
+
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -23,7 +25,8 @@ public interface ProfileApi {
                                   @Field("name") String name, @Field("description") String description,
                                   @Field("tribe") String tribe, @Field("address") String address,
                                   @Field("aadharNO") String aadharNO, @Field("phone") String phone,
-                                  @Field("gender") String gender, @Field("state") String state);
+                                  @Field("gender") String gender, @Field("state") String state,
+                                  @Field("skills") ArrayList<String> skills, @Field("education") String education);
 
     @FormUrlEncoded
     @POST(Urls.GET_PROFILE)

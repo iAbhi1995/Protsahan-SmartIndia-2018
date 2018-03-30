@@ -1,15 +1,17 @@
 package com.mota.tribal.protsahan.Profile.Model.Data;
 
 
+import java.util.ArrayList;
+
 public class Profile {
 
 
-    private String token, name, description, tribe, address, aadharNO, phone, gender, profilephoto, username, state;
-
+    private String token, name, description, tribe, address, aadharNO, phone, gender, profilephoto, username, state, education;
+    private ArrayList<String> skillsSelected;
 
     public Profile(String token, String name, String description,
                    String tribe, String address, String aadharNO,
-                   String phone, String gender, String profilephoto, String username, String state) {
+                   String phone, String gender, String profilephoto, String username, String state, ArrayList<String> skillsSelected, String education) {
         this.token = token;
         this.name = name;
         this.description = description;
@@ -21,6 +23,8 @@ public class Profile {
         this.profilephoto = profilephoto;
         this.username = username;
         this.state = state;
+        this.education = education;
+        this.skillsSelected = skillsSelected;
     }
 
     public String getToken() {
@@ -65,5 +69,13 @@ public class Profile {
 
     public String getState() {
         return state;
+    }
+
+    public ArrayList<String> getSkillsSelected() {
+        return skillsSelected;
+    }
+
+    public String getEducation() {
+        return education;
     }
 }
