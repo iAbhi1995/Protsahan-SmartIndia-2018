@@ -16,11 +16,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.mota.tribal.protsahan.Helper.Urls;
@@ -45,12 +48,14 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class ProfileActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, ProfileView, VideoViewFragment.OnFragmentInteractionListener, DocViewFragment.OnFragmentInteractionListener {
+public class ProfileActivity extends AppCompatActivity implements
+        EasyPermissions.PermissionCallbacks, ProfileView, VideoViewFragment.OnFragmentInteractionListener,
+        DocViewFragment.OnFragmentInteractionListener, AdapterView.OnItemSelectedListener {
 
     private static final int REQUEST_GALLERY_CODE = 1;
     private static final int READ_REQUEST_CODE = 2;
     Button myDocs, save;
-    private EditText name, tribe, description, address, aadhar, phoneNo, state;
+    private EditText name, tribe, description, address, aadhar, phoneNo, state, education;
     private ImageView myVideos, myImages;
     private TextView myVidText, myImgText;
     private RadioButton Male, Female, genderOther;
@@ -69,11 +74,17 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
     private boolean hideState;
     private String countType;
     private String callFrom;
+    private ArrayList<String> skillsSelected;
+    private TextView skillsShowcase;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        skillsSelected = new ArrayList<>();
+
         hideState = false;
         countType = "normal";
         if (getIntent().getExtras() != null)
@@ -98,12 +109,37 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         aadhar = findViewById(R.id.aadhar);
         phoneNo = findViewById(R.id.phone_no);
         state = findViewById(R.id.state);
+        education = findViewById(R.id.education);
+
+        spinner = findViewById(R.id.skills_spinner);
+
+        List<String> skills = new ArrayList<String>();
+        skills.add("Pottery");
+        skills.add("Weaving");
+        skills.add("Painting");
+        skills.add("Stone Engraving");
+        skills.add("Marble Engraving");
+        skills.add("Clay Modelling");
+        skills.add("Cloth Painting");
+        skills.add("Bamboo Handcrats");
+        skills.add("Gum Painting");
+        skills.add("Wooden Handcrafts");
+        skills.add("Stone Carving");
+        skills.add("Collection of Honey");
+        skills.add("Collection of Gum");
+
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, skills);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+        spinner.setOnItemSelectedListener(this);
 
         profilePic = findViewById(R.id.profile_pic);
 
         Male = findViewById(R.id.radioButton2);
         Female = findViewById(R.id.radioButton3);
         genderOther = findViewById(R.id.radioButton);
+        skillsShowcase = findViewById(R.id.skills_show);
 
         myVideos = findViewById(R.id.imageView3);
         myImages = findViewById(R.id.imageView2);
@@ -121,6 +157,8 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         aadhar.setEnabled(false);
         phoneNo.setEnabled(false);
         state.setEnabled(false);
+        education.setEnabled(false);
+        spinner.setVisibility(View.GONE);
 
         Male.setEnabled(false);
         Female.setEnabled(false);
@@ -148,7 +186,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
 
 //        presenter = new ProfilePresenterImpl(this, new MockProfileProvider(), this);
         presenter = new ProfilePresenterImpl(this, new RetrofitProfileProvider(), this);
-        presenter.getProfile(token, username);
+        // presenter.getProfile(token, username);
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -227,6 +265,8 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         aadhar.setEnabled(true);
         phoneNo.setEnabled(true);
         state.setEnabled(true);
+        education.setEnabled(true);
+        spinner.setVisibility(View.VISIBLE);
 
         Male.setEnabled(true);
         Female.setEnabled(true);
@@ -266,6 +306,7 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         aadhar.setEnabled(false);
         phoneNo.setEnabled(false);
         state.setEnabled(false);
+        spinner.setVisibility(View.GONE);
 
         name.setFocusable(false);
         tribe.setFocusable(false);
@@ -295,6 +336,11 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         phoneNo.setText(profile.getPhone());
         address.setText(profile.getAddress());
         state.setText(profile.getState());
+        education.setText(profile.getEducation());
+        String skill = "";
+        for (int i = 0; i < profile.getSkillsSelected().size(); i++)
+            skill = skill + profile.getSkillsSelected().get(i) + ", ";
+        skillsShowcase.setText(skill);
 
         gender = profile.getGender();
         if (gender != null && gender.equals("Male")) {
@@ -371,7 +417,8 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         else {
             Profile profile = new Profile(token, name.getText().toString(), description.getText().toString(),
                     tribe.getText().toString(), address.getText().toString(), aadhar.getText().toString(),
-                    phoneNo.getText().toString(), gender, "", username, state.getText().toString());
+                    phoneNo.getText().toString(), gender, "", username, state.getText().toString(),
+                    skillsSelected, education.getText().toString());
             presenter.postProfile(profile);
         }
     }
@@ -426,6 +473,22 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        Log.d("abhi", "Permission has been denied");
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String skill = parent.getItemAtPosition(position).toString();
+        Log.d("abhi", "" + skill);
+        if (!skillsSelected.contains(skill)) {
+            skillsSelected.add(skill);
+            skillsShowcase.setText(skillsShowcase.getText().toString() + skill + ", ");
+        } else
+            showMessage("Already Selected");
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

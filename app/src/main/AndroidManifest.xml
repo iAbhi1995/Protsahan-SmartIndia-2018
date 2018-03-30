@@ -34,7 +34,6 @@
             android:name=".Login.View.AccountActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-
         <activity
             android:name=".Profile.View.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
@@ -42,14 +41,6 @@
             android:name=".Profile.View.VideoViewActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Login.View.AccountActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="." />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".Profile.View.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -76,6 +67,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_launcher_foreground" />

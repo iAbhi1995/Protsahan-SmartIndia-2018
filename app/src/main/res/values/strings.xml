@@ -80,4 +80,5 @@
     <string name="query">Query</string>
     <string name="error_when_no_question">Please enter a question! then press submit button</string>
     <string name="logout">Logout</string>
+    <string name="education">Education</string>
 </resources>
