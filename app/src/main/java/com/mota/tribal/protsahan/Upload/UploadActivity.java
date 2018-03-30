@@ -63,6 +63,19 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
+
+        if (!EasyPermissions.hasPermissions(UploadActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) && !EasyPermissions.hasPermissions(UploadActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            EasyPermissions.requestPermissions(UploadActivity.this,
+                    this.getString(R.string.read_file), READ_REQUEST_CODE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
+            EasyPermissions.requestPermissions(UploadActivity.this,
+                    this.getString(R.string.read_file), READ_REQUEST_CODE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+
         db = new SQLiteHandler(this);
         accessToken = "Bearer " + db.getUser().getToken();
         username = db.getUser().getUsername();
@@ -161,7 +174,8 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_VIDEO_CAPTURE) {
             uri = data.getData();
             if (EasyPermissions.hasPermissions(UploadActivity.this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    Manifest.permission.READ_EXTERNAL_STORAGE) && EasyPermissions.hasPermissions(UploadActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 pathToStoredVideo = getRealPathFromURIPath(uri, UploadActivity.this);
                 Log.d("abhi", "Recorded Video Path ::" + pathToStoredVideo);
                 videoPath.setText(pathToStoredVideo);
@@ -170,12 +184,16 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
                 EasyPermissions.requestPermissions(UploadActivity.this,
                         this.getString(R.string.read_file), READ_REQUEST_CODE,
                         Manifest.permission.READ_EXTERNAL_STORAGE);
+                EasyPermissions.requestPermissions(UploadActivity.this,
+                        this.getString(R.string.read_file), READ_REQUEST_CODE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         }
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
             if (EasyPermissions.hasPermissions(UploadActivity.this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    Manifest.permission.READ_EXTERNAL_STORAGE) && EasyPermissions.hasPermissions(UploadActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 String imageurl = "";
                 try {
                     thumbnail = MediaStore.Images.Media.getBitmap(
@@ -201,6 +219,8 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
             } else {
                 EasyPermissions.requestPermissions(UploadActivity.this,
                         this.getString(R.string.read_file), READ_REQUEST_CODE, Manifest.permission.READ_EXTERNAL_STORAGE);
+                EasyPermissions.requestPermissions(UploadActivity.this,
+                        this.getString(R.string.read_file), READ_REQUEST_CODE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         }
 

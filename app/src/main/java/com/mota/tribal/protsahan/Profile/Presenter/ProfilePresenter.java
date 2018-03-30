@@ -4,9 +4,6 @@ import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 
 import okhttp3.MultipartBody;
 
-/**
- * Created by Abhi on 10-Mar-18.
- */
 
 public interface ProfilePresenter {
     void getProfile(String id, String username);
