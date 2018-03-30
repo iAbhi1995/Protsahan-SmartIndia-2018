@@ -156,7 +156,7 @@ public class OuterItem extends HeaderItem {
         ((InnerAdapter) mRecyclerView.getAdapter()).addData(tail);
 
         Glide.with(context)
-                .load(R.drawable.ic_account_circle_black_24dp)
+                .load(R.drawable.ic_group)
                 .placeholder(R.drawable.avatar_placeholder)
                 .bitmapTransform(new CropCircleTransformation(context))
                 .into(mAvatar);

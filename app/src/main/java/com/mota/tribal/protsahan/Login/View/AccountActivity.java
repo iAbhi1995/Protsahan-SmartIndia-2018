@@ -11,11 +11,12 @@ import android.view.MenuItem;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.MainActivity;
-import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
 import com.mota.tribal.protsahan.Query.View.SectionsPagerAdapter;
 import com.mota.tribal.protsahan.R;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
 import com.mota.tribal.protsahan.SignUp.SignupFragment;
+import com.mota.tribal.protsahan.Upload.UploadActivity;
+import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -29,21 +30,23 @@ public class AccountActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    return true;
+                    intent = new Intent(AccountActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    break;
                 case R.id.navigation_scheme:
                     intent = new Intent(AccountActivity.this, SchemeActivity.class);
                     startActivity(intent);
+                    break;
                 case R.id.navigation_profiles:
-                    return true;
+                    intent = new Intent(AccountActivity.this, ViewProfilesActivity.class);
+                    startActivity(intent);
+                    break;
                 case R.id.navigation_account:
-                    SessionManager sessionManager = new SessionManager(getApplicationContext());
-                    if (sessionManager.isLoggedIn()) {
-                        intent = new Intent(AccountActivity.this, ProfileActivity.class);
-                        startActivity(intent);
-                    }
                     return true;
                 case R.id.navigation_settings:
-                    return true;
+                    intent = new Intent(AccountActivity.this, UploadActivity.class);
+                    startActivity(intent);
+                    break;
             }
             return false;
         }

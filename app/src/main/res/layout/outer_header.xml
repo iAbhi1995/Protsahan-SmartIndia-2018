@@ -13,7 +13,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginTop="0dp"
-            android:background="@drawable/green_corners_top"
+            android:background="@drawable/inta_back"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -73,6 +73,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/item_avatar_border"
+                android:background="@color/black"
                 android:scaleType="centerCrop" />
 
         </FrameLayout>

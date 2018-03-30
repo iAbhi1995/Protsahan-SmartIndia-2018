@@ -10,6 +10,10 @@
     <string name="ConnectionError">Connection Error! Please check your connection and try again</string>
     <string name="PermissionDenied">These permissions are required to perform the function</string>
     <string name="edit">Edit</string>
+    <string name="Language">Language</string>
+    <string name="English">English</string>
+    <string name="Hindi">Hindi</string>
+    <string name="chat">Chat</string>
 
 
     <string name="action_settings">Settings</string>

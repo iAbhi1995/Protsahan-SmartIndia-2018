@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
 import com.mota.tribal.protsahan.R;
@@ -31,7 +33,9 @@ import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,6 +79,17 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
                     Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().
+                connectTimeout(120, java.util.concurrent.TimeUnit.SECONDS).
+                readTimeout(120, java.util.concurrent.TimeUnit.SECONDS).
+                writeTimeout(120, java.util.concurrent.TimeUnit.SECONDS).
+                addInterceptor(interceptor).build();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
 
         db = new SQLiteHandler(this);
         accessToken = "Bearer " + db.getUser().getToken();
@@ -102,6 +117,7 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
         retrofit = new Retrofit.Builder()
                 .baseUrl(Urls.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
 
 
