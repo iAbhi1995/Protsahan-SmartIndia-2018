@@ -11,9 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +26,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
+import com.mota.tribal.protsahan.Login.View.AccountActivity;
+import com.mota.tribal.protsahan.Login.View.SessionManager;
+import com.mota.tribal.protsahan.MainActivity;
+import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
 import com.mota.tribal.protsahan.R;
+import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
+import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -62,6 +70,45 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
     private ContentValues values;
     private Uri imageUri;
     private Bitmap thumbnail;
+
+
+    private Intent intent;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            SessionManager sessionManager = new SessionManager(getApplicationContext());
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    intent = new Intent(UploadActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return true;
+                case R.id.navigation_scheme:
+                    intent = new Intent(UploadActivity.this, SchemeActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.navigation_profiles:
+                    intent = new Intent(UploadActivity.this, ViewProfilesActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.navigation_account:
+                    if (sessionManager.isLoggedIn()) {
+                        intent = new Intent(UploadActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                    } else {
+                        intent = new Intent(UploadActivity.this, AccountActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
+                case R.id.navigation_settings:
+                    break;
+            }
+            return false;
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

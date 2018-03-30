@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/logout"
-        android:icon="@drawable/logout"
+        android:icon="@drawable/ic_person"
         android:title="@string/logout"
         app:showAsAction="always" />
 

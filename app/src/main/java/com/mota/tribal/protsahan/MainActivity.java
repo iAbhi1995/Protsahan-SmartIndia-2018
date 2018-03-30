@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,29 +45,38 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            SessionManager sessionManager = new SessionManager(getApplicationContext());
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     return true;
                 case R.id.navigation_scheme:
                     intent = new Intent(MainActivity.this, SchemeActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 case R.id.navigation_profiles:
                     intent = new Intent(MainActivity.this, ViewProfilesActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 case R.id.navigation_account:
-                    SessionManager sessionManager = new SessionManager(getApplicationContext());
                     if (sessionManager.isLoggedIn()) {
                         intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        finish();
                     } else {
                         intent = new Intent(MainActivity.this, AccountActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                     break;
                 case R.id.navigation_settings:
-                    intent = new Intent(MainActivity.this, UploadActivity.class);
-                    startActivity(intent);
+                    if (sessionManager.isLoggedIn()) {
+                        intent = new Intent(MainActivity.this, UploadActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else
+                        showMessage("Login to Upload Videos and Images");
                     break;
             }
             return false;
@@ -132,15 +142,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.profile_menu, menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_menu, menu);
-
-//        if (hideState) {
-//            MenuItem item = menu.findItem(R.id.edit);
-//            item.setVisible(false);
-//        }
-//
         return true;
     }
 
@@ -148,16 +151,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         Intent i;
-        if (id == R.id.my_profile) {
-            i = new Intent(this, ProfileActivity.class);
-            i.putExtra("call_from", "main");
-            startActivity(i);
-        } else if (id == R.id.upload) {
-            i = new Intent(this, UploadActivity.class);
-            startActivity(i);
-        } else if (id == R.id.query) {
+        if (id == R.id.query) {
             i = new Intent(this, QueryActivity.class);
             startActivity(i);
+            finish();
         } else if (id == R.id.english) {
             Toast.makeText(getApplicationContext(), "Language Changed Successfully",
                     Toast.LENGTH_SHORT).show();
@@ -185,4 +182,7 @@ public class MainActivity extends AppCompatActivity {
         recreate();
     }
 
+    public void showMessage(String message) {
+        Snackbar.make(findViewById(R.id.container), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+    }
 }

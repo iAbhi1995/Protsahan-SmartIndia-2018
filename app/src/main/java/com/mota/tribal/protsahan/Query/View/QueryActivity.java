@@ -5,15 +5,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
+import com.mota.tribal.protsahan.Login.View.AccountActivity;
+import com.mota.tribal.protsahan.Login.View.SessionManager;
 import com.mota.tribal.protsahan.MainActivity;
+import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
 import com.mota.tribal.protsahan.R;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
+import com.mota.tribal.protsahan.Upload.UploadActivity;
 import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 
 public class QueryActivity extends AppCompatActivity implements QueriesAll.OnFragmentInteractionListener, AskQuestion.OnFragmentInteractionListener {
@@ -26,25 +31,45 @@ public class QueryActivity extends AppCompatActivity implements QueriesAll.OnFra
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            SessionManager sessionManager = new SessionManager(getApplicationContext());
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-
-                    return true;
+                    intent = new Intent(QueryActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    break;
                 case R.id.navigation_scheme:
                     intent = new Intent(QueryActivity.this, SchemeActivity.class);
                     startActivity(intent);
+                    break;
                 case R.id.navigation_profiles:
                     intent = new Intent(QueryActivity.this, ViewProfilesActivity.class);
                     startActivity(intent);
-                    return true;
+                    break;
                 case R.id.navigation_account:
-                    return true;
+                    if (sessionManager.isLoggedIn()) {
+                        intent = new Intent(QueryActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                    } else {
+                        intent = new Intent(QueryActivity.this, AccountActivity.class);
+                        startActivity(intent);
+                    }
+                    break;
                 case R.id.navigation_settings:
-                    return true;
+                    if (sessionManager.isLoggedIn()) {
+                        intent = new Intent(QueryActivity.this, UploadActivity.class);
+                        startActivity(intent);
+                    } else
+                        showMessage("Login to Upload Videos and Images");
+                    break;
             }
             return false;
         }
     };
+
+    private void showMessage(String message) {
+        Snackbar.make(findViewById(R.id.rel_layout_query), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +104,7 @@ public class QueryActivity extends AppCompatActivity implements QueriesAll.OnFra
     public void onBackPressed() {
         Intent intent1 = new Intent(QueryActivity.this, MainActivity.class);
         startActivity(intent1);
+        finish();
     }
 
     private void setUpViewPager() {

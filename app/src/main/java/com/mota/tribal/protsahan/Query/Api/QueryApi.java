@@ -17,5 +17,5 @@ public interface QueryApi {
 
     @FormUrlEncoded
     @POST(Urls.ASK_QUERY)
-    Call<QueryData> askQuery(@Field("username") String username, @Header("Authorization") String token, @Field("question") String question);
+    Call<QueryData> askQuery(@Field("artisan_id") String username, @Header("Authorization") String token, @Field("query") String question);
 }

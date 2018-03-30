@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mota.tribal.protsahan.Helper.Urls;
@@ -20,6 +21,7 @@ import com.mota.tribal.protsahan.Login.SQLiteHandler;
 import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
 import com.mota.tribal.protsahan.Profile.Presenter.ProfilePresenter;
 import com.mota.tribal.protsahan.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -54,13 +56,36 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        Picasso.with(context).load(Urls.BASE_URL2 + profile_pic_url.substring(6)).placeholder(R.drawable.mario_black).into(holder.profilePic);
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        Log.d("abhi", "" + Urls.BASE_URL2 + profile_pic_url.substring(6));
+        Picasso.with(context).load(Urls.BASE_URL2 + profile_pic_url.substring(6))
+                .placeholder(R.drawable.mario_black).into(holder.profilePic, new Callback() {
+            @Override
+            public void onSuccess() {
+                holder.profileProgress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
         holder.imageName.setText(urls.get(position).getTitle());
         holder.tribalName.setText(tribal_name);
         Log.d("abhi", Urls.BASE_URL2 + urls.get(position).getUrl().substring(6));
         if (type.equals("image"))
-            Picasso.with(context).load(Urls.BASE_URL2 + urls.get(position).getUrl().substring(6)).placeholder(R.drawable.mario_black).into(holder.image);
+            Picasso.with(context).load(Urls.BASE_URL2 + urls.get(position).getUrl().substring(6))
+                    .placeholder(R.drawable.mario_black).into(holder.image, new Callback() {
+                @Override
+                public void onSuccess() {
+                    holder.imageProgress.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
 
         if (type.equals("video")) {
             Picasso.with(context).load(Urls.BASE_URL2 + urls.get(position).getUrl().substring(6) + ".png").placeholder(R.drawable.mario_black).into(holder.image);
@@ -88,17 +113,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
             });
             holder.deleteimage.setVisibility(View.GONE);
         } else
-        holder.deleteimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("abhi", user.getUsername() + " " + urls.get(position).get_id());
-                if (type.equals("image"))
-                    presenter.deleteImage(user.getToken(), user.getUsername(), urls.get(position).get_id(), urls.get(position).getTitle());
-                else if (type.equals("video"))
-                    presenter.deleteVideo(user.getToken(), user.getUsername(), urls.get(position).get_id(), urls.get(position).getTitle());
+            holder.deleteimage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("abhi", user.getUsername() + " " + urls.get(position).get_id());
+                    if (type.equals("image"))
+                        presenter.deleteImage(user.getToken(), user.getUsername(), urls.get(position).get_id(), urls.get(position).getTitle());
+                    else if (type.equals("video"))
+                        presenter.deleteVideo(user.getToken(), user.getUsername(), urls.get(position).get_id(), urls.get(position).getTitle());
 
-            }
-        });
+                }
+            });
     }
 
     @Override
@@ -107,6 +132,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
+        private final ProgressBar profileProgress, imageProgress;
         ImageView profilePic, image, deleteimage, playButton;
         Button moreInfoButton;
         TextView tribalName, imageName;
@@ -117,6 +143,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
             image = itemView.findViewById(R.id.image);
             playButton = itemView.findViewById(R.id.play_button);
             moreInfoButton = itemView.findViewById(R.id.more_info_button);
+            profileProgress = itemView.findViewById(R.id.profile_pic_progress_bar);
+            imageProgress = itemView.findViewById(R.id.image_progress_bar);
 
             DisplayMetrics displayMetrics = new DisplayMetrics();
             ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);

@@ -3,30 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/my_profile"
-        android:title="@string/my_profile"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/upload"
-        android:title="@string/upload"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/query"
         android:title="@string/query"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/Language"
+        android:enabled="true"
         android:title="@string/Language"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/english"
-        android:title="@string/English"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/hindi"
-        android:title="@string/Hindi"
-        app:showAsAction="never" />
+        android:titleCondensed="Areas"
+        android:visible="true">
+        <menu>
+            <item
+                android:id="@+id/english"
+                android:title="@string/English"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/hindi"
+                android:title="@string/Hindi"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
     <item
         android:id="@+id/chat"
         android:title="@string/chat"

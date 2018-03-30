@@ -2,6 +2,8 @@ package com.mota.tribal.protsahan.Profile.View;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -36,6 +38,7 @@ import com.mota.tribal.protsahan.Profile.Model.RetrofitProfileProvider;
 import com.mota.tribal.protsahan.Profile.Presenter.ProfilePresenter;
 import com.mota.tribal.protsahan.Profile.Presenter.ProfilePresenterImpl;
 import com.mota.tribal.protsahan.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -77,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity implements
     private ArrayList<String> skillsSelected;
     private TextView skillsShowcase;
     private Spinner spinner;
+    private ProgressBar profilePicProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +114,7 @@ public class ProfileActivity extends AppCompatActivity implements
         phoneNo = findViewById(R.id.phone_no);
         state = findViewById(R.id.state);
         education = findViewById(R.id.education);
+        profilePicProgress = findViewById(R.id.profile_pic_progress_bar);
 
         spinner = findViewById(R.id.skills_spinner);
 
@@ -250,10 +255,26 @@ public class ProfileActivity extends AppCompatActivity implements
             Log.d("abhi", "in the edit field");
             allowEdit();
         } else if (id == R.id.logout) {
-            SessionManager session = new SessionManager(this);
-            session.setLogin(false);
-            Intent intent = new Intent(this, AccountActivity.class);
-            startActivity(intent);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Do you want to log out of the session ?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            SessionManager session = new SessionManager(ProfileActivity.this);
+                            session.setLogin(false);
+                            Intent intent = new Intent(ProfileActivity.this, AccountActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.setTitle("Logout");
+            alert.show();
+
         }
         return true;
     }
@@ -366,7 +387,18 @@ public class ProfileActivity extends AppCompatActivity implements
             gender = "Other";
         }
         if (profilePicUrl != null)
-            Picasso.with(this).load(Urls.BASE_URL2 + profilePicUrl.substring(7)).placeholder(R.drawable.mario_black).into(profilePic);
+            Picasso.with(this).load(Urls.BASE_URL2 + profilePicUrl.substring(7)).
+                    placeholder(R.drawable.mario_black).into(profilePic, new Callback() {
+                @Override
+                public void onSuccess() {
+                    profilePicProgress.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
     }
 
     @Override
@@ -464,10 +496,21 @@ public class ProfileActivity extends AppCompatActivity implements
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         if (uri != null) {
+            profilePicProgress.setVisibility(View.VISIBLE);
             String filePath = getRealPathFromURIPath(uri, ProfileActivity.this);
             Log.d("abhi", filePath);
             File file = new File(filePath);
-            Picasso.with(this).load(file).into(profilePic);
+            Picasso.with(this).load(file).into(profilePic, new Callback() {
+                @Override
+                public void onSuccess() {
+                    profilePicProgress.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
             RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
             fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), mFile);
             presenter.postProfilePic(token, username, fileToUpload);
