@@ -6,10 +6,6 @@ import com.mota.tribal.protsahan.Login.LoginCallback;
 import com.mota.tribal.protsahan.Login.Model.Data.UserInfo;
 
 
-/**
- * Created by ayush on 03-02-2018.
- */
-
 public class MockLogin implements LoginProvider {
     private UserInfo mockData;
 

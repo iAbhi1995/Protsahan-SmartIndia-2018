@@ -4,9 +4,6 @@ import com.mota.tribal.protsahan.ViewAllProfiles.Model.Data.ViewProfilesData;
 
 import java.util.ArrayList;
 
-/**
- * Created by Abhi on 20-Mar-18.
- */
 
 public interface ViewProfilesView {
     void showProgressBar(boolean b);

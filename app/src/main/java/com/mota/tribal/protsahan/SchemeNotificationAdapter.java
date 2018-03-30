@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by abhi on 22/3/18.
- */
 
 public class SchemeNotificationAdapter extends RecyclerView.Adapter<SchemeNotificationAdapter.NotificationViewHolder> {
 

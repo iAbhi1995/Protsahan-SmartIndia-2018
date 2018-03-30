@@ -7,9 +7,6 @@ import com.mota.tribal.protsahan.Profile.VidImgDocCallback;
 
 import okhttp3.MultipartBody;
 
-/**
- * Created by Abhi on 10-Mar-18.
- */
 
 public interface ProfileProvider {
     void getProfile(String token, String username, ProfileCallback callback);
