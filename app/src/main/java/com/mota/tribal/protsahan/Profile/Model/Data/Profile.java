@@ -72,11 +72,11 @@ public class Profile {
         return state;
     }
 
-    public ArrayList<String> getSkillsSelected() {
+    public ArrayList<String> getskills() {
         return skills;
     }
 
-    public String getEducation() {
+    public String getqualification() {
         return qualification;
     }
 }
