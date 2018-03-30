@@ -21,6 +21,7 @@ import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
 import com.mota.tribal.protsahan.Query.View.QueryActivity;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
 import com.mota.tribal.protsahan.Upload.UploadActivity;
+import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 
 import java.util.ArrayList;
 
@@ -38,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     return true;
                 case R.id.navigation_scheme:
-                    Intent intent = new Intent(MainActivity.this, SchemeActivity.class);
+                    intent = new Intent(MainActivity.this, SchemeActivity.class);
                     startActivity(intent);
                 case R.id.navigation_profiles:
-                    return true;
+                    intent = new Intent(MainActivity.this, ViewProfilesActivity.class);
+                    startActivity(intent);
                 case R.id.navigation_account:
                     intent = new Intent(MainActivity.this, AccountActivity.class);
                     startActivity(intent);
