@@ -33,7 +33,7 @@ public class QueryAdapter extends RecyclerView.Adapter<QueryAdapter.QueryViewHol
 
     @Override
     public void onBindViewHolder(@NonNull QueryViewHolder holder, int position) {
-        holder.question.setText(queries.get(position).getQuestion());
+        holder.question.setText("Question " + (position + 1) + ": " + queries.get(position).getQuestion());
         holder.answer.setText(queries.get(position).getAnswer());
     }
 

@@ -196,7 +196,6 @@ public class RetrofitProfileProvider implements ProfileProvider {
             public void onResponse(Call<DeleteData> call, Response<DeleteData> response) {
                 callback.onSuccess(response.body());
             }
-
             @Override
             public void onFailure(Call<DeleteData> call, Throwable t) {
                 callback.onFailure();

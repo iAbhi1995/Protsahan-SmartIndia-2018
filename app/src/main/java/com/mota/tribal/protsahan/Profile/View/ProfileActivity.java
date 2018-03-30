@@ -114,6 +114,7 @@ public class ProfileActivity extends AppCompatActivity implements
         spinner = findViewById(R.id.skills_spinner);
 
         List<String> skills = new ArrayList<String>();
+        skills.add("Select a skill...");
         skills.add("Pottery");
         skills.add("Weaving");
         skills.add("Painting");
@@ -234,7 +235,9 @@ public class ProfileActivity extends AppCompatActivity implements
 
         if (hideState) {
             MenuItem item = menu.findItem(R.id.edit);
+            MenuItem item1 = menu.findItem(R.id.logout);
             item.setVisible(false);
+            item1.setVisible(false);
         }
         return true;
     }
@@ -481,7 +484,7 @@ public class ProfileActivity extends AppCompatActivity implements
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String skill = parent.getItemAtPosition(position).toString();
         Log.d("abhi", "" + skill);
-        if (!skillsSelected.contains(skill)) {
+        if (!skillsSelected.contains(skill) && !skill.equals("Select a skill...")) {
             skillsSelected.add(skill);
             skillsShowcase.setText(skillsShowcase.getText().toString() + skill + ", ");
         } else

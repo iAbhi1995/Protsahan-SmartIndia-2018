@@ -11,7 +11,8 @@ public class Profile {
 
     public Profile(String token, String name, String description,
                    String tribe, String address, String aadharNO,
-                   String phone, String gender, String profilephoto, String username, String state, ArrayList<String> skills, String qualification) {
+                   String phone, String gender, String profilephoto, String username, String state,
+                   ArrayList<String> skills, String qualification) {
         this.token = token;
         this.name = name;
         this.description = description;
@@ -71,11 +72,11 @@ public class Profile {
         return state;
     }
 
-    public ArrayList<String> getskills() {
+    public ArrayList<String> getSkillsSelected() {
         return skills;
     }
 
-    public String getqualification() {
+    public String getEducation() {
         return qualification;
     }
 }
