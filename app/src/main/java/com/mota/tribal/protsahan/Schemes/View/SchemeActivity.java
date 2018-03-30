@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -40,6 +41,7 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView, Vie
         progressBar = findViewById(R.id.progress_bar);
         presenter = new SchemePresenterImpl(new MockScheme(), SchemeActivity.this, SchemeActivity.this);
         presenter.getResponse();
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
     @Override
     public void showProgressBar(boolean b) {
