@@ -18,11 +18,13 @@ public class OuterAdapter extends TailAdapter<OuterItem> {
     private final int POOL_SIZE = 16;
 
     private final List<List<InnerData>> mData;
+    private final List<String> schemename;
     private final RecyclerView.RecycledViewPool mPool;
     private Context context;
 
-    public OuterAdapter(List<List<InnerData>> data, Context context) {
+    public OuterAdapter(List<List<InnerData>> data, List<String> schemename, Context context) {
         this.mData = data;
+        this.schemename = schemename;
         this.context = context;
 
         mPool = new RecyclerView.RecycledViewPool();
@@ -32,12 +34,12 @@ public class OuterAdapter extends TailAdapter<OuterItem> {
     @Override
     public OuterItem onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        return new OuterItem(view, mPool, context);
+        return new OuterItem(view, schemename, mPool, context);
     }
 
     @Override
     public void onBindViewHolder(OuterItem holder, int position) {
-        holder.setContent(mData.get(position));
+        holder.setContent(mData.get(position), position);
     }
 
     @Override

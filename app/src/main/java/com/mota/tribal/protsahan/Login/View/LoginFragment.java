@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +18,28 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mota.tribal.protsahan.Helper.ConnectivityReceiver;
+import com.mota.tribal.protsahan.Helper.Urls;
+import com.mota.tribal.protsahan.Login.Api.FCM_Api;
+import com.mota.tribal.protsahan.Login.Model.Data.ResponseData;
 import com.mota.tribal.protsahan.Login.Model.Data.UserInfo;
-import com.mota.tribal.protsahan.Login.Model.MockLogin;
+import com.mota.tribal.protsahan.Login.Model.RetrofitLogin;
 import com.mota.tribal.protsahan.Login.Presenter.LoginPresenter;
 import com.mota.tribal.protsahan.Login.Presenter.LoginPresenterImpl;
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
+import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
 import com.mota.tribal.protsahan.R;
 import com.mota.tribal.protsahan.Upload.UploadActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LoginFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class LoginFragment extends Fragment implements LoginView {
 
     private SessionManager session;
@@ -47,19 +53,11 @@ public class LoginFragment extends Fragment implements LoginView {
     private ConnectivityReceiver connectivityReceiver;
     private ProgressDialog pDialog;
     private OnFragmentInteractionListener mListener;
+    private Retrofit retrofit;
 
     public LoginFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static LoginFragment newInstance(String param1, String param2) {
         LoginFragment fragment = new LoginFragment();
@@ -69,8 +67,18 @@ public class LoginFragment extends Fragment implements LoginView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().
+                connectTimeout(15000, java.util.concurrent.TimeUnit.SECONDS).
+                readTimeout(15000, java.util.concurrent.TimeUnit.SECONDS).
+                writeTimeout(15000, java.util.concurrent.TimeUnit.SECONDS).
+                addInterceptor(interceptor).build();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Urls.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
     }
 
     @Override
@@ -125,7 +133,8 @@ public class LoginFragment extends Fragment implements LoginView {
             public void onClick(final View v) {
                 final String email = etUsername.getText().toString().trim();
                 final String password = etPassword.getText().toString().trim();
-                presenter = new LoginPresenterImpl(new MockLogin(), LoginFragment.this, getContext());
+                Log.d("Ayush", email + "    " + password);
+                presenter = new LoginPresenterImpl(new RetrofitLogin(), LoginFragment.this, getContext());
                 presenter.getResponse(email, password);
             }
         });
@@ -166,11 +175,34 @@ public class LoginFragment extends Fragment implements LoginView {
     public void showUserDetails(UserInfo data) {
 
         db = new SQLiteHandler(getContext());
+        db.deleteUsers();
         db.addUser(data.getUsername(), data.getToken());
         session = new SessionManager(getContext());
         session.setLogin(true);
-        Snackbar.make(getView().findViewById(R.id.login), "Logged in " + data.getUsername() + "  " + data.getToken(), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        SQLiteHandler db = new SQLiteHandler(getContext());
+        UserInfo userInfo = db.getUser();
+        String token = FirebaseInstanceId.getInstance().getToken();
+        FCM_Api api;
+        api = retrofit.create(FCM_Api.class);
+        Call<ResponseData> call = api.getResponse(userInfo.getUsername(), token);
+        call.enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.body().isSuccess()) {
+                    progressBar.setVisibility(View.GONE);
+                    Intent intent = new Intent(getActivity().getApplication(), ProfileActivity.class);
+                    startActivity(intent);
+                    Log.d("Ayush", "Token Success");
+
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {

@@ -71,11 +71,14 @@ public class OuterItem extends HeaderItem {
     private final int mTitleSize2;
     private Context context;
     private boolean mIsScrolling;
+    private List<String> schemename;
+    private int position;
 
-    public OuterItem(View itemView, RecyclerView.RecycledViewPool pool, Context context) {
+    public OuterItem(View itemView, List<String> schemename, RecyclerView.RecycledViewPool pool, Context context) {
         super(itemView);
 
         this.context = context;
+        this.schemename = schemename;
         // Init header
         m10dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.dp10);
         m120dp = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.dp120);
@@ -87,7 +90,7 @@ public class OuterItem extends HeaderItem {
 
         mHeaderCaption1 = itemView.findViewById(R.id.header_text_1);
         mHeaderCaption2 = itemView.findViewById(R.id.header_text_2);
-        mName = itemView.findViewById(R.id.tv_name);
+        mName = itemView.findViewById(R.id.scheme_category);
         mInfo = itemView.findViewById(R.id.tv_info);
         mAvatar = itemView.findViewById(R.id.avatar);
 
@@ -143,24 +146,24 @@ public class OuterItem extends HeaderItem {
         return mHeaderAlpha;
     }
 
-    void setContent(@NonNull List<InnerData> InnerDataList) {
+    void setContent(@NonNull List<InnerData> InnerDataList, int pos) {
         final Context context = itemView.getContext();
-
-        final InnerData header = InnerDataList.subList(0, 1).get(0);
-        final List<InnerData> tail = InnerDataList.subList(1, InnerDataList.size());
+        this.position = pos;
+        final List<String> header = schemename;
+        final List<InnerData> tail = InnerDataList.subList(0, InnerDataList.size());
 
         mRecyclerView.setLayoutManager(new InnerLayoutManager());
         ((InnerAdapter) mRecyclerView.getAdapter()).addData(tail);
 
         Glide.with(context)
-                .load(header.avatarUrl)
+                .load(R.drawable.ic_account_circle_black_24dp)
                 .placeholder(R.drawable.avatar_placeholder)
                 .bitmapTransform(new CropCircleTransformation(context))
                 .into(mAvatar);
 
-        final String title1 = header.title + "?";
+        final String title1 = "Schemes";
 
-        final Spannable title2 = new SpannableString(header.title + "? - " + header.name);
+        final Spannable title2 = new SpannableString("Scehmes" + " - " + header.get(position));
         title2.setSpan(new AbsoluteSizeSpan(mTitleSize1), 0, title1.length(), SPAN_INCLUSIVE_INCLUSIVE);
         title2.setSpan(new AbsoluteSizeSpan(mTitleSize2), title1.length(), title2.length(), SPAN_INCLUSIVE_INCLUSIVE);
         title2.setSpan(new ForegroundColorSpan(Color.argb(204, 255, 255, 255)), title1.length(), title2.length(), SPAN_INCLUSIVE_INCLUSIVE);
@@ -168,8 +171,8 @@ public class OuterItem extends HeaderItem {
         mHeaderCaption1.setText(title1);
         mHeaderCaption2.setText(title2);
 
-        mName.setText(String.format("%s %s", header.name, context.getString(R.string.asked)));
-        mInfo.setText(String.format("%s %s · %s", header.age, context.getString(R.string.years), header.address));
+        mName.setText(String.format("%s %s", header.get(position), ""));
+        mInfo.setText(String.format("%s %s · %s", "", context.getString(R.string.years), ""));
     }
 
     void clearContent() {

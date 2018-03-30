@@ -58,7 +58,8 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView, Vie
     @Override
     public void getSchemes(SchemeInfo data) {
         final List<List<InnerData>> outerData = data.innerData;
-        initRecyclerView(outerData);
+        final List<String> scehemename = data.getSchemename();
+        initRecyclerView(outerData, scehemename);
     }
 
     @Override
@@ -73,12 +74,12 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView, Vie
         EventBus.getDefault().unregister(this);
     }
 
-    private void initRecyclerView(List<List<InnerData>> data) {
+    private void initRecyclerView(List<List<InnerData>> data, List<String> schemename) {
         findViewById(R.id.progressBar).setVisibility(View.GONE);
 
         final TailRecyclerView rv = findViewById(R.id.recycler_view);
         ((TailLayoutManager) rv.getLayoutManager()).setPageTransformer(new HeaderTransformer());
-        rv.setAdapter(new OuterAdapter(data, getApplicationContext()));
+        rv.setAdapter(new OuterAdapter(data, schemename, getApplicationContext()));
 
         new TailSnapHelper().attachToRecyclerView(rv);
     }

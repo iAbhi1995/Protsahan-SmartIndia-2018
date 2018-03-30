@@ -81,12 +81,11 @@ public class NotificationUtils {
         return 0;
     }
 
-    public void showNotificationMessage(final String title, final String message, final String timeStamp, Intent intent, String imageUrl) {
-        // Check for empty push message
+    public void showNotificationMessage(final String title, final String message, final String imageUrl, Intent intent) {
+
         if (TextUtils.isEmpty(message))
             return;
-        Log.d("ayush", "showNotificationMessage method");
-        // notification icon
+        Log.d("Ayush", "showNotificationMessage method");
         final int icon = R.mipmap.ic_launcher;
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -103,22 +102,20 @@ public class NotificationUtils {
 
         final Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        if (!TextUtils.isEmpty(imageUrl)) {
-
             if (imageUrl != null && imageUrl.length() > 4 && Patterns.WEB_URL.matcher(imageUrl).matches()) {
                 Bitmap bitmap = getBitmapFromURL(imageUrl);
                 if (bitmap != null) {
-                    showBigNotification(bitmap, mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
+                    showBigNotification(bitmap, mBuilder, icon, title, message, resultPendingIntent, alarmSound);
                 } else {
                     Bitmap bitmap2 = getBitmapFromURL(imageUrl);
-                    showBigNotification(bitmap2, mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
+                    showBigNotification(bitmap2, mBuilder, icon, title, message, resultPendingIntent, alarmSound);
                 }
             } else {
-                Bitmap bitmap2 = getBitmapFromURL("https://beta.aavartan.org/assets/main/img/aavartan-logo.png");
-                showBigNotification(bitmap2, mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
+                Bitmap bitmap2 = getBitmapFromURL("http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png");
+                showBigNotification(bitmap2, mBuilder, icon, title, message, resultPendingIntent, alarmSound);
             }
-        }
     }
+
 
     private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title,
                                        String message, String timeStamp,
@@ -160,11 +157,13 @@ public class NotificationUtils {
         }
     }
 
-    private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
+    private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, PendingIntent resultPendingIntent, Uri alarmSound) {
+
+        Log.d("Ayush", "In Big Notification");
         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
         bigPictureStyle.setBigContentTitle(title);
         bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
-        bigPictureStyle.bigPicture(bitmap);
+        // bigPictureStyle.bigPicture(bitmap);
         Notification notification;
         notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
@@ -173,7 +172,6 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
                 .setStyle(bigPictureStyle)
-                .setWhen(getTimeMilliSec(timeStamp))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(Html.fromHtml(message))
@@ -182,7 +180,7 @@ public class NotificationUtils {
         notification.defaults |= Notification.DEFAULT_LIGHTS;
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        // notificationManager.notify(App.NOTIFICATION_ID_BIG_IMAGE, notification);
+        notificationManager.notify(0, notification);
         turnScreenLightOn();
     }
 

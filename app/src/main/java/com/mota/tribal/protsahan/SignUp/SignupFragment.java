@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,17 +89,20 @@ public class SignupFragment extends Fragment {
         bsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (password.toString() == passwordcon.toString()) {
+                if (password.getText().toString().equals(passwordcon.getText().toString())) {
                     progressBar.setVisibility(View.VISIBLE);
                     api = retrofit.create(Api.class);
-                    Call<Data> call = api.getResponse(username.toString(), password.toString());
+                    Call<Data> call = api.getResponse(username.getText().toString(), password.getText().toString());
                     call.enqueue(new Callback<Data>() {
                         @Override
                         public void onResponse(Call<Data> call, Response<Data> response) {
+
+                            Log.d("Ayush", response.toString());
                             if (response.body().isSuccess()) {
                                 progressBar.setVisibility(View.GONE);
                                 Snackbar.make(getView().findViewById(R.id.signup), getString(R.string.success), Snackbar.LENGTH_LONG)
                                         .setAction("Action", null).show();
+
                             } else {
                                 progressBar.setVisibility(View.GONE);
                                 Snackbar.make(getView().findViewById(R.id.signup), response.body().getMessage(), Snackbar.LENGTH_LONG)
@@ -108,6 +112,7 @@ public class SignupFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<Data> call, Throwable t) {
+                            progressBar.setVisibility(View.GONE);
                             Snackbar.make(getView().findViewById(R.id.signup), getString(R.string.failed), Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                         }

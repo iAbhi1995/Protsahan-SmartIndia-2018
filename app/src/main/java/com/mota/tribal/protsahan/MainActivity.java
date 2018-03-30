@@ -16,11 +16,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
+import com.mota.tribal.protsahan.Login.View.AccountActivity;
 import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
 import com.mota.tribal.protsahan.Query.View.QueryActivity;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
 import com.mota.tribal.protsahan.Upload.UploadActivity;
-import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 
 import java.util.ArrayList;
 
@@ -36,20 +36,16 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-//                    mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_scheme:
-                    intent = new Intent(MainActivity.this, SchemeActivity.class);
+                    Intent intent = new Intent(MainActivity.this, SchemeActivity.class);
                     startActivity(intent);
                 case R.id.navigation_profiles:
-                    intent = new Intent(MainActivity.this, ViewProfilesActivity.class);
-                    startActivity(intent);
                     return true;
                 case R.id.navigation_account:
-//                    mTextMessage.setText(R.string.title_account);
-                    return true;
+                    intent = new Intent(MainActivity.this, AccountActivity.class);
+                    startActivity(intent);
                 case R.id.navigation_settings:
-//                    mTextMessage.setText(R.string.title_settings);
                     return true;
             }
             return false;
@@ -65,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         initCollapsingToolbar();
-
-//        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
