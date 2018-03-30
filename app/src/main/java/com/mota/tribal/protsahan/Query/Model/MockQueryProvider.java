@@ -10,15 +10,16 @@ import java.util.ArrayList;
 
 public class MockQueryProvider implements QueryProvider {
 
+
     public QueryData getMockData() {
         ArrayList<Query> queries = new ArrayList<>();
-        queries.add(new Query("101", "Kya haal chaal hai bhaiya??", "Arree sb mjaaa maa bhau!!"));
-        queries.add(new Query("101", "Kya haal chaal hai bhaiya??", "Arree sb mjaaa maa bhau!!"));
-        queries.add(new Query("101", "Kya haal chaal hai bhaiya??", "Arree sb mjaaa maa bhau!!"));
-        queries.add(new Query("101", "Kya haal chaal hai bhaiya??", "Arree sb mjaaa maa bhau!!"));
-        queries.add(new Query("101", "Kya haal chaal hai bhaiya??", "Arree sb mjaaa maa bhau!!"));
-        queries.add(new Query("101", "Kya haal chaal hai bhaiya??", "Arree sb mjaaa maa bhau!!"));
-        queries.add(new Query("101", "Kya haal chaal hai bhaiya??", "Arree sb mjaaa maa bhau!!"));
+        queries.add(new Query("101", "What are the skill improvement programs for weavers??", "The Ministry will be conducting workshops for weavers in the near future and you will be notified soon "));
+        queries.add(new Query("101", "What are the skill improvement programs for weavers??", "The Ministry will be conducting workshops for weavers in the near future and you will be notified soon "));
+        queries.add(new Query("101", "What are the skill improvement programs for weavers??", "The Ministry will be conducting workshops for weavers in the near future and you will be notified soon "));
+        queries.add(new Query("101", "What are the skill improvement programs for weavers??", "The Ministry will be conducting workshops for weavers in the near future and you will be notified soon "));
+        queries.add(new Query("101", "What are the skill improvement programs for weavers??", "The Ministry will be conducting workshops for weavers in the near future and you will be notified soon "));
+        queries.add(new Query("101", "What are the skill improvement programs for weavers??", "The Ministry will be conducting workshops for weavers in the near future and you will be notified soon "));
+        queries.add(new Query("101", "What are the skill improvement programs for weavers??", "The Ministry will be conducting workshops for weavers in the near future and you will be notified soon "));
         QueryData mockData = new QueryData(queries, true, "Aa gyi saari queries");
         return mockData;
     }
@@ -32,5 +33,21 @@ public class MockQueryProvider implements QueryProvider {
             }
         }, 500);
 
+    }
+
+    @Override
+    public void askQuery(String username, String token, String question, final QueryCallback queryCallback) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                queryCallback.onSuccess(getMockPostData());
+            }
+        }, 500);
+    }
+
+    public QueryData getMockPostData() {
+        QueryData mockPostData = new QueryData(null, true,
+                "Query Posted Successfully\n You will be notified about the answer");
+        return mockPostData;
     }
 }

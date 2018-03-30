@@ -78,4 +78,5 @@
     <string name="my_profile">My Profile</string>
     <string name="upload">Upload</string>
     <string name="query">Query</string>
+    <string name="error_when_no_question">Please enter a question! then press submit button</string>
 </resources>

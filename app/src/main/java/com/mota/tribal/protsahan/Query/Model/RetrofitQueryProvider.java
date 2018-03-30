@@ -43,9 +43,10 @@ public class RetrofitQueryProvider implements QueryProvider {
 
 
     @Override
-    public void getAllQueries(String username, String password, final QueryCallback callback) {
+    public void getAllQueries(String username, String token, final QueryCallback callback) {
         retrofitApi = retrofit.create(QueryApi.class);
-        Call<QueryData> call = retrofitApi.getUserDetails(username, password);
+        token = "Bearer " + token;
+        Call<QueryData> call = retrofitApi.getUserDetails(username, token);
         call.enqueue(new Callback<QueryData>() {
 
             @Override
@@ -58,6 +59,25 @@ public class RetrofitQueryProvider implements QueryProvider {
             public void onFailure(Call<QueryData> call, Throwable t) {
                 t.printStackTrace();
                 callback.onFailure();
+            }
+        });
+    }
+
+    @Override
+    public void askQuery(String username, String token, String question, final QueryCallback queryCallback) {
+        retrofitApi = retrofit.create(QueryApi.class);
+        token = "Bearer " + token;
+        Call<QueryData> call = retrofitApi.askQuery(username, token, question);
+        call.enqueue(new Callback<QueryData>() {
+            @Override
+            public void onResponse(Call<QueryData> call, Response<QueryData> response) {
+                queryCallback.onSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<QueryData> call, Throwable t) {
+                t.printStackTrace();
+                queryCallback.onFailure();
             }
         });
     }

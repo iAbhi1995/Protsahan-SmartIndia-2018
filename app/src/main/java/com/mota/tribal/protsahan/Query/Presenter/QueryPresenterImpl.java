@@ -6,6 +6,7 @@ import com.mota.tribal.protsahan.Query.Model.Data.QueryData;
 import com.mota.tribal.protsahan.Query.Model.QueryProvider;
 import com.mota.tribal.protsahan.Query.QueryCallback;
 import com.mota.tribal.protsahan.Query.View.QueryView;
+import com.mota.tribal.protsahan.R;
 
 public class QueryPresenterImpl implements QueryPresenter {
 
@@ -35,9 +36,26 @@ public class QueryPresenterImpl implements QueryPresenter {
             @Override
             public void onFailure() {
                 view.showProgressBar(false);
-                view.showMessage("Login Failed.Try again later!!!");
+                view.showMessage(context.getResources().getString(R.string.ConnectionError));
+            }
+        });
+    }
+
+    @Override
+    public void askQuery(String username, String token, String question) {
+        view.showProgressBar(true);
+        provider.askQuery(username, token, question, new QueryCallback() {
+            @Override
+            public void onSuccess(QueryData data) {
+                view.showProgressBar(false);
+                view.showMessage(data.getMessage());
+            }
+
+            @Override
+            public void onFailure() {
+                view.showProgressBar(false);
+                view.showMessage(context.getResources().getString(R.string.ConnectionError));
             }
         });
     }
 }
-

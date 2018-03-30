@@ -196,8 +196,6 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
             MenuItem item = menu.findItem(R.id.edit);
             item.setVisible(false);
         }
-
-
         return true;
     }
 
