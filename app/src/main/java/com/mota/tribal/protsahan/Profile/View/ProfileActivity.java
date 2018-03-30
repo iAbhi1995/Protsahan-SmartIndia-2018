@@ -25,6 +25,8 @@ import android.widget.TextView;
 
 import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
+import com.mota.tribal.protsahan.Login.View.AccountActivity;
+import com.mota.tribal.protsahan.Login.View.SessionManager;
 import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
 import com.mota.tribal.protsahan.Profile.Model.RetrofitProfileProvider;
@@ -206,6 +208,11 @@ public class ProfileActivity extends AppCompatActivity implements EasyPermission
         if (id == R.id.edit) {
             Log.d("abhi", "in the edit field");
             allowEdit();
+        } else if (id == R.id.logout) {
+            SessionManager session = new SessionManager(this);
+            session.setLogin(false);
+            Intent intent = new Intent(this, AccountActivity.class);
+            startActivity(intent);
         }
         return true;
     }

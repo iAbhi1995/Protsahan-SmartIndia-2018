@@ -41,12 +41,15 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_scheme:
                     intent = new Intent(MainActivity.this, SchemeActivity.class);
                     startActivity(intent);
+                    break;
                 case R.id.navigation_profiles:
                     intent = new Intent(MainActivity.this, ViewProfilesActivity.class);
                     startActivity(intent);
+                    break;
                 case R.id.navigation_account:
                     intent = new Intent(MainActivity.this, AccountActivity.class);
                     startActivity(intent);
+                    break;
                 case R.id.navigation_settings:
                     return true;
             }
