@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,13 +22,12 @@ import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 public class AccountActivity extends AppCompatActivity {
 
     private Intent intent;
-    // private Toolbar mtoolbar;
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            SessionManager sessionManager = new SessionManager(getApplicationContext());
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     intent = new Intent(AccountActivity.this, MainActivity.class);
@@ -42,15 +42,22 @@ public class AccountActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_account:
-                    return true;
+                    break;
                 case R.id.navigation_settings:
-                    intent = new Intent(AccountActivity.this, UploadActivity.class);
-                    startActivity(intent);
+                    if (sessionManager.isLoggedIn()) {
+                        intent = new Intent(AccountActivity.this, UploadActivity.class);
+                        startActivity(intent);
+                    } else
+                        showMessage("Login to Upload Videos and Images");
                     break;
             }
             return false;
         }
     };
+
+    private void showMessage(String message) {
+        Snackbar.make(findViewById(R.id.accnt_rel_lay), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

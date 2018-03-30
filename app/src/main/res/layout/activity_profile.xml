@@ -107,6 +107,15 @@
                         android:onClick="showMyImages"
                         app:srcCompat="@drawable/ic_image" />
 
+                    <ProgressBar
+                        android:id="@+id/profile_pic_progress_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/textView1"
+                        android:layout_alignEnd="@+id/profile_pic"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginEnd="40dp" />
+
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/txtinptlyt"
                         android:layout_width="match_parent"

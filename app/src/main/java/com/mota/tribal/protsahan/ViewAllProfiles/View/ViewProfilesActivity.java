@@ -1,6 +1,9 @@
 package com.mota.tribal.protsahan.ViewAllProfiles.View;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,11 +12,19 @@ import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
+import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
+import com.mota.tribal.protsahan.Login.View.AccountActivity;
+import com.mota.tribal.protsahan.Login.View.SessionManager;
+import com.mota.tribal.protsahan.MainActivity;
+import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
 import com.mota.tribal.protsahan.R;
+import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
+import com.mota.tribal.protsahan.Upload.UploadActivity;
 import com.mota.tribal.protsahan.ViewAllProfiles.Model.Data.ViewProfilesData;
 import com.mota.tribal.protsahan.ViewAllProfiles.Model.RetrofitViewProfilesProvider;
 import com.mota.tribal.protsahan.ViewAllProfiles.Presenter.ViewProfilesPresenter;
@@ -26,6 +37,52 @@ public class ViewProfilesActivity extends AppCompatActivity implements ViewProfi
     private RecyclerView videoRecycler, imageRecycler;
     private ProgressBar progressBar;
 
+
+    private Intent intent;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            SessionManager sessionManager = new SessionManager(getApplicationContext());
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    intent = new Intent(ViewProfilesActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return true;
+                case R.id.navigation_scheme:
+                    intent = new Intent(ViewProfilesActivity.this, SchemeActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+                case R.id.navigation_profiles:
+                    break;
+                case R.id.navigation_account:
+                    if (sessionManager.isLoggedIn()) {
+                        intent = new Intent(ViewProfilesActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        intent = new Intent(ViewProfilesActivity.this, AccountActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    break;
+                case R.id.navigation_settings:
+                    if (sessionManager.isLoggedIn()) {
+                        intent = new Intent(ViewProfilesActivity.this, UploadActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else
+                        showMessage("Login to Upload Videos and Images");
+                    break;
+            }
+            return false;
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +90,10 @@ public class ViewProfilesActivity extends AppCompatActivity implements ViewProfi
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
 
         imageRecycler = findViewById(R.id.image_recycler);
         videoRecycler = findViewById(R.id.video_recycler);

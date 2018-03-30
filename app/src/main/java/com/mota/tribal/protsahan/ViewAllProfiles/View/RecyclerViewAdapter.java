@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mota.tribal.protsahan.Helper.Urls;
@@ -18,6 +19,7 @@ import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
 import com.mota.tribal.protsahan.Profile.View.GalleryActivity;
 import com.mota.tribal.protsahan.R;
 import com.mota.tribal.protsahan.ViewAllProfiles.Model.Data.ViewProfilesData;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -78,11 +80,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         if (type.equals("image"))
-            Picasso.with(context).load(Urls.BASE_URL2 + objects.get(position).getUrl().substring(6)).into(holder.image);
+            Picasso.with(context).load(Urls.BASE_URL2 + objects.get(position).
+                    getUrl().substring(6)).into(holder.image, new Callback() {
+                @Override
+                public void onSuccess() {
+                    holder.progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+                }
+            });
         else if (type.equals("video"))
-            Picasso.with(context).load(Urls.BASE_URL2 + objects.get(position).getUrl().substring(6) + ".png").into(holder.image);
+            Picasso.with(context).load(Urls.BASE_URL2 + objects.get(position).getUrl().substring(6) + ".png").
+                    into(holder.image, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
         holder.title.setText(objects.get(position).getTitle());
     }
 
@@ -95,13 +118,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         ImageView image, play_button;
+        ProgressBar progressBar;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             image = itemView.findViewById(R.id.image);
             play_button = itemView.findViewById(R.id.play_button);
-
+            progressBar = itemView.findViewById(R.id.image_progress_bar);
             DisplayMetrics displayMetrics = new DisplayMetrics();
             ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int width = (int) (displayMetrics.widthPixels / 2.5);

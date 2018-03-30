@@ -44,6 +44,7 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView, Vie
         presenter.getResponse();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
+
     @Override
     public void showProgressBar(boolean b) {
         if (b)
