@@ -16,11 +16,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
+import com.mota.tribal.protsahan.Login.View.AccountActivity;
 import com.mota.tribal.protsahan.Profile.View.ProfileActivity;
 import com.mota.tribal.protsahan.Query.View.QueryActivity;
 import com.mota.tribal.protsahan.Schemes.View.SchemeActivity;
 import com.mota.tribal.protsahan.Upload.UploadActivity;
-import com.mota.tribal.protsahan.ViewAllProfiles.View.ViewProfilesActivity;
 
 import java.util.ArrayList;
 
