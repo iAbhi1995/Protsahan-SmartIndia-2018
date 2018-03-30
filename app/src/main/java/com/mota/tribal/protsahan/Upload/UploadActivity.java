@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
 import com.mota.tribal.protsahan.Login.View.AccountActivity;
@@ -154,6 +155,11 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
         captureVideoButton = findViewById(R.id.capture_video);
         captureImageButton = findViewById(R.id.capture_image);
         docButton = findViewById(R.id.doc_select);
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
+
 
         videoUpload = findViewById(R.id.video_upload);
         imageUpload = findViewById(R.id.image_upload);

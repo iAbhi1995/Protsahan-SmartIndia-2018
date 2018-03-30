@@ -67,7 +67,9 @@ public class RetrofitQueryProvider implements QueryProvider {
     @Override
     public void askQuery(String username, String token, String question, final QueryCallback queryCallback) {
         retrofitApi = retrofit.create(QueryApi.class);
+        Log.d("abhi", question + "Abhi");
         token = "Bearer " + token;
+        username = "5abeef605e662c1448357fb0";
         Call<QueryData> call = retrofitApi.askQuery(username, token, question);
         call.enqueue(new Callback<QueryData>() {
             @Override
