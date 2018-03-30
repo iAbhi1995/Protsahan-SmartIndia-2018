@@ -74,8 +74,17 @@ public class ViewProfilesActivity extends AppCompatActivity implements ViewProfi
                         intent = new Intent(ViewProfilesActivity.this, UploadActivity.class);
                         startActivity(intent);
                         finish();
-                    } else
-                        showMessage("Login to Upload Videos and Images");
+                    } else {
+                        Snackbar.make(findViewById(R.id.relative_layout), "Login to Upload Videos and Images",
+                                Snackbar.LENGTH_LONG).setAction("Login", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(ViewProfilesActivity.this, AccountActivity.class);
+                                startActivity(intent);
+                            }
+                        }).show();
+                        finish();
+                    }
                     break;
             }
             return false;

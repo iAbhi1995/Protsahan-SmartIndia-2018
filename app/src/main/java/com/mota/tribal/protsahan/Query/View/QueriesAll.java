@@ -41,8 +41,9 @@ public class QueriesAll extends Fragment implements QueryView {
     private QueryPresenter presenter;
     private ProgressBar progressBar;
     private SQLiteHandler db;
-    private String username, token;
+    private String token;
     private View view;
+    private String id;
 
     public QueriesAll() {
         // Required empty public constructor
@@ -101,9 +102,9 @@ public class QueriesAll extends Fragment implements QueryView {
         presenter = new QueryPresenterImpl(new MockQueryProvider(), this, getContext());
 
         db = new SQLiteHandler(getContext());
-        username = db.getUser().getUsername();
+        id = db.getUser().getId();
         token = db.getUser().getToken();
-        presenter.getAllQueries(username, token);
+        presenter.getAllQueries(id, token);
         return view;
     }
 

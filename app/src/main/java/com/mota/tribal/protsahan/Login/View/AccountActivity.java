@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.MainActivity;
@@ -47,8 +48,17 @@ public class AccountActivity extends AppCompatActivity {
                     if (sessionManager.isLoggedIn()) {
                         intent = new Intent(AccountActivity.this, UploadActivity.class);
                         startActivity(intent);
-                    } else
-                        showMessage("Login to Upload Videos and Images");
+                    } else {
+                        Snackbar.make(findViewById(R.id.accnt_rel_lay), "Login to Upload Videos and Images",
+                                Snackbar.LENGTH_LONG).setAction("Login", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(AccountActivity.this, AccountActivity.class);
+                                startActivity(intent);
+                            }
+                        }).show();
+                        finish();
+                    }
                     break;
             }
             return false;
