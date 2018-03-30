@@ -192,7 +192,6 @@ public class LoginFragment extends Fragment implements LoginView {
                     progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(getActivity().getApplication(), ProfileActivity.class);
                     startActivity(intent);
-                    Log.d("Ayush", "Token Success");
 
                 } else {
                     progressBar.setVisibility(View.GONE);
