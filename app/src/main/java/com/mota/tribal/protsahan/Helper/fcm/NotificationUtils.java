@@ -16,7 +16,6 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 
@@ -83,8 +82,6 @@ public class NotificationUtils {
 
     public void showNotificationMessage(final String title, final String message, final String imageUrl, Intent intent) {
 
-        if (TextUtils.isEmpty(message))
-            return;
         Log.d("Ayush", "showNotificationMessage method");
         final int icon = R.mipmap.ic_launcher;
 
@@ -160,10 +157,10 @@ public class NotificationUtils {
     private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, PendingIntent resultPendingIntent, Uri alarmSound) {
 
         Log.d("Ayush", "In Big Notification");
-        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+        /*NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
         bigPictureStyle.setBigContentTitle(title);
         bigPictureStyle.setSummaryText(Html.fromHtml(message).toString());
-        // bigPictureStyle.bigPicture(bitmap);
+        bigPictureStyle.bigPicture(bitmap);*/
         Notification notification;
         notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
@@ -171,7 +168,7 @@ public class NotificationUtils {
                 .setContentText(message)
                 .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
-                .setStyle(bigPictureStyle)
+                //.setStyle(bigPictureStyle)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(Html.fromHtml(message))

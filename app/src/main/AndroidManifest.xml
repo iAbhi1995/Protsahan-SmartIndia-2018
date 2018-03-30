@@ -37,10 +37,10 @@
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Login.View.LoginActivity"
+            android:name=".Query.View.QueryActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name=".Login.View.LoginActivity" />
+                <action android:name=".Query.View.QueryActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -55,9 +55,6 @@
         <activity android:name=".Schemes.View.SchemeActivity" />
         <activity
             android:name=".Schemes.View.SchemeDescriptionActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".Query.View.QueryActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <service android:name=".Helper.fcm.FirebaseMessagingService">

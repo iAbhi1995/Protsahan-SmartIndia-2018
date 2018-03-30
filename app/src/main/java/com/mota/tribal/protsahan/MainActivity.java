@@ -59,9 +59,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-//        toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
+//      toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
         setSupportActionBar(toolbar);
-
+//      String token = FirebaseInstanceId.getInstance().getToken();
+//      Log.d("Ayush",token);
         initCollapsingToolbar();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

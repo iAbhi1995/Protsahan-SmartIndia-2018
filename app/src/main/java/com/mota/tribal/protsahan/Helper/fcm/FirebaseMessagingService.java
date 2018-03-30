@@ -16,9 +16,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         Log.d("Ayush", "Msg received");
-
         String activity = remoteMessage.getData().get("click_action");
-
         Intent resultIntent = new Intent(activity);
         showNotificationMessage(getApplicationContext(), remoteMessage.getData().get("title"), remoteMessage.getData().get("body")
                 , remoteMessage.getData().get("Icon"), resultIntent);
