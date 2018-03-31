@@ -16,6 +16,6 @@ public class Urls {
     public static final String DELETE_VIDEO = "artisans/deletevideo";
     public static final String GET_ALL_PROFILES = "artisans/files";
     public static final String CHAT_URL = "https://aqueous-woodland-43972.herokuapp.com/";
-    public static final String ALL_QUERIES = "";
+    public static final String ALL_QUERIES = "notifications";
     public static final String ASK_QUERY = "query";
 }

@@ -1,15 +1,15 @@
 package com.mota.tribal.protsahan.Login.Model.Data;
 
 public class UserInfo {
-    private String message, token, username, id;
+    private String message, token, username, _id;
     private boolean success;
 
-    public UserInfo(boolean success, String message, String token, String username, String id) {
+    public UserInfo(boolean success, String message, String token, String username, String _id) {
         this.success = success;
         this.message = message;
         this.token = token;
         this.username = username;
-        this.id = id;
+        this._id = _id;
     }
 
     public String getMessage() {
@@ -44,12 +44,12 @@ public class UserInfo {
         this.success = success;
     }
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }
 

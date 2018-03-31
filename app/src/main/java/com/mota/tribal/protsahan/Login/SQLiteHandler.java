@@ -80,7 +80,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
 
             user.setUsername(cursor.getString(0));
-            user.setId(cursor.getString(1));
+            user.set_id(cursor.getString(1));
             user.setToken(cursor.getString(2));
             cursor.close();
         }

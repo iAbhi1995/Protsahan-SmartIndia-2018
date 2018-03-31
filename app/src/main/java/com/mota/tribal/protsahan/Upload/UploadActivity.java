@@ -84,8 +84,7 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
                 case R.id.navigation_home:
                     intent = new Intent(UploadActivity.this, MainActivity.class);
                     startActivity(intent);
-                    finish();
-                    return true;
+                    break;
                 case R.id.navigation_scheme:
                     intent = new Intent(UploadActivity.this, SchemeActivity.class);
                     startActivity(intent);
@@ -93,18 +92,21 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
                 case R.id.navigation_profiles:
                     intent = new Intent(UploadActivity.this, ViewProfilesActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 case R.id.navigation_account:
                     if (sessionManager.isLoggedIn()) {
                         intent = new Intent(UploadActivity.this, ProfileActivity.class);
                         startActivity(intent);
+                        finish();
                     } else {
                         intent = new Intent(UploadActivity.this, AccountActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                     break;
                 case R.id.navigation_settings:
-                    break;
+                    return true;
             }
             return false;
         }
@@ -126,6 +128,11 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
                     this.getString(R.string.read_file), READ_REQUEST_CODE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
+        navigation.setSelectedItemId(R.id.navigation_settings);
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

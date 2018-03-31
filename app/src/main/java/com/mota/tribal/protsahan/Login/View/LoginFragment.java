@@ -176,13 +176,12 @@ public class LoginFragment extends Fragment implements LoginView {
 
         db = new SQLiteHandler(getContext());
         db.deleteUsers();
-        db.addUser(data.getUsername(), data.getToken(), data.getId());
+        db.addUser(data.getUsername(), data.getToken(), data.get_id());
         session = new SessionManager(getContext());
         session.setLogin(true);
         SQLiteHandler db = new SQLiteHandler(getContext());
         UserInfo userInfo = db.getUser();
         String token = FirebaseInstanceId.getInstance().getToken();
-        Log.d("Ayush", "Sending Token" + token);
         FCM_Api api;
         api = retrofit.create(FCM_Api.class);
         Call<ResponseData> call = api.getResponse(userInfo.getUsername(), token);

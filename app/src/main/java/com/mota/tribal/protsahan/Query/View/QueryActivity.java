@@ -127,8 +127,9 @@ public class QueryActivity extends AppCompatActivity implements QueriesAll.OnFra
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setText("Ask Question");
         tabLayout.getTabAt(1).setText("Your QueriesAll");
+        tabLayout.getTabAt(0).setText("Ask Question");
+
     }
 
 

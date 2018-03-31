@@ -32,6 +32,7 @@ import com.mota.tribal.protsahan.Helper.Urls;
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
 import com.mota.tribal.protsahan.Login.View.AccountActivity;
 import com.mota.tribal.protsahan.Login.View.SessionManager;
+import com.mota.tribal.protsahan.MainActivity;
 import com.mota.tribal.protsahan.Profile.Model.Data.Profile;
 import com.mota.tribal.protsahan.Profile.Model.Data.VidImgDocData;
 import com.mota.tribal.protsahan.Profile.Model.RetrofitProfileProvider;
@@ -351,55 +352,58 @@ public class ProfileActivity extends AppCompatActivity implements
 
     @Override
     public void onProfileGet(Profile profile) {
-        name.setText(profile.getName());
-        tribalName = profile.getName();
-        profilePicUrl = profile.getImg();
-        tribe.setText(profile.getTribe());
-        description.setText(profile.getDescription());
-        aadhar.setText(profile.getAadhar());
-        phoneNo.setText(profile.getPhone());
-        address.setText(profile.getAddress());
-        state.setText(profile.getState());
-        education.setText(profile.getqualification());
-        String skill = "";
-        if (profile.getskills() != null)
-            for (int i = 0; i < profile.getskills().size(); i++)
-                skill = skill + profile.getskills().get(i) + ", ";
-        skillsShowcase.setText(skill);
+        if (!profile.equals(null)) {
+            name.setText(profile.getName());
+            tribalName = profile.getName();
+            profilePicUrl = profile.getImg();
+            tribe.setText(profile.getTribe());
+            description.setText(profile.getDescription());
+            aadhar.setText(profile.getAadhar());
+            phoneNo.setText(profile.getPhone());
+            address.setText(profile.getAddress());
+            state.setText(profile.getState());
+            education.setText(profile.getqualification());
 
-        gender = profile.getGender();
-        if (gender != null && gender.equals("Male")) {
-            Male.setChecked(true);
-            Male.setEnabled(true);
-            Female.setChecked(false);
-            genderOther.setChecked(false);
-            gender = "Male";
-        } else if (gender != null && gender.equals("Female")) {
-            Female.setChecked(true);
-            Female.setEnabled(true);
-            Male.setChecked(false);
-            genderOther.setChecked(false);
-            gender = "Female";
-        } else if (gender != null && gender.equals("Other")) {
-            genderOther.setChecked(true);
-            genderOther.setEnabled(true);
-            Male.setChecked(false);
-            Female.setChecked(false);
-            gender = "Other";
+            String skill = "";
+            if (profile.getskills() != null)
+                for (int i = 0; i < profile.getskills().size(); i++)
+                    skill = skill + profile.getskills().get(i) + ", ";
+            skillsShowcase.setText(skill);
+
+            gender = profile.getGender();
+            if (gender != null && gender.equals("Male")) {
+                Male.setChecked(true);
+                Male.setEnabled(true);
+                Female.setChecked(false);
+                genderOther.setChecked(false);
+                gender = "Male";
+            } else if (gender != null && gender.equals("Female")) {
+                Female.setChecked(true);
+                Female.setEnabled(true);
+                Male.setChecked(false);
+                genderOther.setChecked(false);
+                gender = "Female";
+            } else if (gender != null && gender.equals("Other")) {
+                genderOther.setChecked(true);
+                genderOther.setEnabled(true);
+                Male.setChecked(false);
+                Female.setChecked(false);
+                gender = "Other";
+            }
+            if (profilePicUrl != null)
+                Picasso.with(this).load(Urls.BASE_URL2 + profilePicUrl.substring(7)).
+                        placeholder(R.drawable.mario_black).into(profilePic, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        profilePicProgress.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
         }
-        if (profilePicUrl != null)
-            Picasso.with(this).load(Urls.BASE_URL2 + profilePicUrl.substring(7)).
-                    placeholder(R.drawable.mario_black).into(profilePic, new Callback() {
-                @Override
-                public void onSuccess() {
-                    profilePicProgress.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onError() {
-
-                }
-            });
     }
 
     @Override
@@ -536,6 +540,13 @@ public class ProfileActivity extends AppCompatActivity implements
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.Helper.NewsData;
 import com.mota.tribal.protsahan.Helper.Urls;
@@ -39,12 +38,13 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private Intent intent;
+    private SessionManager sessionManager;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            SessionManager sessionManager = new SessionManager(getApplicationContext());
+            sessionManager = new SessionManager(getApplicationContext());
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     return true;
@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.latest_news_data);
         setSupportActionBar(toolbar);
-        String token = FirebaseInstanceId.getInstance().getToken();
         initCollapsingToolbar();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -154,9 +154,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         Intent i;
         if (id == R.id.query) {
-            i = new Intent(this, QueryActivity.class);
-            startActivity(i);
-            finish();
+            sessionManager = new SessionManager(getApplicationContext());
+            if (sessionManager.isLoggedIn()) {
+                i = new Intent(this, QueryActivity.class);
+                startActivity(i);
+                finish();
+            } else {
+                Snackbar.make(findViewById(R.id.container), "Please Login first", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+
         } else if (id == R.id.english) {
             Toast.makeText(getApplicationContext(), "Language Changed Successfully",
                     Toast.LENGTH_SHORT).show();
