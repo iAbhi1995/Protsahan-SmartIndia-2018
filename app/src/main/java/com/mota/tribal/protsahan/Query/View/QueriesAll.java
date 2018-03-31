@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
 import com.mota.tribal.protsahan.Query.Model.Data.QueryData;
-import com.mota.tribal.protsahan.Query.Model.MockQueryProvider;
 import com.mota.tribal.protsahan.Query.Model.RetrofitQueryProvider;
 import com.mota.tribal.protsahan.Query.Presenter.QueryPresenter;
 import com.mota.tribal.protsahan.Query.Presenter.QueryPresenterImpl;
@@ -99,22 +98,24 @@ public class QueriesAll extends Fragment implements QueryView {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         progressBar = view.findViewById(R.id.progress_bar);
 
-//        presenter = new QueryPresenterImpl(new RetrofitQueryProvider(), this, getContext());
-        presenter = new QueryPresenterImpl(new MockQueryProvider(), this, getContext());
+        //        presenter = new QueryPresenterImpl(new MockQueryProvider(), this, getContext());
 
         db = new SQLiteHandler(getContext());
-        id = db.getUser().get_id();
+        final String _id = db.getUser().get_id();
         token = db.getUser().getToken();
+
+        presenter = new QueryPresenterImpl(new RetrofitQueryProvider(), this, getContext());
+        presenter.getAllQueries(_id, token);
+
         SwipeRefreshLayout mySwipeRefreshLayout = new SwipeRefreshLayout(getContext());
         mySwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        presenter.getAllQueries(username, token);
+                        presenter.getAllQueries(_id, token);
                     }
                 }
         );
-
         return view;
     }
 
@@ -151,16 +152,6 @@ public class QueriesAll extends Fragment implements QueryView {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

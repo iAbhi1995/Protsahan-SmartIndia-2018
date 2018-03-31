@@ -57,7 +57,6 @@ public class AccountActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         }).show();
-                        finish();
                     }
                     break;
             }

@@ -1,8 +1,5 @@
 package com.mota.tribal.protsahan.Helper;
 
-/**
- * Created by ayush on 30-03-2018.
- */
 
 public class NewsData {
 
