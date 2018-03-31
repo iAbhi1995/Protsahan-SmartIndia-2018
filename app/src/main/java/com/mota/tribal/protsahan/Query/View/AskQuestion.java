@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
 import com.mota.tribal.protsahan.Query.Model.Data.QueryData;
-import com.mota.tribal.protsahan.Query.Model.MockQueryProvider;
+import com.mota.tribal.protsahan.Query.Model.RetrofitQueryProvider;
 import com.mota.tribal.protsahan.Query.Presenter.QueryPresenter;
 import com.mota.tribal.protsahan.Query.Presenter.QueryPresenterImpl;
 import com.mota.tribal.protsahan.R;
@@ -86,14 +86,14 @@ public class AskQuestion extends Fragment implements QueryView {
         submitButton = view.findViewById(R.id.submit_query);
         query = view.findViewById(R.id.asked_question);
 
-        presenter = new QueryPresenterImpl(new MockQueryProvider(), this, getActivity());
+        presenter = new QueryPresenterImpl(new RetrofitQueryProvider(), this, getActivity());
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (query.getText().toString().equals(""))
                     showMessage(getString(R.string.error_when_no_question));
                 else
-                    presenter.askQuery(handler.getUser().getUsername(), handler.getUser().getToken(), question);
+                    presenter.askQuery(handler.getUser().get_id(), handler.getUser().getToken(), query.getText().toString());
             }
         });
         return view;

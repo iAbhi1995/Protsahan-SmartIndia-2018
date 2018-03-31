@@ -117,5 +117,6 @@ public class SchemeActivity extends AppCompatActivity implements SchemeView, Vie
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(SchemeActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

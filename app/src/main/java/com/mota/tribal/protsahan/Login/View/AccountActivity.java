@@ -42,7 +42,7 @@ public class AccountActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.navigation_account:
-                    break;
+                    return true;
                 case R.id.navigation_settings:
                     if (sessionManager.isLoggedIn()) {
                         intent = new Intent(AccountActivity.this, UploadActivity.class);
@@ -67,11 +67,10 @@ public class AccountActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
-          /*  mtoolbar=findViewById(R.id.toolbar);
-            setSupportActionBar(mtoolbar);
-            getSupportActionBar().setTitle("Your Account");*/
+        navigation.setSelectedItemId(R.id.navigation_account);
         setUpViewPager();
     }
+
 
     /* private void updateNavigationBarState(BottomNavigationView bottomNavigationView,int actionId){
          Menu menu = bottomNavigationView.getMenu();

@@ -21,7 +21,7 @@ public class MockLogin implements LoginProvider {
 
     public UserInfo getMockData() {
 
-        mockData = new UserInfo(true, "success", "123456789", "ayushjain17aug@gmail.com");
+        mockData = new UserInfo(true, "success", "123456789", "ayushjain17aug@gmail.com", "1234");
         return mockData;
     }
 }

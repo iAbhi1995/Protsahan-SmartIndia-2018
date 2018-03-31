@@ -100,6 +100,16 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/profilePrimaryDark"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="Register" />
             </LinearLayout>
 
 

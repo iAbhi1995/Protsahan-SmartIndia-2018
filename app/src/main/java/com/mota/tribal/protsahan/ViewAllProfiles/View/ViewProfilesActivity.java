@@ -94,6 +94,7 @@ public class ViewProfilesActivity extends AppCompatActivity implements ViewProfi
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
+        navigation.setSelectedItemId(R.id.navigation_profiles);
 
         imageRecycler = findViewById(R.id.image_recycler);
         videoRecycler = findViewById(R.id.video_recycler);
