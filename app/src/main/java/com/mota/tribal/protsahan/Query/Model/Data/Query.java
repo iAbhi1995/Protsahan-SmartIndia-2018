@@ -2,11 +2,11 @@ package com.mota.tribal.protsahan.Query.Model.Data;
 
 
 public class Query {
-    private String _id, question, answer;
+    private String _id, description, answer;
 
-    public Query(String id, String question, String answer) {
+    public Query(String id, String description, String answer) {
         _id = id;
-        this.question = question;
+        this.description = description;
         this.answer = answer;
     }
 
@@ -15,7 +15,7 @@ public class Query {
     }
 
     public String getQuestion() {
-        return question;
+        return description;
     }
 
     public String getAnswer() {
