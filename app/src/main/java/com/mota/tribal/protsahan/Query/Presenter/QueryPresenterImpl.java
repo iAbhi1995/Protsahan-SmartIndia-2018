@@ -21,9 +21,9 @@ public class QueryPresenterImpl implements QueryPresenter {
     }
 
     @Override
-    public void getAllQueries(String username, String token) {
+    public void getAllQueries(String id, String token) {
         view.showProgressBar(true);
-        provider.getAllQueries(username, token, new QueryCallback() {
+        provider.getAllQueries(id, token, new QueryCallback() {
             @Override
             public void onSuccess(QueryData body) {
                 view.showProgressBar(false);
@@ -42,9 +42,9 @@ public class QueryPresenterImpl implements QueryPresenter {
     }
 
     @Override
-    public void askQuery(String username, String token, String question) {
+    public void askQuery(String id, String token, String question) {
         view.showProgressBar(true);
-        provider.askQuery(username, token, question, new QueryCallback() {
+        provider.askQuery(id, token, question, new QueryCallback() {
             @Override
             public void onSuccess(QueryData data) {
                 view.showProgressBar(false);

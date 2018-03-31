@@ -1,7 +1,5 @@
 package com.mota.tribal.protsahan.Query.Model;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mota.tribal.protsahan.Helper.Urls;
@@ -43,16 +41,14 @@ public class RetrofitQueryProvider implements QueryProvider {
 
 
     @Override
-    public void getAllQueries(String username, String token, final QueryCallback callback) {
+    public void getAllQueries(String id, String token, final QueryCallback callback) {
         retrofitApi = retrofit.create(QueryApi.class);
-        username = "5abeef605e662c1448357fb0";
         token = "Bearer " + token;
-        Call<QueryData> call = retrofitApi.getUserDetails(username, token);
+        Call<QueryData> call = retrofitApi.getUserDetails(id, token);
         call.enqueue(new Callback<QueryData>() {
 
             @Override
             public void onResponse(Call<QueryData> call, Response<QueryData> response) {
-                Log.d("Ayush", response.toString());
                 callback.onSuccess(response.body());
             }
 
@@ -65,10 +61,10 @@ public class RetrofitQueryProvider implements QueryProvider {
     }
 
     @Override
-    public void askQuery(String username, String token, String question, final QueryCallback queryCallback) {
+    public void askQuery(String id, String token, String question, final QueryCallback queryCallback) {
         retrofitApi = retrofit.create(QueryApi.class);
         token = "Bearer " + token;
-        Call<QueryData> call = retrofitApi.askQuery(username, token, question);
+        Call<QueryData> call = retrofitApi.askQuery(id, token, question);
         call.enqueue(new Callback<QueryData>() {
             @Override
             public void onResponse(Call<QueryData> call, Response<QueryData> response) {

@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
 import com.mota.tribal.protsahan.Login.View.AccountActivity;
@@ -58,8 +59,17 @@ public class QueryActivity extends AppCompatActivity implements QueriesAll.OnFra
                     if (sessionManager.isLoggedIn()) {
                         intent = new Intent(QueryActivity.this, UploadActivity.class);
                         startActivity(intent);
-                    } else
-                        showMessage("Login to Upload Videos and Images");
+                    } else {
+                        Snackbar.make(findViewById(R.id.rel_layout_query), "Login to Upload Videos and Images",
+                                Snackbar.LENGTH_LONG).setAction("Login", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(QueryActivity.this, AccountActivity.class);
+                                startActivity(intent);
+                            }
+                        }).show();
+                        finish();
+                    }
                     break;
             }
             return false;

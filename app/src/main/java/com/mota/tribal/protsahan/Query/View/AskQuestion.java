@@ -93,7 +93,7 @@ public class AskQuestion extends Fragment implements QueryView {
                 if (query.getText().toString().equals(""))
                     showMessage(getString(R.string.error_when_no_question));
                 else
-                    presenter.askQuery(handler.getUser().get_id(), handler.getUser().getToken(), query.getText().toString());
+                    presenter.askQuery(handler.getUser().getId(), handler.getUser().getToken(), query.getText().toString().trim());
             }
         });
         return view;

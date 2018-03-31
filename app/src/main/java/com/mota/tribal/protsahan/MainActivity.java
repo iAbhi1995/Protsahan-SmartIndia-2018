@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.mota.tribal.protsahan.Helper.BottomNavigationViewHelper;
@@ -35,8 +36,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
-    //private TextView mTextMessage;
 
     private Intent intent;
     private SessionManager sessionManager;
@@ -75,8 +74,17 @@ public class MainActivity extends AppCompatActivity {
                         intent = new Intent(MainActivity.this, UploadActivity.class);
                         startActivity(intent);
                         finish();
-                    } else
-                        showMessage("Login to Upload Videos and Images");
+                    } else {
+                        Snackbar.make(findViewById(R.id.container), "Login to Upload Videos and Images",
+                                Snackbar.LENGTH_LONG).setAction("Login", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                                startActivity(intent);
+                            }
+                        }).show();
+                        finish();
+                    }
                     break;
             }
             return false;
