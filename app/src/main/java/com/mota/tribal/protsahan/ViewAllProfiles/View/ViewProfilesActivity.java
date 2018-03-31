@@ -147,4 +147,11 @@ public class ViewProfilesActivity extends AppCompatActivity implements ViewProfi
         imageRecycler.setAdapter(imageAdapter);
         videoRecycler.setAdapter(videoAdapter);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(ViewProfilesActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 }

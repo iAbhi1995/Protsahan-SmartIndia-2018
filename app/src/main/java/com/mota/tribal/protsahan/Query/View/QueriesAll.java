@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 
 import com.mota.tribal.protsahan.Login.SQLiteHandler;
 import com.mota.tribal.protsahan.Query.Model.Data.QueryData;
-import com.mota.tribal.protsahan.Query.Model.MockQueryProvider;
 import com.mota.tribal.protsahan.Query.Model.RetrofitQueryProvider;
 import com.mota.tribal.protsahan.Query.Presenter.QueryPresenter;
 import com.mota.tribal.protsahan.Query.Presenter.QueryPresenterImpl;
@@ -100,17 +99,18 @@ public class QueriesAll extends Fragment implements QueryView {
         progressBar = view.findViewById(R.id.progress_bar);
 
 //        presenter = new QueryPresenterImpl(new RetrofitQueryProvider(), this, getContext());
-        presenter = new QueryPresenterImpl(new MockQueryProvider(), this, getContext());
-
+        presenter = new QueryPresenterImpl(new RetrofitQueryProvider(), this, getContext());
+        presenter.getAllQueries(username, token);
         db = new SQLiteHandler(getContext());
-        id = db.getUser().get_id();
+        String id = db.getUser().get_id();
         token = db.getUser().getToken();
-        SwipeRefreshLayout mySwipeRefreshLayout = new SwipeRefreshLayout(getContext());
+        final SwipeRefreshLayout mySwipeRefreshLayout = new SwipeRefreshLayout(getContext());
         mySwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
                         presenter.getAllQueries(username, token);
+                        mySwipeRefreshLayout.setRefreshing(false);
                     }
                 }
         );

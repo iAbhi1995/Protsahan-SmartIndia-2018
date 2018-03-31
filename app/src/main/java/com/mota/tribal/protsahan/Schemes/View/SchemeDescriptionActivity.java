@@ -3,8 +3,10 @@ package com.mota.tribal.protsahan.Schemes.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -15,13 +17,16 @@ public class SchemeDescriptionActivity extends AppCompatActivity {
     private TextView nam, descriptio, yea;
     private Toolbar toolbar;
     private FloatingActionButton backbutton;
+    private Button register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheme_description);
 
+        register = findViewById(R.id.register);
         backbutton = findViewById(R.id.back_button);
+
         String name, description, year, image;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -54,6 +59,14 @@ public class SchemeDescriptionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SchemeDescriptionActivity.this, SchemeActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(findViewById(R.id.layout), "Successfully registered. Our officials will reach out to you shortly!!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
     }

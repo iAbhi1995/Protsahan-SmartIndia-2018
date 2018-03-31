@@ -163,7 +163,7 @@ public class UploadActivity extends AppCompatActivity implements EasyPermissions
         captureImageButton = findViewById(R.id.capture_image);
         docButton = findViewById(R.id.doc_select);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
 

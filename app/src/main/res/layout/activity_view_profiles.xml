@@ -80,6 +80,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:foregroundGravity="bottom"
+        android:visibility="gone"
         app:menu="@menu/navigation" />
 
 </RelativeLayout>
