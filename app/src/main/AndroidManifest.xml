@@ -15,23 +15,27 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_foreground1"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_launcher_foreground1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".Upload.UploadActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".WelcomeActivity.WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".Profile.View.ProfileActivity"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Profile.View.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Profile.View.VideoViewActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
@@ -51,15 +55,14 @@
         <activity
             android:name=".ViewAllProfiles.View.ViewProfilesActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".PDF.ViewPDFActivity"></activity>
+        <activity android:name=".PDF.ViewPDFActivity" />
         <activity android:name=".Schemes.View.SchemeActivity" />
         <activity
             android:name=".Schemes.View.SchemeDescriptionActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Query.View.QueryActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".Helper.fcm.FirebaseMessagingService">
             <intent-filter>
@@ -78,6 +81,7 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+
     </application>
 
 </manifest>

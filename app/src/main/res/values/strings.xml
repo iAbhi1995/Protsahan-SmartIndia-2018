@@ -85,4 +85,8 @@
     <string name="logout">Logout</string>
     <string name="education">Education</string>
     <string name="state">State</string>
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
 </resources>

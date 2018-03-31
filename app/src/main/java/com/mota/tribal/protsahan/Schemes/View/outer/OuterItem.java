@@ -28,8 +28,6 @@ import com.ramotion.garlandview.inner.InnerRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
-
 import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 
 public class OuterItem extends HeaderItem {
@@ -155,11 +153,11 @@ public class OuterItem extends HeaderItem {
         mRecyclerView.setLayoutManager(new InnerLayoutManager());
         ((InnerAdapter) mRecyclerView.getAdapter()).addData(tail);
 
-        Glide.with(context)
+        /*Glide.with(context)
                 .load(R.drawable.ic_group)
                 .placeholder(R.drawable.logout)
                 .bitmapTransform(new CropCircleTransformation(context))
-                .into(mAvatar);
+                .into(mAvatar);*/
 
         final String title1 = "Schemes";
 
