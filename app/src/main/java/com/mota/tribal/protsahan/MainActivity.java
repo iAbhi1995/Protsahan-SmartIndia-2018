@@ -160,9 +160,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             } else {
-                Snackbar.make(findViewById(R.id.container), "Please Login first", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(findViewById(R.id.container), "Login to post queries!",
+                        Snackbar.LENGTH_LONG).setAction("Login", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                        startActivity(intent);
+                    }
+                }).setActionTextColor(getResources().getColor(R.color.colorWhite)).show();
             }
-
         } else if (id == R.id.english) {
             Toast.makeText(getApplicationContext(), "Language Changed Successfully",
                     Toast.LENGTH_SHORT).show();
@@ -177,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Urls.CHAT_URL));
             startActivity(browserIntent);
         }
-
         return true;
     }
 

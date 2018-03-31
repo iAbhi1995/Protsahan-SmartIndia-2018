@@ -89,7 +89,10 @@ public class SignupFragment extends Fragment {
         bsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (password.getText().toString().equals(passwordcon.getText().toString())) {
+                if (username.getText().toString().trim().length() != 10) {
+                    Snackbar.make(getView().findViewById(R.id.signup), "Please Input a 10 digit mobile number!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else if (password.getText().toString().equals(passwordcon.getText().toString())) {
                     progressBar.setVisibility(View.VISIBLE);
                     api = retrofit.create(Api.class);
                     Call<Data> call = api.getResponse(username.getText().toString(), password.getText().toString());

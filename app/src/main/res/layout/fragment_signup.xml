@@ -54,8 +54,9 @@
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/ic_account_circle_black_24dp"
                         android:drawableTint="#FF4081"
-                        android:hint="Email"
-                        android:inputType="textEmailAddress"
+                        android:hint="Phone Number"
+                        android:inputType="number"
+                        android:maxLength="10"
                         android:padding="10dp"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/colorBlack" />

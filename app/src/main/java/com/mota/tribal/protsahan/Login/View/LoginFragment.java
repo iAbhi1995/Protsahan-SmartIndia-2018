@@ -134,8 +134,11 @@ public class LoginFragment extends Fragment implements LoginView {
                 final String email = etUsername.getText().toString().trim();
                 final String password = etPassword.getText().toString().trim();
                 Log.d("Ayush", email + "    " + password);
-                presenter = new LoginPresenterImpl(new RetrofitLogin(), LoginFragment.this, getContext());
-                presenter.getResponse(email, password);
+                if (email.length() == 10) {
+                    presenter = new LoginPresenterImpl(new RetrofitLogin(), LoginFragment.this, getContext());
+                    presenter.getResponse(email, password);
+                } else
+                    showMessage("Please Input a 10 digit Mobile Number");
             }
         });
     }

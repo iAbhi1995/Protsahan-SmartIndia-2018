@@ -75,15 +75,14 @@ public class ViewProfilesActivity extends AppCompatActivity implements ViewProfi
                         startActivity(intent);
                         finish();
                     } else {
-                        Snackbar.make(findViewById(R.id.relative_layout), "Login to Upload Videos and Images",
+                        Snackbar.make(findViewById(R.id.relative_layout), "Login to post queries!",
                                 Snackbar.LENGTH_LONG).setAction("Login", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(ViewProfilesActivity.this, AccountActivity.class);
                                 startActivity(intent);
                             }
-                        }).show();
-                        finish();
+                        }).setActionTextColor(getResources().getColor(R.color.colorWhite)).show();
                     }
                     break;
             }

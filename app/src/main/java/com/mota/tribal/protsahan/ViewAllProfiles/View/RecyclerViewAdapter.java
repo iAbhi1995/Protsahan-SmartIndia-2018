@@ -80,7 +80,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         if (type.equals("image"))
             Picasso.with(context).load(Urls.BASE_URL2 + objects.get(position).
                     getUrl().substring(6)).into(holder.image, new Callback() {
@@ -107,6 +107,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         }
                     });
         holder.title.setText(objects.get(position).getTitle());
+        holder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, Urls.BASE_URL2 + objects.get(position).getUrl().substring(6));
+                sendIntent.setType("text/plain");
+                Intent.createChooser(sendIntent, "Share via");
+                context.startActivity(sendIntent);
+            }
+        });
     }
 
     @Override
@@ -117,7 +128,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
-        ImageView image, play_button;
+        ImageView image, play_button, share;
         ProgressBar progressBar;
 
         public MyViewHolder(View itemView) {
@@ -126,6 +137,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             image = itemView.findViewById(R.id.image);
             play_button = itemView.findViewById(R.id.play_button);
             progressBar = itemView.findViewById(R.id.image_progress_bar);
+            share = itemView.findViewById(R.id.share);
             DisplayMetrics displayMetrics = new DisplayMetrics();
             ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int width = (int) (displayMetrics.widthPixels / 2.5);
