@@ -51,29 +51,24 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_scheme:
                     intent = new Intent(MainActivity.this, SchemeActivity.class);
                     startActivity(intent);
-                    finish();
                     break;
                 case R.id.navigation_profiles:
                     intent = new Intent(MainActivity.this, ViewProfilesActivity.class);
                     startActivity(intent);
-                    finish();
                     break;
                 case R.id.navigation_account:
                     if (sessionManager.isLoggedIn()) {
                         intent = new Intent(MainActivity.this, ProfileActivity.class);
                         startActivity(intent);
-                        finish();
                     } else {
                         intent = new Intent(MainActivity.this, AccountActivity.class);
                         startActivity(intent);
-                        finish();
                     }
                     break;
                 case R.id.navigation_settings:
                     if (sessionManager.isLoggedIn()) {
                         intent = new Intent(MainActivity.this, UploadActivity.class);
                         startActivity(intent);
-                        finish();
                     } else {
                         Snackbar.make(findViewById(R.id.container), "Login to Upload Videos and Images",
                                 Snackbar.LENGTH_LONG).setAction("Login", new View.OnClickListener() {
@@ -82,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity.this, AccountActivity.class);
                                 startActivity(intent);
                             }
-                        }).show();
-                        finish();
+                        }).setActionTextColor(getResources().getColor(R.color.colorWhite)).show();
                     }
                     break;
             }
